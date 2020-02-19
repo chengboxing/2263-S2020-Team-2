@@ -1,4 +1,4 @@
 package java.logic.chains;
 
-public class FestivalChain {
+public class RedChain {
 }

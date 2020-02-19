@@ -1,4 +1,4 @@
-package java.logic;
+package java.logic.chains;
 
 public interface Chain {
 }
