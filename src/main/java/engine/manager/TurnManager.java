@@ -1,4 +1,4 @@
-package java.logic;
+package java.engine.manager;
 
 public class TurnManager {
 }
