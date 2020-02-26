@@ -1,5 +1,8 @@
 package java.engine;
 
+/**
+ * Gets the stock price and bonus values of a chain
+ */
 public class PriceChart {
 
     public static int getStockPrice(HotelChainCategory  chainCategory, int chainSize){
@@ -37,7 +40,4 @@ public class PriceChart {
     public static int getSecondBonus(HotelChainCategory chainCategory, int chainSize){
         return getStockPrice(chainCategory, chainSize) * 5;
     }
-
-
-
 }
