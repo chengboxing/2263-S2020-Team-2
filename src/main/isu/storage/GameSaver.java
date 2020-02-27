@@ -1,4 +1,4 @@
-package java.storage;
+package isu.storage;
 
 public class GameSaver {
 }

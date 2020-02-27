@@ -1,13 +1,14 @@
-package java.engine;
+package isu.engine;
 
-public class BoardCell {
+public class Tile {
 
     private int rowIndex;
     private int columnIndex;
 
-    public BoardCell(int rowIndex, int columnIndex) {
-        this.rowIndex = rowIndex;
+    public Tile(int rowIndex, int columnIndex){
         this.columnIndex = columnIndex;
+        this.rowIndex = rowIndex;
+
     }
 
     public int getRowIndex() {
@@ -22,7 +23,7 @@ public class BoardCell {
         return (char)('A' + rowIndex);
     }
 
-    public String getLocation(){
-        return "" + columnIndex + getRowChar();
+    public String getTileLabel(){
+        return "" + (columnIndex+1) + getRowChar();
     }
 }
