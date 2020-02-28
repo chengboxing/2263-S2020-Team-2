@@ -12,15 +12,15 @@ public class Bank {
         money = MONEY_TOTAL;
     }
 
-    public void payBonus(int cashAmount, Wallet playerWallet){
+    public void payBonus(int cashAmount, Player player){
 
     }
 
-    public void sellStock(Stock stock, Wallet playerWallet){
+    public void sellStock(Stock stock, Player player){
 
     }
 
-    public Stock buyStock(HotelChain chain, Wallet playerWallet){
+    public Stock buyStock(HotelChain chain, Player player){
         return null;
     }
 }
