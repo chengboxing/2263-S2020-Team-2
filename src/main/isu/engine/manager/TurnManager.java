@@ -8,11 +8,18 @@ public class TurnManager {
     private Player currentPlayer;
 
 
-    public TurnManager(CircularlyLinkedList<Player> playerOrder, Player currentPlayer) {
+    public TurnManager(CircularlyLinkedList<Player> playerOrder) {
         this.playerOrder = playerOrder;
-        this.currentPlayer = currentPlayer;
+        this.currentPlayer = playerOrder.getFirst();
     }
 
+    public TurnManager(CircularlyLinkedList<Player> playerOrder, Player currentPlayer) {
+        this.playerOrder = playerOrder;
+
+        setCurrentPlayer(currentPlayer);
+
+        this.currentPlayer = currentPlayer;
+    }
 
     public Player nextTurn(){
         currentPlayer = playerOrder.rotate();
@@ -22,6 +29,20 @@ public class TurnManager {
     }
 
     private void updateUI(Player p){
+        //show player info
+    }
 
+    public CircularlyLinkedList<Player> getPlayerOrder(){
+        return playerOrder;
+    }
+
+    public Player getCurrentPlayer(){
+        return currentPlayer;
+    }
+
+    public void setCurrentPlayer(Player p){
+        while (playerOrder.getFirst() != p){
+            currentPlayer = playerOrder.rotate();
+        }
     }
 }
