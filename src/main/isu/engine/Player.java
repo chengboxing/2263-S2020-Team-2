@@ -2,6 +2,10 @@ package isu.engine;
 
 import java.util.*;
 
+/**
+ *
+ *
+ * **/
 public class Player {
 
     private String name;
