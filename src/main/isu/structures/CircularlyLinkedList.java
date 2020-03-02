@@ -108,13 +108,13 @@ public class CircularlyLinkedList<E> implements List<E> {
     @Override
     public void addLast(E element) {
         if (element != null){
-            Node<E> newTail = new Node<>(element, null);
+            Node<E> newLast = new Node<>(element, first);
             if (isEmpty()){
-                first = newTail;
+                first = newLast;
             } else {
-                last.setNext(newTail);
+                last.setNext(newLast);
             }
-            last = newTail;
+            last = newLast;
 
             size++;
         }
@@ -138,7 +138,7 @@ public class CircularlyLinkedList<E> implements List<E> {
             curNode = curNode.getNext();
         }
         last = curNode;
-        last.next = null;
+        last.next = first;
 
         size--;
 
@@ -226,7 +226,9 @@ public class CircularlyLinkedList<E> implements List<E> {
     }
 
     public E rotate(){
-        return first.getNext().getElement();
+        first = first.getNext();
+        last = last.getNext();
+        return first.getElement();
     }
 
     /**
