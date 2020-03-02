@@ -61,6 +61,8 @@ public class CircularlyLinkedList<E> implements List<E> {
                 last = first;
             }
 
+            last.setNext(first);
+
             size++;
         }
     }
@@ -78,11 +80,16 @@ public class CircularlyLinkedList<E> implements List<E> {
 
         E element = first.getElement();
 
+
         first = first.getNext();
-        size --;
-        if (isEmpty()){
+        last.setNext(first);
+
+        if (size == 1) {
+            first = null;
             last = null;
         }
+
+        size --;
 
         return element;
     }
@@ -111,9 +118,11 @@ public class CircularlyLinkedList<E> implements List<E> {
             Node<E> newLast = new Node<>(element, first);
             if (isEmpty()){
                 first = newLast;
+                newLast.setNext(first);
             } else {
                 last.setNext(newLast);
             }
+
             last = newLast;
 
             size++;
@@ -139,6 +148,11 @@ public class CircularlyLinkedList<E> implements List<E> {
         }
         last = curNode;
         last.next = first;
+
+        if (size == 1){
+            first = null;
+            last = null;
+        }
 
         size--;
 
