@@ -1,4 +1,4 @@
 package isu.engine.manager;
 
-public class BonusManager {
+public class GameEndManager {
 }

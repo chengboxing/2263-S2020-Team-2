@@ -16,7 +16,7 @@ public class MergeManager {
         return false;
     }
 
-    public void merge(){
-
+    public void merge(Player currentPlayer){
+        mergeTurnManager.setCurrentPlayer(currentPlayer);
     }
 }
