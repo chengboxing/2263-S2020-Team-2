@@ -11,12 +11,15 @@ public class Player {
     private String name;
     private int money;
     private List<Tile> tiles;
-    private HashMap<String, List<Stock>> stocks;
+    private HashMap<String, Integer> stocks;
 
     public Player(String name) {
         this.name = name;
         tiles = new ArrayList<>();
         stocks = new HashMap<>();
+        for (int i = 0; i < 7; i++) {
+            stocks.put(HotelChain.getHotelChains()[i].getName(), 0);
+        }
     }
 
 
@@ -52,5 +55,22 @@ public class Player {
        return tile;
     }
 
-    
+    public int addStocks(String chainName, int numStocks){
+        stocks.replace(chainName, stocks.get(chainName) + numStocks);
+        return stocks.get(chainName);
+    }
+
+    public int removeStocks(String chainName, int numStocks){
+        stocks.replace(chainName, stocks.get(chainName) - numStocks);
+        return stocks.get(chainName);
+    }
+
+    public int setStocks(String chainName, int numStocks){
+        stocks.replace(chainName, numStocks);
+        return numStocks;
+    }
+
+    public int getStocks(String chainName){
+        return stocks.get(chainName);
+    }
 }

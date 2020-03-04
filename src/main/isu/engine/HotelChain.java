@@ -7,7 +7,7 @@ public class HotelChain {
 
     //american-red, continental-blue, festival-green, imperial-yellow, luxor-purple, tower-brown, worldwide-orange
 
-    public final static HotelChain[] hotelChains = new HotelChain[]{
+    private final static HotelChain[] hotelChains = new HotelChain[]{
             new HotelChain("Tower", HotelChainCategory.CHEAP, "brown" ),
             new HotelChain("Luxor", HotelChainCategory.CHEAP, "purple"),
             new HotelChain("American", HotelChainCategory.AVERAGE, "red"),
@@ -16,6 +16,10 @@ public class HotelChain {
             new HotelChain("Imperial", HotelChainCategory.EXPENSIVE, "yellow"),
             new HotelChain("Continental", HotelChainCategory.EXPENSIVE, "blue")
     };
+
+    public static HotelChain[] getHotelChains() {
+        return hotelChains;
+    }
 
     private String name;
     private HotelChainCategory category;

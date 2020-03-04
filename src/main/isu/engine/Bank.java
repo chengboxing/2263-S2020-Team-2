@@ -1,26 +1,44 @@
 package isu.engine;
 
+import com.sun.net.httpserver.Filter;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.logging.Handler;
+
 public class Bank {
 
-    public static final int MONEY_TOTAL = 226000;
-
     private StockSet stocks;
-    private int money;
 
     public Bank(){
         stocks = new StockSet();
-        money = MONEY_TOTAL;
     }
 
-    public void payBonus(int cashAmount, Player player){
+    public void payBonus(HotelChain chain, List<Player> players){
+        PriceChart bonus = new PriceChart();
+
+        /*if (){
+            playerWallet.addMoney(chain.getFirstBonus());
+        }
+        else if (){
+            playerWallet.addMoney(chain.getSecondBonus());
+        }*/
+    }
+
+    public void sellStocks(HotelChain chain, Player player, int numStocks){
+
+        player.removeStocks(chain.getName(), numStocks);
+        stocks.addStocks(chain.getName(), numStocks);
+
+        player.addMoney(PriceChart.getStockPrice(chain.getCategory(), chain.size()) * numStocks); // add player's money
 
     }
 
-    public void sellStock(Stock stock, Player player){
+    public void buyStock(HotelChain chain, Player player, int numStocks){
 
-    }
+        player.addStocks(chain.getName(), numStocks);
+        stocks.removeStocks(chain.getName(), numStocks);
 
-    public Stock buyStock(HotelChain chain, Player player){
-        return null;
+        player.pullMoney(PriceChart.getStockPrice(chain.getCategory(), chain.size()) * numStocks);
     }
 }
