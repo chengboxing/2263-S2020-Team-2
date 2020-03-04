@@ -1,4 +1,4 @@
-package java.engine;
+package isu.engine;
 
 public class BoardCell {
 
@@ -23,6 +23,6 @@ public class BoardCell {
     }
 
     public String getLocation(){
-        return "" + columnIndex + getRowChar();
+        return "" + (columnIndex+1) + getRowChar();
     }
 }

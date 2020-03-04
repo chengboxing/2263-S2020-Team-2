@@ -1,4 +1,4 @@
-package java.engine.manager;
+package isu.engine.manager;
 
 public class BonusManager {
 }
