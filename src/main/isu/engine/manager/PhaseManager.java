@@ -7,12 +7,10 @@ import isu.structures.CircularlyLinkedList;
 public class PhaseManager {
     private PhaseName currentPhase;
     private TurnManager turnManager;
-    private MergeManager mergeManager;
 
     public PhaseManager (CircularlyLinkedList<Player> playerOrder){
         currentPhase = PhaseName.TILE;
         turnManager = new TurnManager(playerOrder);
-        mergeManager = new MergeManager(playerOrder);
     }
 
     public void doTilePhase(){
@@ -22,24 +20,23 @@ public class PhaseManager {
 
     public void doMergePhase(Tile t){
         currentPhase = PhaseName.MERGE;
-        if (mergeManager.checkMerge(t)){
-            mergeManager.merge(turnManager.getCurrentPlayer());
-
-        } else {
+        if (!MergeManager.startMerge(turnManager.getPlayerOrder(), turnManager.getCurrentPlayer(), t)){
             doPurchasePhase();
         }
-
     }
 
     public void doPurchasePhase(){
         currentPhase = PhaseName.PURCHASE;
-        //udateUI
+        //updateUI
     }
 
     public void doEndPhase(){
         currentPhase = PhaseName.END;
-
-        turnManager.nextTurn();
-        doTilePhase();
+        if (GameEndManager.checkGameEnd()){
+            GameEndManager.endGame();
+        } else {
+            turnManager.nextTurn();
+            doTilePhase();
+        }
     }
 }

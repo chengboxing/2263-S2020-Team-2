@@ -15,9 +15,7 @@ public class TurnManager {
 
     public TurnManager(CircularlyLinkedList<Player> playerOrder, Player currentPlayer) {
         this.playerOrder = playerOrder;
-
         setCurrentPlayer(currentPlayer);
-
         this.currentPlayer = currentPlayer;
     }
 
