@@ -7,20 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-- Explanation of the recommended reverse chronological release ordering.
+## [0.0.2] - 2020-03-05
+
+### Added
+
+- test
 
 ## [0.0.1] - 2020-03-05
 
 ### Added
 
-- This CHANGELOG file to hopefully serve as an evolving example of a
-  standardized open source project CHANGELOG.
-- CNAME file to enable GitHub Pages custom domain
-- README now contains answers to common questions about CHANGELOGs
-- Good examples and basic guidelines, including proper date formatting.
-- Counter-examples: "What makes unicorns cry?"
+- Create the first CHANGELOG.ma for master
 
 
+[unreleased]: https://github.com/cs3321isu/2263-S2020-Team-2/compare/v0.0.2...HEAD
 
+[0.0.2]: https://github.com/cs3321isu/2263-S2020-Team-2/compare/v0.0.1...v0.0.2
+[0.0.1]: https://github.com/cs3321isu/2263-S2020-Team-2/releases/tag/v0.0.1
 
-[0.0.1]: https://github.com/cs3321isu/2263-S2020-Team-2/keep-a-changelog/releases/tag/v0.0.1
