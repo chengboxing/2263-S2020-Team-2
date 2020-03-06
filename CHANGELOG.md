@@ -23,4 +23,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-[0.0.1]: https://github.com/cs3321isu/2263-S2020-Team-2/keep-a-changelog/releases/tag/v0.0.1
+[0.0.1]: https://github.com/cs3321isu/2263-S2020-Team-2/releases/tag/v0.0.1
