@@ -1,7 +1,6 @@
 package isu.engine;
 
-
-import isu.engine.TilePile;
+import isu.engine.PriceChart;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -9,12 +8,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+public class PriceChartTest {
 
+   // private PriceChart fixture;
 
-public class TilePileTest {
-    private TilePile fixture;
-
-    public TilePileTest() {
+    public PriceChartTest(){
     }
 
     @BeforeClass
@@ -27,21 +25,23 @@ public class TilePileTest {
 
     @Before
     public void setUp() {
-        fixture = new TilePile();
+
     }
 
     @After
     public void tearDown() {
     }
 
-    /**
-     * Test of size for the TilePile class.
-     */
-    @Test
-    public void testSize() {
-        assertTrue(fixture.size() == 108);
 
+    /*
+    * Testing the price chart.
+    *
+    * */
+    @Test
+    public void testPriceChart_1(){
+        assertEquals(500, PriceChart.getStockPrice(HotelChainCategory.CHEAP, 5));
     }
 
-}
 
+
+}
