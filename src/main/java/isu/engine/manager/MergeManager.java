@@ -20,7 +20,7 @@ public class MergeManager {
         ArrayList<HotelChain> mergingChains = findMergingChains(t);
         if (mergingChains.size() == 1){
             //add tile to chain
-        } else if (mergingChains != null) {
+        } else if (mergingChains.size() != 0) {
 
             HotelChain survivingChain = findSurvivingChain(mergingChains);
             if (survivingChain != null){
@@ -52,7 +52,24 @@ public class MergeManager {
      * @return ArrayList of the chains touching the tile
      */
     private static ArrayList<HotelChain> findMergingChains(Tile t){
-        return null;
+        HotelChain[] hotelChains = HotelChain.getHotelChains();
+        ArrayList<HotelChain> mergingChains = new ArrayList<>();
+
+        for (int i = 0; i < hotelChains.length; i++){
+            for (Tile tile : hotelChains[i].getTiles()){
+                if (tile.getRowIndex() == t.getRowIndex() && tile.getColumnIndex() == t.getColumnIndex() + 1){
+                    mergingChains.add(hotelChains[i]);
+                } else if (tile.getRowIndex() == t.getRowIndex() && tile.getColumnIndex() == t.getColumnIndex() - 1){
+                    mergingChains.add(hotelChains[i]);
+                } else if (tile.getRowIndex() == t.getRowIndex() + 1 && tile.getColumnIndex() == t.getColumnIndex()){
+                    mergingChains.add(hotelChains[i]);
+                } else if (tile.getRowIndex() == t.getRowIndex() - 1 && tile.getColumnIndex() == t.getColumnIndex()){
+                    mergingChains.add(hotelChains[i]);
+                }
+            }
+        }
+
+        return mergingChains;
     }
 
     /**
@@ -78,7 +95,21 @@ public class MergeManager {
      * @return ArrayList of the largest chains
      */
     private static ArrayList<HotelChain> findLargestChains(ArrayList<HotelChain> chains){
-        return null;
+
+        int largestSize = 0;
+        for (HotelChain chain : chains){
+            if (chain.size() > 0){
+                largestSize = chain.size();
+            }
+        }
+
+        ArrayList<HotelChain> largestChains = new ArrayList<>();
+        for (HotelChain chain : chains){
+            if (chain.size() == largestSize){
+                largestChains.add(chain);
+            }
+        }
+        return largestChains;
     }
 
     /**
