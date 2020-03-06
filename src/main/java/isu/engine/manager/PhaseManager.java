@@ -2,7 +2,7 @@ package isu.engine.manager;
 
 import isu.engine.Player;
 import isu.engine.Tile;
-import isu.structures.CircularlyLinkedList;
+import isu.util.CircularlyLinkedList;
 
 public class PhaseManager {
     private PhaseName currentPhase;

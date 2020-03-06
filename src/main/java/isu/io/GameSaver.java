@@ -1,4 +1,4 @@
-package isu.storage;
+package isu.io;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

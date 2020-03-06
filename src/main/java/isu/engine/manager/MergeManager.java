@@ -3,7 +3,7 @@ package isu.engine.manager;
 import isu.engine.HotelChain;
 import isu.engine.Player;
 import isu.engine.Tile;
-import isu.structures.CircularlyLinkedList;
+import isu.util.CircularlyLinkedList;
 
 import java.util.ArrayList;
 

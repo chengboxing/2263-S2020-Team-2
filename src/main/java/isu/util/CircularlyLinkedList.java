@@ -1,4 +1,4 @@
-package isu.structures;
+package isu.util;
 
 /**
  * @author Davis Bolt

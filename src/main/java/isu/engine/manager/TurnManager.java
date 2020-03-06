@@ -1,7 +1,7 @@
 package isu.engine.manager;
 
 import isu.engine.Player;
-import isu.structures.CircularlyLinkedList;
+import isu.util.CircularlyLinkedList;
 
 public class TurnManager {
     private CircularlyLinkedList<Player> playerOrder;
