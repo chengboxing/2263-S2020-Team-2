@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Create the first CHANGELOG.ma for master
+- Create the first CHANGELOG.ma
 
 
 [unreleased]: https://github.com/cs3321isu/2263-S2020-Team-2/compare/v0.0.2...HEAD
