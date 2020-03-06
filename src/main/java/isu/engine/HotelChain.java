@@ -56,6 +56,10 @@ public class HotelChain {
         return tiles.get(index);
     }
 
+    public List<Tile> getTiles(){
+        return tiles;
+    }
+
     public void addTile(Tile tile){
         tiles.add(tile);
     }

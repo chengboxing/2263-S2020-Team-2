@@ -35,13 +35,12 @@ public class TilePileTest {
     }
 
     /**
-     * Test of peek method, of class LinkedDeque.
+     * Test of size for the TilePile class.
      */
     @Test
-    public void testPeekLast() {
+    public void testSize() {
         assertTrue(fixture.size() == 108);
 
-        //assertNull("PeekLast not returning null for an empty deque", fixture.peekLast());
     }
 
 }
