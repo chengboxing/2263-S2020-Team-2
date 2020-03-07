@@ -2,7 +2,7 @@ package isu.engine.manager;
 
 import isu.engine.Player;
 import isu.engine.Tile;
-import isu.structures.CircularlyLinkedList;
+import isu.util.CircularlyLinkedList;
 
 public class PhaseManager {
     private PhaseName currentPhase;
@@ -20,7 +20,7 @@ public class PhaseManager {
 
     public void doMergePhase(Tile t){
         currentPhase = PhaseName.MERGE;
-        if (!MergeManager.startMerge(turnManager.getPlayerOrder(), turnManager.getCurrentPlayer(), t)){
+        if (!MergeManager.checkMerge(turnManager, t)){
             doPurchasePhase();
         }
     }

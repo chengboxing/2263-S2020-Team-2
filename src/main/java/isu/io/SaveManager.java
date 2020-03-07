@@ -1,4 +1,4 @@
-package isu.storage;
+package isu.io;
 
 public class SaveManager {
 
