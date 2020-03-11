@@ -7,7 +7,7 @@ import java.awt.*;
 public class MainFrame extends JFrame {
 
 //    private JTextArea textArea;
-    JFrame frame = new JFrame();
+    private FormPanel formPanel;
 
 
     public MainFrame(){
@@ -16,6 +16,13 @@ public class MainFrame extends JFrame {
         setLayout(new BorderLayout());
 
 //        textArea = new JTextArea();
+        formPanel = new FormPanel();
+
+
+
+
+
+
         addComponents(super.getContentPane());
 
         super.pack();
