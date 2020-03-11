@@ -1,5 +1,7 @@
 package isu.engine;
 
+import isu.util.OverDraftException;
+
 import java.util.*;
 
 /**
@@ -32,11 +34,35 @@ public class Player {
     }
 
     public void addMoney(int cash) {
+        if(cash <= 0) {
+            throw new IllegalArgumentException("Cannot add 0 or negative amount of money.");
+        }
         money += cash;
     }
 
-    public void pullMoney(int cash) {
-        money -= cash;
+    public void pullMoney(int cash) throws OverDraftException {
+        boolean retry = false;
+        int loopCount = 0;
+
+        while(!retry){
+            money -= cash;
+            if(money < 0){
+                retry = true;
+                loopCount++;
+            }
+            if(loopCount == 10){
+                throw new OverDraftException("Cannot have an overdrawn amount of money.");
+            }
+        }
+    }
+
+    private int tileListSize(){
+        return tiles.size();
+    }
+
+    public List<Tile> getTiles(){
+        int index = tileListSize();
+        return tiles;
     }
 
     public void setTiles(int tileCount, TilePile tilePile) {
