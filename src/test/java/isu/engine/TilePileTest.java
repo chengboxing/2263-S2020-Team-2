@@ -35,13 +35,25 @@ public class TilePileTest {
     }
 
     /**
-     * Test of size for the TilePile class.
+     * Test of size for the TilePile list.
      */
     @Test
-    public void testSize() {
+    public void testSize_0() {
         assertTrue(fixture.size() == 108);
-
     }
+    /*
+    *
+    * Test of size after calling getRandomTile() method.
+    *
+    * */
+    @Test
+    public void testSize_1(){
+        for(int i  = 0; i < 7; i++){
+            fixture.getRandomTile();
+        }
+        assertFalse("Size incorrect after calling getRandomIndex()", fixture.size() == 100 );
+    }
+
 
 }
 

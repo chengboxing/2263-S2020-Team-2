@@ -1,5 +1,7 @@
 package isu.engine;
 
+import isu.util.OverDraftException;
+
 import java.util.*;
 
 /**
@@ -32,11 +34,23 @@ public class Player {
     }
 
     public void addMoney(int cash) {
+        if(cash <= 0) {
+            throw new IllegalArgumentException("Cannot add 0 or negative amount of money.");
+        }
         money += cash;
     }
 
-    public void pullMoney(int cash) {
+    public void pullMoney(int cash)  {
         money -= cash;
+    }
+
+    private int tileListSize(){
+        return tiles.size();
+    }
+
+    public List<Tile> getTiles(){
+        int index = tileListSize();
+        return tiles;
     }
 
     public void setTiles(int tileCount, TilePile tilePile) {

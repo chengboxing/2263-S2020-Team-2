@@ -5,8 +5,13 @@ package isu.engine;
  */
 public class PriceChart {
 
+
     public static int getStockPrice(HotelChainCategory  chainCategory, int chainSize){
         int price;
+
+        if(chainSize < 0){
+            throw new IllegalArgumentException("Chain size cannot be negative.");
+        }
 
         if (chainSize < 2){
             price = 0;
@@ -34,10 +39,16 @@ public class PriceChart {
     }
 
     public static int getFirstBonus(HotelChainCategory chainCategory, int chainSize){
+        if(chainSize < 0){
+            throw new IllegalArgumentException("Chain size cannot be negative.");
+        }
         return getStockPrice(chainCategory, chainSize) * 10;
     }
 
     public static int getSecondBonus(HotelChainCategory chainCategory, int chainSize){
+        if(chainSize < 0){
+            throw new IllegalArgumentException("Chain size cannot be negative.");
+        }
         return getStockPrice(chainCategory, chainSize) * 5;
     }
 }
