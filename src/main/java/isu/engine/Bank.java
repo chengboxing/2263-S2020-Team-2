@@ -60,13 +60,53 @@ public class Bank {
                     minorStockHolders.add(stockHolders.get(i));
                 }
             }
+            if(stockHolders.size() == 2){
+                if(majorStockHolders.size() != 0 && minorStockHolders.size() != 0) {
+                    for (int i = 0; i < majorStockHolders.size(); i++) {
+                        majorStockHolders.get(i).addMoney(chain.getFirstBonus());
+                    }
+                    for (int i = 0; i < minorStockHolders.size(); i++) {
+                        minorStockHolders.get(i).addMoney(chain.getSecondBonus());
+                    }
+                }
+                else if (majorStockHolders.size() == minorStockHolders.size()){
+                    majorStockHolders.get(0).addMoney((chain.getFirstBonus() + chain.getSecondBonus()) / 2);
+                    minorStockHolders.get(0).addMoney((chain.getFirstBonus() + chain.getSecondBonus()) / 2);
+                }
 
-            for (int i = 0; i < majorStockHolders.size(); i++){
-                majorStockHolders.get(i).addMoney(chain.getFirstBonus() / majorStockHolders.size());
             }
+            if(stockHolders.size() >= 3){
+                // case 1: 1 major stockHolder, several minor stockholders
+                if (majorStockHolders.size() == 1 && minorStockHolders.size() >= 2){
+                    majorStockHolders.get(0).addMoney(chain.getFirstBonus());
+                    for (int i = 0; i< minorStockHolders.size(); i++){
+                        minorStockHolders.get(i).addMoney(chain.getSecondBonus() / minorStockHolders.size());
+                    }
+                }
+                // case 2: several major stockholders, 1 minor stockholders
+                else if (majorStockHolders.size() >= 2 && minorStockHolders.size() == 1){
+                    minorStockHolders.get(0).addMoney(chain.getSecondBonus());
+                    for (int i = 0; i < majorStockHolders.size(); i++){
+                        minorStockHolders.get(i).addMoney(chain.getFirstBonus() / majorStockHolders.size());
+                    }
+                }
 
-
-
+                // case 3: several major stockholders, several minor stockholders
+                else if (majorStockHolders.size() >= 2 && minorStockHolders.size() >= 2){
+                    for (int i = 0; i < majorStockHolders.size(); i++){
+                        majorStockHolders.get(i).addMoney(chain.getFirstBonus() / majorStockHolders.size());
+                    }
+                    for (int i = 0; i < minorStockHolders.size(); i++){
+                        minorStockHolders.get(i).addMoney(chain.getSecondBonus() / minorStockHolders.size());
+                    }
+                }
+                // case 4: 0 minor stockholders(everyone is major stockholders)
+                else if (minorStockHolders.size() == 0){
+                    for (int i = 0; i < majorStockHolders.size(); i++){
+                        majorStockHolders.get(i).addMoney((chain.getFirstBonus() + chain.getSecondBonus()) / majorStockHolders.size());
+                    }
+                }
+            }
         }
     }
 
