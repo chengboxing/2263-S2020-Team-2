@@ -1,8 +1,6 @@
 package isu.engine.manager;
 
-import isu.engine.HotelChain;
-import isu.engine.Player;
-import isu.engine.Tile;
+import isu.engine.*;
 import isu.util.CircularlyLinkedList;
 
 import java.util.ArrayList;
@@ -24,22 +22,21 @@ public class MergeManager {
     /**
      * Checks if there is a merge based on the placed tile. Starts the merge process
      * if a surviving chain can be determined without the player.
-     * @param turnManager
      * @param t
      * @return True if there is a merge
      */
-    public boolean checkMerge(TurnManager turnManager, Tile t){
+    public boolean checkMerge(Tile t){
         this.t = t;
         findMergingChains(t);
 
         if (mergingChains.size() == 1){
-            //add tile to chain
+            //add tile to chain if it is the only chain touching the tile
+            mergingChains.get(0).addTile(t);
         } else if (mergingChains.size() != 0) {
-
             findSurvivingChain(mergingChains);
             if (survivingChain != null){
-
-                merge(turnManager);
+                //only starts the merge if the surviving chain is found automatically
+                merge();
             }
 
             return true;
@@ -50,9 +47,8 @@ public class MergeManager {
 
     /**
      * Combines the chains, pays the bonuses to the players, and has each player sell/trade/keep there stocks
-     * @param turnManager
      */
-    public void merge(TurnManager turnManager){
+    public void merge(){
 
         //add tile to surviving chain
         survivingChain.addTile(t);
@@ -61,12 +57,16 @@ public class MergeManager {
             if (chain != survivingChain){
                 //add other chains' tiles to surviving chain
                 survivingChain.addTiles(chain.getTiles());
-                //pay bonuses
 
+                //pay bonuses
+                GameEngine.getBank().payBonus(chain, GameEngine.getPlayers());
             }
         }
 
+        //update board UI??
+
         //doMergeTurns
+
     }
 
     /**
@@ -114,10 +114,11 @@ public class MergeManager {
             }
         }
 
-        //if more than one, update ui to have player pick
         if (largestChains.size() == 1){
             survivingChain = largestChains.get(0);
         } else {
+            //if more than one, update ui to have player pick
+            survivingChain = null;
             showSurvivingChainSelection(largestChains);
         }
     }

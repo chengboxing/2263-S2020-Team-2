@@ -1,6 +1,6 @@
 package isu.engine;
 
-import isu.util.List;
+import java.util.List;
 
 public class GameEngine {
 
@@ -23,6 +23,11 @@ public class GameEngine {
 
     }
 
+    public static Bank getBank() {
+        return bank;
+    }
 
-
+    public static List<Player> getPlayers() {
+        return players;
+    }
 }
