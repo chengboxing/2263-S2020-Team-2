@@ -64,6 +64,10 @@ public class HotelChain {
         tiles.add(tile);
     }
 
+    public void addTiles(List<Tile> tiles){
+        this.tiles.addAll(tiles);
+    }
+
     public int getStockPrice(){
         return PriceChart.getStockPrice(category, size());
     }
