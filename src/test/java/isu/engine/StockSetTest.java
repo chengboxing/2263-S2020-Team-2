@@ -46,6 +46,7 @@ public class StockSetTest {
      * Testing removeStocks method.
      *
      * */
+    @Test
     public void testRemoveStocks(){
 
         assertEquals(20, fixture.removeStocks(HotelChain.getHotelChains()[0].getName(), 5));
@@ -54,6 +55,7 @@ public class StockSetTest {
      * Testing addStocks method.
      *
      * */
+    @Test
     public void testAddStocks(){
 
         fixture.removeStocks(HotelChain.getHotelChains()[0].getName(), 5);
@@ -65,6 +67,7 @@ public class StockSetTest {
      * Testing setStocks method.
      *
      * */
+    @Test
     public void testSetStocks(){
 
         assertEquals(10, fixture.setStocks(HotelChain.getHotelChains()[0].getName(), 10));
