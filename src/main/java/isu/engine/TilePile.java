@@ -5,14 +5,13 @@ import java.util.Random;
 
 public class TilePile {
 
-    public static final int COLUMNS = 12;
-    public static final int ROWS = 9;
     private ArrayList<Tile> tilePile;
 
     public TilePile(){
         tilePile = new ArrayList<>();
-        for(int ci = 0; ci < COLUMNS; ci++){
-            for(int ri = 0; ri < ROWS; ri++){
+
+        for(int ci = 0; ci < Board.ROW_COUNT; ci++){
+            for(int ri = 0; ri < Board.COLUMN_COUNT; ri++){
                 tilePile.add(new Tile(ri, ci));
             }
         }
