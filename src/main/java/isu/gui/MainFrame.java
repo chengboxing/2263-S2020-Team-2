@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class MainFrame extends JFrame {
 
-//    private JTextArea textArea;
+    //    private JTextArea textArea;
     private FormPanel formPanel;
 
 

@@ -2,8 +2,8 @@ package isu.engine;
 
 public class Board {
 
-    private static final int ROW_COUNT = 9;
-    private static final int COLUMN_COUNT = 12;
+    public static final int ROW_COUNT = 9;
+    public static final int COLUMN_COUNT = 12;
     private BoardCell[][] cells;
 
     public Board() {
