@@ -6,10 +6,10 @@ public class GameEngine {
 
     final static int MAX_PLAYERS = 2;
 
-    private Bank bank;
+    private static Bank bank;
+    private static List<Player> players;
     private Board board;
     private HotelChain[] chains;
-    private Player[] players;
     private TilePile tilePile;
     private PriceChart priceChart;
     private StockSet stocks;
