@@ -19,7 +19,6 @@ public class GameEngine {
     private Bank bank;
     private List<Player> players;
     private Board board;
-    private StockSet stocks;
 
 
 
@@ -34,9 +33,8 @@ public class GameEngine {
                 new HotelChain("Continental", HotelChainCategory.EXPENSIVE, "blue")
         };
         tilePile = new TilePile();
-        bank = new Bank();
+        bank = new Bank(hotelChains, MAX_STOCK_COUNT);
         board = new Board();
-        stocks = new StockSet(hotelChains, MAX_STOCK_COUNT);
         players = new ArrayList<>();
         for(int i = 0; i < MAX_PLAYERS; i++){
             players.add(new Player(""));
@@ -63,11 +61,6 @@ public class GameEngine {
 
     public TilePile getTilePile() {
         return tilePile;
-    }
-    
-
-    public StockSet getStocks() {
-        return stocks;
     }
 
     public void startNewChain(){}

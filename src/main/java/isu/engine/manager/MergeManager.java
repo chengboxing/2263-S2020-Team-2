@@ -59,7 +59,8 @@ public class MergeManager {
                 survivingChain.addTiles(chain.getTiles());
 
                 //pay bonuses
-                GameEngine.getBank().payBonus(chain, GameEngine.getPlayers());
+                GameEngine ge = GameEngine.GAME_ENGINE;
+                ge.getBank().payBonus(chain, ge.getPlayers());
             }
         }
 
@@ -74,7 +75,7 @@ public class MergeManager {
      * @param t
      */
     private void findMergingChains(Tile t){
-        HotelChain[] hotelChains = HotelChain.getHotelChains();
+        HotelChain[] hotelChains = GameEngine.GAME_ENGINE.getHotelChains();
         mergingChains = new ArrayList<>();
 
         for (int i = 0; i < hotelChains.length; i++){
