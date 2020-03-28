@@ -2,8 +2,18 @@ package isu.engine;
 
 public class Tile extends CellLocation{
 
-    public Tile(int rowIndex, int columnIndex){
-        super(rowIndex, columnIndex);
+    private String color;
+
+    public Tile(){
+        super();
+
+        color = "black";
     }
+
+    public String getColor(){
+        return color;
+    }
+
+
 }
 

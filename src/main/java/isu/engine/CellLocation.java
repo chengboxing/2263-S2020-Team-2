@@ -2,12 +2,15 @@ package isu.engine;
 
 public class CellLocation {
 
-    private  int rowIndex;
-    private  int columnIndex;
+    public static  int rowIndex;
+    public static int columnIndex;
 
-    public CellLocation(int rowIndex, int columnIndex) {
-        this.rowIndex = rowIndex;
-        this.columnIndex = columnIndex;
+    public CellLocation() {
+        int rowI = this.getRowIndex();
+        int columnI = this.getColumnIndex();
+
+        rowIndex = rowI;
+        columnIndex = columnI;
     }
 
     public int getRowIndex() {
