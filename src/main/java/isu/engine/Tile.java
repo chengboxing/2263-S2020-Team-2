@@ -1,30 +1,19 @@
 package isu.engine;
 
-public class Tile {
+public class Tile extends CellLocation{
 
-    private int rowIndex;
-    private int columnIndex;
+    private String color;
 
-    public Tile(int rowIndex, int columnIndex){
-        this.columnIndex = columnIndex;
-        this.rowIndex = rowIndex;
+    public Tile(){
+        super();
 
+        color = "black";
     }
 
-    public int getRowIndex() {
-        return rowIndex;
+    public String getColor(){
+        return color;
     }
 
-    public int getColumnIndex() {
-        return columnIndex;
-    }
 
-    public char getRowChar(){
-        return (char)('A' + rowIndex);
-    }
-
-    public String getTileLabel(){
-        return "" + (columnIndex+1) + getRowChar();
-    }
 }
 

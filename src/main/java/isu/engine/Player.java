@@ -1,7 +1,5 @@
 package isu.engine;
 
-import isu.util.OverDraftException;
-
 import java.util.*;
 
 /**
@@ -41,7 +39,9 @@ public class Player {
     }
 
     public void pullMoney(int cash)  {
-        money -= cash;
+
+            money -= cash;
+
     }
 
     private int tileListSize(){

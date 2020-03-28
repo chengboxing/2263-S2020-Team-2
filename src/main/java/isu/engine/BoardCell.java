@@ -1,28 +1,44 @@
 package isu.engine;
 
-public class BoardCell {
+public class BoardCell extends CellLocation{
 
-    private int rowIndex;
-    private int columnIndex;
+    private Tile tile;
+    private String color;
+
+    public BoardCell(){
+        super();
+    }
 
     public BoardCell(int rowIndex, int columnIndex) {
-        this.rowIndex = rowIndex;
-        this.columnIndex = columnIndex;
+        super();
+        tile = new Tile();
+        color = "black";
     }
 
-    public int getRowIndex() {
-        return rowIndex;
+    public void setColor(String clr){
+        color = clr;
     }
 
-    public int getColumnIndex() {
-        return columnIndex;
+    public String getColor(){
+        return color;
     }
 
-    public char getRowChar(){
-        return (char)('A' + rowIndex);
+    public void updateColor(String clr){
+        color = clr;
     }
 
-    public String getLocation(){
-        return "" + (columnIndex+1) + getRowChar();
+    public boolean isOccupied(){
+        return true;
     }
+
+//    public void setOccupation(int rowIndex, int columnIndex){
+//        if(!color.equals("white")){
+//            boolean occupied = isOccupied();
+//        }
+//    }
+
+
+
+
+
 }

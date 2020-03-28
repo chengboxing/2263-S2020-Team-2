@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 
 public class MainFrame extends JFrame {
 
-//    private JTextArea textArea;
+
     private StartPanel startPanel;
 
 

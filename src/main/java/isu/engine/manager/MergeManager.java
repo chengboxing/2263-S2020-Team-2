@@ -1,31 +1,42 @@
 package isu.engine.manager;
 
-import isu.engine.HotelChain;
-import isu.engine.Player;
-import isu.engine.Tile;
+import isu.engine.*;
 import isu.util.CircularlyLinkedList;
 
 import java.util.ArrayList;
 
 public class MergeManager {
 
+    private Tile t;
+    private ArrayList<HotelChain> mergingChains;
+    private HotelChain survivingChain;
+
+    private static MergeManager instance = new MergeManager();
+
+    private MergeManager(){}
+
+    public static MergeManager getInstance() {
+        return instance;
+    }
+
     /**
      * Checks if there is a merge based on the placed tile. Starts the merge process
      * if a surviving chain can be determined without the player.
-     * @param turnManager
      * @param t
      * @return True if there is a merge
      */
-    public static boolean checkMerge(TurnManager turnManager, Tile t){
-        ArrayList<HotelChain> mergingChains = findMergingChains(t);
+    public boolean checkMerge(Tile t){
+        this.t = t;
+        findMergingChains(t);
+
         if (mergingChains.size() == 1){
-            //add tile to chain
+            //add tile to chain if it is the only chain touching the tile
+            mergingChains.get(0).addTile(t);
         } else if (mergingChains.size() != 0) {
-
-            HotelChain survivingChain = findSurvivingChain(mergingChains);
+            findSurvivingChain(mergingChains);
             if (survivingChain != null){
-
-                merge(turnManager, survivingChain, mergingChains);
+                //only starts the merge if the surviving chain is found automatically
+                merge();
             }
 
             return true;
@@ -36,26 +47,38 @@ public class MergeManager {
 
     /**
      * Combines the chains, pays the bonuses to the players, and has each player sell/trade/keep there stocks
-     * @param turnManager
-     * @param survivingChain
-     * @param mergingChains
      */
-    public static void merge(TurnManager turnManager, HotelChain survivingChain, ArrayList<HotelChain> mergingChains){
-        //merge chains
-        //pay bonuses
+    public void merge(){
+
+        //add tile to surviving chain
+        survivingChain.addTile(t);
+
+        for (HotelChain chain : mergingChains){
+            if (chain != survivingChain){
+                //add other chains' tiles to surviving chain
+                survivingChain.addTiles(chain.getTiles());
+
+                //pay bonuses
+                GameEngine.getBank().payBonus(chain, GameEngine.getPlayers());
+            }
+        }
+
+        //update board UI??
+
         //doMergeTurns
+
     }
 
     /**
      * Finds the chains touching the tile
      * @param t
-     * @return ArrayList of the chains touching the tile
      */
-    private static ArrayList<HotelChain> findMergingChains(Tile t){
+    private void findMergingChains(Tile t){
         HotelChain[] hotelChains = HotelChain.getHotelChains();
-        ArrayList<HotelChain> mergingChains = new ArrayList<>();
+        mergingChains = new ArrayList<>();
 
         for (int i = 0; i < hotelChains.length; i++){
+            //for each tile in the hotel chain, check to see if t is adjacent
             for (Tile tile : hotelChains[i].getTiles()){
                 if (tile.getRowIndex() == t.getRowIndex() && tile.getColumnIndex() == t.getColumnIndex() + 1){
                     mergingChains.add(hotelChains[i]);
@@ -68,34 +91,15 @@ public class MergeManager {
                 }
             }
         }
-
-        return mergingChains;
     }
 
     /**
      * Finds the chain that will survive the merge. If the surviving chain can't be found without the player
      * choosing, it will update the UI to show the selection for the chain.
      * @param chains
-     * @return The surviving chain if it can be found without the player, null if it can't
      */
-    private static HotelChain findSurvivingChain(ArrayList<HotelChain> chains){
-        ArrayList<HotelChain> largestChains = findLargestChains(chains);
-        if (largestChains.size() == 1){
-            return largestChains.get(0);
-        } else {
-            showSurvivingChainSelection(largestChains);
-            return null;
-        }
-    }
-
-
-    /**
-     * Finds the largest chain(s) of the ones it is given
-     * @param chains
-     * @return ArrayList of the largest chains
-     */
-    private static ArrayList<HotelChain> findLargestChains(ArrayList<HotelChain> chains){
-
+    private void findSurvivingChain(ArrayList<HotelChain> chains){
+        //find largest chains
         int largestSize = 0;
         for (HotelChain chain : chains){
             if (chain.size() > 0){
@@ -109,14 +113,21 @@ public class MergeManager {
                 largestChains.add(chain);
             }
         }
-        return largestChains;
+
+        if (largestChains.size() == 1){
+            survivingChain = largestChains.get(0);
+        } else {
+            //if more than one, update ui to have player pick
+            survivingChain = null;
+            showSurvivingChainSelection(largestChains);
+        }
     }
 
     /**
      * Updates the UI to show the panel for selecting the surviving chain
      * @param chains
      */
-    private static void showSurvivingChainSelection(ArrayList<HotelChain> chains){
+    private void showSurvivingChainSelection(ArrayList<HotelChain> chains){
 
     }
 }

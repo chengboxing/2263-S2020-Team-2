@@ -7,7 +7,7 @@ public class HotelChain {
 
     //american-red, continental-blue, festival-green, imperial-yellow, luxor-purple, tower-brown, worldwide-orange
 
-    private final static HotelChain[] hotelChains = new HotelChain[]{
+    private static HotelChain[] hotelChains = new HotelChain[]{
             new HotelChain("Tower", HotelChainCategory.CHEAP, "brown" ),
             new HotelChain("Luxor", HotelChainCategory.CHEAP, "purple"),
             new HotelChain("American", HotelChainCategory.AVERAGE, "red"),
@@ -62,6 +62,10 @@ public class HotelChain {
 
     public void addTile(Tile tile){
         tiles.add(tile);
+    }
+
+    public void addTiles(List<Tile> tiles){
+        this.tiles.addAll(tiles);
     }
 
     public int getStockPrice(){
