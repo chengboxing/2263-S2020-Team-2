@@ -12,7 +12,7 @@ public class TilePile {
 
         for(int ci = 0; ci < Board.ROW_COUNT; ci++){
             for(int ri = 0; ri < Board.COLUMN_COUNT; ri++){
-                tilePile.add(new Tile());
+                tilePile.add(new Tile(ri,ci));
             }
         }
 
