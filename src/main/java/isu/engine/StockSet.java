@@ -2,34 +2,35 @@ package isu.engine;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class StockSet {
 
-    private HashMap<String, Integer> stocks;
+    private Map<HotelChain, Integer> stocks;
 
-    public StockSet(){
+    public StockSet(HotelChain[] chains, int stockCount){
         stocks = new HashMap<>();
-        for (int i = 0; i < 7; i++) {
-            stocks.put(HotelChain.getHotelChains()[i].getName(), 25);
+        for(HotelChain chain : chains){
+            stocks.put(chain, stockCount);
         }
     }
 
-    public int addStocks(String chainName, int numStocks){
-        stocks.replace(chainName, stocks.get(chainName) + numStocks);
-        return stocks.get(chainName);
+    public int addStocks(HotelChain chain, int numStocks){
+        stocks.replace(chain, stocks.get(chain) + numStocks);
+        return stocks.get(chain);
     }
 
-    public int removeStocks(String chainName, int numStocks){
-        stocks.replace(chainName, stocks.get(chainName) - numStocks);
-        return stocks.get(chainName);
+    public int removeStocks(HotelChain chain, int numStocks){
+        stocks.replace(chain, stocks.get(chain) - numStocks);
+        return stocks.get(chain);
     }
 
-    public int setStocks(String chainName, int numStocks){
-        stocks.replace(chainName, numStocks);
+    public int setStocks(HotelChain chain, int numStocks){
+        stocks.replace(chain, numStocks);
         return numStocks;
     }
 
-    public int getStocks(String chainName){
-        return stocks.get(chainName);
+    public int getStocks(HotelChain chain){
+        return stocks.get(chain);
     }
 }

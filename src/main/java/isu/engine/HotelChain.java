@@ -5,30 +5,12 @@ import java.util.List;
 
 public class HotelChain {
 
-    //american-red, continental-blue, festival-green, imperial-yellow, luxor-purple, tower-brown, worldwide-orange
-
-    private static HotelChain[] hotelChains = new HotelChain[]{
-            new HotelChain("Tower", HotelChainCategory.CHEAP, "brown" ),
-            new HotelChain("Luxor", HotelChainCategory.CHEAP, "purple"),
-            new HotelChain("American", HotelChainCategory.AVERAGE, "red"),
-            new HotelChain("WorldWide", HotelChainCategory.AVERAGE, "orange"),
-            new HotelChain("Festival", HotelChainCategory.AVERAGE, "green"),
-            new HotelChain("Imperial", HotelChainCategory.EXPENSIVE, "yellow"),
-            new HotelChain("Continental", HotelChainCategory.EXPENSIVE, "blue")
-    };
-
-    public static HotelChain[] getHotelChains() {
-        return hotelChains;
-    }
-
     private String name;
     private HotelChainCategory category;
     private String color;
     private List<Tile> tiles;
 
-
-
-    private HotelChain(String name, HotelChainCategory category, String color) {
+    public HotelChain(String name, HotelChainCategory category, String color) {
         this.name = name;
         this.category = category;
         this.color = color;
@@ -61,11 +43,14 @@ public class HotelChain {
     }
 
     public void addTile(Tile tile){
+        tile.setChain(this);
         tiles.add(tile);
     }
 
     public void addTiles(List<Tile> tiles){
-        this.tiles.addAll(tiles);
+        for(Tile tile: tiles){
+            addTile(tile);
+        }
     }
 
     public int getStockPrice(){
