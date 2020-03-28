@@ -14,19 +14,20 @@ public class Bank {
 
     private StockSet stocks;
 
-    public Bank(){
-        stocks = new StockSet();
+    public Bank(HotelChain[] chains, int stockCount){
+        stocks = new StockSet(chains, stockCount);
     }
 
     public void payBonus(HotelChain chain, List<Player> players){
 
         List<Player> stockHolders = new ArrayList<Player>();
 
-        for (int i = 0; i < players.size(); i++){
-            if (players.get(i).getStocks(chain.getName()) != 0){
-                stockHolders.add(players.get(i));
+        for(Player player: players){
+            if(player.getStocks(chain) != 0){
+                stockHolders.add(player);
             }
         }
+
 
         if (stockHolders.size() == 1){
             //pay player both bonuses
@@ -34,32 +35,39 @@ public class Bank {
 
         } else if (stockHolders.size() != 0) {
             int largest = 0;
-            for (int i = 0; i < stockHolders.size(); i++){
-                if (stockHolders.get(i).getStocks(chain.getName()) > largest){
-                    largest = stockHolders.get(i).getStocks(chain.getName());
-                }
+
+            for(Player player: stockHolders){
+                largest = Math.max(player.getStocks(chain), largest);
             }
 
+
             List<Player> majorStockHolders = new ArrayList<Player>();
-            for (int i = 0; i < stockHolders.size(); i++){
-                if (stockHolders.get(i).getStocks(chain.getName()) == largest){
-                    majorStockHolders.add(stockHolders.get(i));
+            for(Player player: stockHolders){
+                if(player.getStocks(chain) == largest){
+                    majorStockHolders.add(player);
                 }
             }
 
             int secondLargest = 0;
-            for (int i = 0; i < stockHolders.size(); i++){
-                if (stockHolders.get(i).getStocks(chain.getName()) > secondLargest && stockHolders.get(i).getStocks(chain.getName()) < largest){
-                    secondLargest = stockHolders.get(i).getStocks(chain.getName());
+
+            for(Player player: stockHolders){
+                int stocks = player.getStocks(chain);
+                if(stocks < largest){
+                    secondLargest = Math.max(stocks, secondLargest);
                 }
             }
 
+
+
             List<Player> minorStockHolders = new ArrayList<Player>();
-            for (int i = 0; i < stockHolders.size(); i++){
-                if (stockHolders.get(i).getStocks(chain.getName()) == secondLargest){
-                    minorStockHolders.add(stockHolders.get(i));
+
+            for(Player player: stockHolders){
+                if(player.getStocks(chain) == secondLargest){
+                    minorStockHolders.add(player);
                 }
+
             }
+
             if(stockHolders.size() == 2){
                 if(majorStockHolders.size() != 0 && minorStockHolders.size() != 0) {
                     for (int i = 0; i < majorStockHolders.size(); i++) {
@@ -112,8 +120,8 @@ public class Bank {
 
     public void sellStocks(HotelChain chain, Player player, int numStocks){
 
-        player.removeStocks(chain.getName(), numStocks);
-        stocks.addStocks(chain.getName(), numStocks);
+        player.removeStocks(chain, numStocks);
+        stocks.addStocks(chain, numStocks);
 
         player.addMoney(PriceChart.getStockPrice(chain.getCategory(), chain.size()) * numStocks);
 
@@ -121,8 +129,8 @@ public class Bank {
 
     public void buyStock(HotelChain chain, Player player, int numStocks){
 
-        player.addStocks(chain.getName(), numStocks);
-        stocks.removeStocks(chain.getName(), numStocks);
+        player.addStocks(chain, numStocks);
+        stocks.removeStocks(chain, numStocks);
 
         player.pullMoney(PriceChart.getStockPrice(chain.getCategory(), chain.size()) * numStocks);
     }

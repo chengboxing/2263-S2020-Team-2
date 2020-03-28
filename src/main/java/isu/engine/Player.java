@@ -66,7 +66,21 @@ public class Player {
         return tile;
     }
 
-    public StockSet getStocks() {
-        return stocks;
+
+    public int addStocks(HotelChain chain, int numStocks){
+        return stocks.addStocks(chain, numStocks);
+    }
+
+    public int removeStocks(HotelChain chain, int numStocks){
+        return stocks.removeStocks(chain, numStocks);
+    }
+
+    public int setStocks(HotelChain chain, int numStocks){
+        return stocks.setStocks(chain, numStocks);
+    }
+
+    public int getStocks(HotelChain chain){
+        return stocks.getStocks(chain);
     }
 }
+
