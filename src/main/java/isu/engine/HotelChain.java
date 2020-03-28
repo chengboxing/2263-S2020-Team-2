@@ -61,11 +61,14 @@ public class HotelChain {
     }
 
     public void addTile(Tile tile){
+        tile.setChain(this);
         tiles.add(tile);
     }
 
     public void addTiles(List<Tile> tiles){
-        this.tiles.addAll(tiles);
+        for(Tile tile: tiles){
+            addTile(tile);
+        }
     }
 
     public int getStockPrice(){

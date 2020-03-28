@@ -3,42 +3,30 @@ package isu.engine;
 public class BoardCell extends CellLocation{
 
     private Tile tile;
-    private String color;
 
-    public BoardCell(){
-        super();
-    }
+
 
     public BoardCell(int rowIndex, int columnIndex) {
-        super();
-        tile = new Tile();
-        color = "black";
+        super(rowIndex, columnIndex);
+        tile = null;
     }
 
-    public void setColor(String clr){
-        color = clr;
+
+    public Tile getTile() {
+        return tile;
     }
 
-    public String getColor(){
-        return color;
-    }
-
-    public void updateColor(String clr){
-        color = clr;
+    public void setTile(Tile tile) {
+        if(tile == null){
+            throw new IllegalArgumentException("tile is null");
+        }
+        if(getRowIndex() != tile.getRowIndex() || getColumnIndex()!= tile.getColumnIndex()){
+            throw new IllegalArgumentException("location does not match");
+        }
+        this.tile = tile;
     }
 
     public boolean isOccupied(){
-        return true;
+        return tile != null;
     }
-
-//    public void setOccupation(int rowIndex, int columnIndex){
-//        if(!color.equals("white")){
-//            boolean occupied = isOccupied();
-//        }
-//    }
-
-
-
-
-
 }
