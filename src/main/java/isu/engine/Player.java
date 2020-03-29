@@ -19,6 +19,10 @@ public class Player {
         stocks = new StockSet(GameEngine.GAME_ENGINE.getHotelChains(), 0);
     }
 
+    public void setName(String name){
+        this.name = name;
+    }
+
 
     public int getMoney() {
         return money;

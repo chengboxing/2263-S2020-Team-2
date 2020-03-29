@@ -64,4 +64,8 @@ public class HotelChain {
     public int getSecondBonus(){
         return PriceChart.getSecondBonus(category, size());
     }
+
+    public boolean isActive(){
+        return size() > 0;
+    }
 }

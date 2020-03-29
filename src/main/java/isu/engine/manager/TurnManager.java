@@ -3,9 +3,15 @@ package isu.engine.manager;
 import isu.engine.Player;
 import isu.util.CircularlyLinkedList;
 
+import java.util.List;
+
 public class TurnManager {
     private CircularlyLinkedList<Player> playerOrder;
     private Player currentPlayer;
+
+    public TurnManager(List<Player> players){
+        this(new CircularlyLinkedList<>(players));
+    }
 
 
     public TurnManager(CircularlyLinkedList<Player> playerOrder) {
@@ -25,17 +31,8 @@ public class TurnManager {
      */
     public Player nextTurn(){
         currentPlayer = playerOrder.rotate();
-        updateUI(currentPlayer);
 
         return currentPlayer;
-    }
-
-    /**
-     * Updates the UI to show the players info
-     * @param p
-     */
-    private void updateUI(Player p){
-        //show player info
     }
 
     /**
