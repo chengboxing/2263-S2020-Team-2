@@ -1,6 +1,6 @@
 package isu.engine;
 
-public abstract class CellLocation {
+public class CellLocation {
 
     private int rowIndex;
     private int columnIndex;

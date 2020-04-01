@@ -16,16 +16,27 @@ public class StockSet {
     }
 
     public int addStocks(HotelChain chain, int numStocks){
-        stocks.replace(chain, stocks.get(chain) + numStocks);
-        return stocks.get(chain);
+        int newStocks = stocks.get(chain) + numStocks;
+        if(newStocks < 0|| newStocks > GameEngine.MAX_STOCK_COUNT){
+            throw new IllegalArgumentException("number of stocks too low/high");
+        }
+        stocks.replace(chain, newStocks);
+        return newStocks;
     }
 
     public int removeStocks(HotelChain chain, int numStocks){
-        stocks.replace(chain, stocks.get(chain) - numStocks);
-        return stocks.get(chain);
+        int newStocks = stocks.get(chain) - numStocks;
+        if(newStocks < 0|| newStocks > GameEngine.MAX_STOCK_COUNT){
+            throw new IllegalArgumentException("number of stocks too low/high");
+        }
+        stocks.replace(chain, newStocks);
+        return newStocks;
     }
 
     public int setStocks(HotelChain chain, int numStocks){
+        if(numStocks < 0|| numStocks > GameEngine.MAX_STOCK_COUNT){
+            throw new IllegalArgumentException("number of stocks too low/high");
+        }
         stocks.replace(chain, numStocks);
         return numStocks;
     }

@@ -41,9 +41,6 @@ public class GameEngine {
         bank = new Bank(hotelChains, MAX_STOCK_COUNT);
         board = new Board();
         players = new ArrayList<>();
-        for(int i = 0; i < MAX_PLAYERS; i++){
-            players.add(new Player(""));
-        }
 
         turnManager = new TurnManager(players);
 
@@ -71,6 +68,10 @@ public class GameEngine {
     }
 
     /***************************************************************************************/
+
+    public void addPlayer(String name){
+        players.add(new Player(name));
+    }
 
 
     public void updateGameName(String gameName){

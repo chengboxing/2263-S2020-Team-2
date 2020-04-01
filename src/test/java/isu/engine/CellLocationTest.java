@@ -59,12 +59,12 @@ public class CellLocationTest {
         assertEquals('C', fixture.getRowChar());
     }
     /**
-     * Test getTileLabel method
+     * Test getLabel method
      *
      * */
     @Test
-    public void testGetTileLabel(){
+    public void testGetLabel(){
 
-        assertEquals("4C", fixture.getTileLabel());
+        assertEquals("4C", fixture.getLabel());
     }
 }
