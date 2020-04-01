@@ -1,5 +1,8 @@
 package isu.engine;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Board {
 
     public static final int ROW_COUNT = 9;
@@ -21,13 +24,13 @@ public class Board {
         return cells[ri][ci];
     }
 
-    //parameters take in char for letter and integer getCell(1, A)
-    public BoardCell getCell(int ci, char rChar){
+    //parameters take in char for letter and integer getCell(A, 1)
+    public BoardCell getCell(char rChar, int ci){
         int ri = rChar - 'A';
         return cells[ri][ci];
     }
 
-    //parameters take in a String getCell(1A)
+    //parameters take in a String getCell(A1)
     public BoardCell getCell(String location){
         int length = location.length();
         char rChar = location.charAt(length - 1);
@@ -35,5 +38,35 @@ public class Board {
         return getCell(rChar, ci);
     }
 
+    public void placeTile(Tile tile){
+        BoardCell cell = getCell(tile.getRowIndex(), tile.getColumnIndex());
+        cell.setTile(tile);
+    }
+
+    public List<BoardCell> getEmptyCells(){
+        List<BoardCell> emptyCells = new ArrayList<>();
+        for(int ri = 0; ri < ROW_COUNT; ri++){
+            for(int ci = 0; ci < COLUMN_COUNT; ci++){
+                BoardCell cell = cells[ri][ci];
+                if(!cell.isOccupied()){
+                    emptyCells.add(cell);
+                }
+            }
+        }
+        return emptyCells;
+    }
+
+    public List<BoardCell> getOccupiedCells(){
+        List<BoardCell> occupiedCells = new ArrayList<>();
+        for(int ri = 0; ri < ROW_COUNT; ri++){
+            for(int ci = 0; ci < COLUMN_COUNT; ci++){
+                BoardCell cell = cells[ri][ci];
+                if(cell.isOccupied()){
+                    occupiedCells.add(cell);
+                }
+            }
+        }
+        return occupiedCells;
+    }
 
 }

@@ -1,13 +1,13 @@
 package isu.engine;
 
-public class CellLocation {
+public abstract class CellLocation {
 
-    private  int rowIndex;
-    private  int columnIndex;
+    private int rowIndex;
+    private int columnIndex;
 
     public CellLocation(int rowIndex, int columnIndex) {
         this.rowIndex = rowIndex;
-        this.columnIndex = columnIndex;
+        this.columnIndex  = columnIndex;
     }
 
     public int getRowIndex() {
@@ -22,7 +22,7 @@ public class CellLocation {
         return (char)('A' + rowIndex);
     }
 
-    public String getTileLabel(){
+    public String getLabel(){
         return "" + (columnIndex+1) + getRowChar();
     }
 
