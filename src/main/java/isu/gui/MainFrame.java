@@ -9,65 +9,48 @@ import java.awt.event.ActionListener;
 public class MainFrame extends JFrame {
 
 
-    private StartPanel startPanel;
+    Container container;
+    CardLayout cardLayout;
+
+    StartPanel startPanel;
+    GamePanel gamePanel;
+    NewGamePanel newGamePanel;
+    LoadGamePanel loadGamePanel;
 
 
     public MainFrame(){
-        super("Acquire Board Game");
 
-        setLayout(new BorderLayout());
+        startPanel = new StartPanel(this);
+        newGamePanel = new NewGamePanel(this);
+        loadGamePanel = new LoadGamePanel(this);
+        gamePanel = new GamePanel(this);
 
-//        textArea = new JTextArea();
-        startPanel = new StartPanel();
-        addComponents(super.getContentPane());
+        cardLayout = new CardLayout();
+        container = getContentPane();
+        container.setLayout(cardLayout);
 
-        JButton btn1 = (JButton) super.getContentPane().getComponent(0);
-        btn1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                MainFrame.super.dispose();
-                new NewGameFrame();
-            }
-        });
+        container.add(startPanel, "start");
+        container.add(newGamePanel, "new");
+        container.add(loadGamePanel, "load");
+        container.add(gamePanel, "game");
 
-        JButton btn3 = (JButton) super.getContentPane().getComponent(2);
-        btn3.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-
-                int action = JOptionPane.showConfirmDialog(MainFrame.this,
-                        "Do you really want to exit this application?",
-                        "Confirm Exit", JOptionPane.OK_CANCEL_OPTION);
-
-                if(action == JOptionPane.OK_OPTION) {
-                    System.exit(0);
-                }
-            }
-        });
-
-        super.pack();
-        setSize(1000, 700);
-        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        setVisible(true);
-
+        cardLayout.show(container, "start");
     }
 
-
-    public static void addComponents(Container panel) {
-
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
-        addBtn("Start New Game", panel);
-        addBtn("Load Game", panel);
-        addBtn("Exit",panel);
-
-
+    public void showStartPanel(){
+        cardLayout.show(container, "start");
     }
 
-    private static void addBtn(String text, Container container) {
-        JButton btn = new JButton(text);
-        btn.setAlignmentX(Component.CENTER_ALIGNMENT);
-        container.add(btn);
+    public void showNewGamePanel() {
+        cardLayout.show(container, "new");
     }
 
+    public void showLoadGamePanel(){
+        cardLayout.show(container, "load");
+    }
+
+    public void showGamePanel(){
+        cardLayout.show(container, "game");
+    }
 
 }
