@@ -78,9 +78,9 @@ public class GameEngine {
 
     }
 
-    public void updatePlayer(int index, String name){
-        players.get(index).setName(name);
-    }
+//    public void updatePlayer(int index, String name){
+//        players.get(index).setName(name);
+//    }
 
 
     /*
