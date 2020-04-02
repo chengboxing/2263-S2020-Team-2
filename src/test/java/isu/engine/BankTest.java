@@ -26,7 +26,7 @@ public class BankTest {
 
     @Before
     public void setUp() {
-        fixture = new Bank();
+        fixture = new Bank(GameEngine.GAME_ENGINE.getHotelChains(), GameEngine.MAX_STOCK_COUNT);
         fixturePlayer = new Player("test");
         tile1 = new Tile(1,2);
         tile2 = new Tile(2,3);
@@ -42,12 +42,12 @@ public class BankTest {
     @Test
     public void testBuyStocks() {
 
-        HotelChain.getHotelChains()[0].addTile(tile1);
-        HotelChain.getHotelChains()[0].addTile(tile2);
+        GameEngine.GAME_ENGINE.getHotelChains()[0].addTile(tile1);
+        GameEngine.GAME_ENGINE.getHotelChains()[0].addTile(tile2);
         fixturePlayer.addMoney(2000);
-        fixture.buyStock(HotelChain.getHotelChains()[0], fixturePlayer, 2);
+        fixture.buyStock(GameEngine.GAME_ENGINE.getHotelChains()[0], fixturePlayer, 2);
 
-        assertEquals(2, fixturePlayer.getStocks(HotelChain.getHotelChains()[0].getName()));
+        assertEquals(2, fixturePlayer.getStocks(GameEngine.GAME_ENGINE.getHotelChains()[0]));
         assertEquals(1600, fixturePlayer.getMoney());
 
     }
@@ -56,14 +56,14 @@ public class BankTest {
      */
     @Test
     public void testSellStocks(){
-        HotelChain.getHotelChains()[0].addTile(tile1);
-        HotelChain.getHotelChains()[0].addTile(tile2);
-        fixturePlayer.addStocks(HotelChain.getHotelChains()[0].getName(), 3);
+        GameEngine.GAME_ENGINE.getHotelChains()[0].addTile(tile1);
+        GameEngine.GAME_ENGINE.getHotelChains()[0].addTile(tile2);
+        fixturePlayer.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 3);
         fixturePlayer.addMoney(2000);
 
-        fixture.sellStocks(HotelChain.getHotelChains()[0], fixturePlayer, 2);
+        fixture.sellStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], fixturePlayer, 2);
 
-        assertEquals(1, fixturePlayer.getStocks(HotelChain.getHotelChains()[0].getName()));
+        assertEquals(1, fixturePlayer.getStocks(GameEngine.GAME_ENGINE.getHotelChains()[0]));
         assertEquals(2400, fixturePlayer.getMoney());
     }
     /**

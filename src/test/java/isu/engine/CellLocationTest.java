@@ -32,35 +32,39 @@ public class CellLocationTest {
 
     /**
      * Test getRowIndex method
-     */
+     *
+     * */
     @Test
     public void testGetRowIndex() {
 
-        assertEquals(2, fixture.getRowIndex());
+        assertTrue(fixture.getRowIndex() == 2);
     }
 
     /**
      * Test getColumnIndex method
-     */
+     *
+     * */
     @Test
     public void testGetColumnIndex(){
 
-        assertEquals(3, fixture.getColumnIndex());
+        assertTrue(fixture.getColumnIndex() == 3);
     }
     /**
      * Test getColumnIndex method
-     */
+     *
+     * */
     @Test
     public void testGetRowChar(){
 
         assertEquals('C', fixture.getRowChar());
     }
     /**
-     * Test getTileLabel method
-     */
+     * Test getLabel method
+     *
+     * */
     @Test
-    public void testGetTileLabel(){
+    public void testGetLabel(){
 
-        assertEquals("4C", fixture.getTileLabel());
+        assertEquals("4C", fixture.getLabel());
     }
 }

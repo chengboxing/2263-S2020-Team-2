@@ -120,15 +120,7 @@ public class MergeManager {
         } else {
             //if more than one, update ui to have player pick
             survivingChain = null;
-            showSurvivingChainSelection(largestChains);
         }
     }
 
-    /**
-     * Updates the UI to show the panel for selecting the surviving chain
-     * @param chains
-     */
-    private void showSurvivingChainSelection(ArrayList<HotelChain> chains){
-
-    }
 }

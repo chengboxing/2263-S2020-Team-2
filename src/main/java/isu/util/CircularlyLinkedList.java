@@ -35,6 +35,16 @@ public class CircularlyLinkedList<E> implements List<E> {
     private Node<E> last; //last node in the list
     private int size = 0; //number of nodes in the list
 
+    public CircularlyLinkedList(){}
+
+    public CircularlyLinkedList(java.util.List<E> items){
+        for(E item: items){
+            this.addLast(item);
+        }
+    }
+
+
+
     /**
      * @return first element in the list or null if the list is empty.
      */

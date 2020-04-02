@@ -37,17 +37,6 @@ public class PlayerTest {
 
     /*
     *
-    * Testing setTiles() method.
-    *
-    * */
-    @Test
-    public void testSetTiles(){
-        TilePile tilePile = new TilePile();
-        fixture.setTiles(6, tilePile);
-        assertEquals(6, fixture.getTiles().size());
-    }
-    /*
-    *
     * Testing playTile() method.
     *
     * */
