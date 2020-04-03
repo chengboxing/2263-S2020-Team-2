@@ -21,7 +21,11 @@ public class Board {
 
     //parameters take in two integers getCell(1, 10)
     public BoardCell getCell(int ri, int ci){
-        return cells[ri][ci];
+        if (ri >= 0 && ri < ROW_COUNT && ci >= 0 && ci < COLUMN_COUNT) {
+            return cells[ri][ci];
+        }
+
+        return null;
     }
 
     //parameters take in char for letter and integer getCell(A, 1)

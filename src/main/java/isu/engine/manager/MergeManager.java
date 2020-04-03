@@ -27,11 +27,31 @@ public class MergeManager {
      */
     public boolean checkMerge(Tile t){
         this.t = t;
+        Board b = GameEngine.GAME_ENGINE.getBoard();
+        BoardCell[] surroundingCells = new BoardCell[4];
+        surroundingCells[0] = b.getCell(t.getRowIndex() - 1, t.getColumnIndex());
+        surroundingCells[1] = b.getCell(t.getRowIndex() + 1, t.getColumnIndex());
+        surroundingCells[2] = b.getCell(t.getRowIndex(), t.getColumnIndex() - 1);
+        surroundingCells[3] = b.getCell(t.getRowIndex(), t.getColumnIndex() + 1);
         findMergingChains(t);
 
-        if (mergingChains.size() == 1){
+        if (mergingChains.size() == 0){
+            //check to see if a chain needs to be created
+            for (int i  = 0; i < 4; i++){
+                if (surroundingCells[i] != null && surroundingCells[i].isOccupied() && surroundingCells[i].getTile().getChain() == null){
+                    //create new chain
+                }
+            }
+        } else if (mergingChains.size() == 1){
             //add tile to chain if it is the only chain touching the tile
             mergingChains.get(0).addTile(t);
+            //add extra surrounding tiles
+            for (int i  = 0; i < 4; i++){
+                if (surroundingCells[i] != null && surroundingCells[i].isOccupied() && surroundingCells[i].getTile().getChain() == null){
+                    mergingChains.get(0).addTile(surroundingCells[i].getTile());
+                }
+            }
+
         } else if (mergingChains.size() != 0) {
             findSurvivingChain(mergingChains);
             if (survivingChain != null){
@@ -61,6 +81,19 @@ public class MergeManager {
                 //pay bonuses
                 GameEngine ge = GameEngine.GAME_ENGINE;
                 ge.getBank().payBonus(chain, ge.getPlayers());
+            }
+        }
+
+        //add extra surrounding tiles to chain
+        Board b = GameEngine.GAME_ENGINE.getBoard();
+        BoardCell[] cells = new BoardCell[4];
+        cells[0] = b.getCell(t.getRowIndex() - 1, t.getColumnIndex());
+        cells[1] = b.getCell(t.getRowIndex() + 1, t.getColumnIndex());
+        cells[2] = b.getCell(t.getRowIndex(), t.getColumnIndex() - 1);
+        cells[3] = b.getCell(t.getRowIndex(), t.getColumnIndex() + 1);
+        for (int i  = 0; i < 4; i++){
+            if (cells[i] != null && cells[i].isOccupied() && cells[i].getTile().getChain() == null){
+                survivingChain.addTile(cells[i].getTile());
             }
         }
 
