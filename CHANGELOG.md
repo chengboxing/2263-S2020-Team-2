@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.2.0] - 2020-04-03
+## [Iteration 04] - 2020-04-03
 
 ### Added
 
@@ -41,9 +41,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-[unreleased]: https://github.com/cs3321isu/2263-S2020-Team-2/compare/v0.2.0...HEAD
+[unreleased]: https://github.com/cs3321isu/2263-S2020-Team-2/compare/Iteration04...HEAD
 
-[0.2.0]: https://github.com/cs3321isu/2263-S2020-Team-2/compare/v0.0.1...v0.2.0
+[Iteration04]: https://github.com/cs3321isu/2263-S2020-Team-2/compare/v0.0.1...Iteration04
 [0.1.0]: https://github.com/cs3321isu/2263-S2020-Team-2/compare/v0.0.1...v0.1.0
 [0.0.1]: https://github.com/cs3321isu/2263-S2020-Team-2/releases/tag/v0.0.1
 
