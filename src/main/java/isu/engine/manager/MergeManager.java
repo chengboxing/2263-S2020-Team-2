@@ -29,9 +29,13 @@ public class MergeManager {
         this.t = t;
         findMergingChains(t);
 
-        if (mergingChains.size() == 1){
+        if (mergingChains.size() == 0){
+            //check to see if a chain needs to be created
+        } else if (mergingChains.size() == 1){
             //add tile to chain if it is the only chain touching the tile
             mergingChains.get(0).addTile(t);
+            //add extra surrounding tiles
+
         } else if (mergingChains.size() != 0) {
             findSurvivingChain(mergingChains);
             if (survivingChain != null){
@@ -52,6 +56,7 @@ public class MergeManager {
 
         //add tile to surviving chain
         survivingChain.addTile(t);
+        //add extra surrounding tiles to chain
 
         for (HotelChain chain : mergingChains){
             if (chain != survivingChain){

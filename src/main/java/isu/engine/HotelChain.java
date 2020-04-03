@@ -49,6 +49,7 @@ public class HotelChain {
 
     public void addTiles(List<Tile> tiles){
         for(Tile tile: tiles){
+            tile.setChain(this);
             addTile(tile);
         }
     }
