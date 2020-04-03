@@ -123,20 +123,28 @@ public class Bank {
         }
     }
 
-    public void sellStocks(HotelChain chain, Player player, int numStocks){
+    public void sellStocksToPlayer(HotelChain chain, Player player, int numStocks){
 
-        player.removeStocks(chain, numStocks);
-        stocks.addStocks(chain, numStocks);
+        stocks.removeStocks(chain, numStocks);
+        player.addStocks(chain, numStocks);
 
-        player.addMoney(PriceChart.getStockPrice(chain.getCategory(), chain.size()) * numStocks);
+        player.pullMoney(PriceChart.getStockPrice(chain.getCategory(), chain.size()) * numStocks);
 
     }
 
-    public void buyStock(HotelChain chain, Player player, int numStocks){
+    public void buyStocksFromPlayer(HotelChain chain, Player player, int numStocks){
 
-        player.addStocks(chain, numStocks);
+        player.removeStocks(chain, numStocks);
         stocks.removeStocks(chain, numStocks);
+        stocks.addStocks(chain, numStocks);
 
-        player.pullMoney(PriceChart.getStockPrice(chain.getCategory(), chain.size()) * numStocks);
+        player.addMoney(PriceChart.getStockPrice(chain.getCategory(), chain.size()) * numStocks);
+    }
+
+    public void tradeStocksWithPlayer(HotelChain chainReceiving, int receivingStockCount,
+                                      Player player, HotelChain chainGiving, int givingStockCount){
+
+
+
     }
 }
