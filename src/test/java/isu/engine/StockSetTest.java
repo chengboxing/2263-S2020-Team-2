@@ -39,7 +39,7 @@ public class StockSetTest {
     public void testGetStocks() {
 
         for (int i = 0; i < 7; i++){
-        assertEquals(25, fixture.getStocks(GameEngine.GAME_ENGINE.getHotelChains()[i]));
+            assertEquals(25, fixture.getStocks(GameEngine.GAME_ENGINE.getHotelChains()[i]));
         }
     }
     /*
@@ -57,7 +57,8 @@ public class StockSetTest {
     @Test
     public void testRemoveStocks(){
 
-        assertEquals(20, fixture.removeStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 5));
+        fixture.setStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 15);
+        assertEquals(10, fixture.removeStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 5));
     }
     /*
      * Testing illegalArgumentException for removeStocks() method.
@@ -65,7 +66,7 @@ public class StockSetTest {
      * */
     @Test (expected = IllegalArgumentException.class)
     public void testRemoveStocksIllegalArgumentException() throws IllegalArgumentException{
-        fixture.removeStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 26);
+        fixture.removeStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 30);
     }
 
     /*
@@ -75,10 +76,8 @@ public class StockSetTest {
     @Test
     public void testAddStocks(){
 
-        fixture.removeStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 5);
-        fixture.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 3);
-        assertEquals(23, fixture.getStocks(GameEngine.GAME_ENGINE.getHotelChains()[0]));
-
+        fixture.setStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 15);
+        assertEquals(20, fixture.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 5));
     }
     /*
      * Testing illegalArgumentException for addStocks() method.
@@ -96,9 +95,7 @@ public class StockSetTest {
     @Test
     public void testSetStocks(){
 
-        fixture.setStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 10);
-        assertEquals(10, fixture.getStocks(GameEngine.GAME_ENGINE.getHotelChains()[0]));
-
+        assertEquals(15, fixture.setStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 15));
     }
     /*
      * Testing illegalArgumentException for setStocks() method.
