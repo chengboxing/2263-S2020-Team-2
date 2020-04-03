@@ -69,6 +69,38 @@ public class PriceChartTest {
         assertEquals(0, PriceChart.getStockPrice(HotelChainCategory.CHEAP, 1));
     }
     /*
+     * Testing the price chart.
+     *
+     * */
+    @Test
+    public void testGetStockPrice_4(){
+        assertEquals(700, PriceChart.getStockPrice(HotelChainCategory.CHEAP, 15));
+    }
+    /*
+     * Testing the price chart.
+     *
+     * */
+    @Test
+    public void testGetStockPrice_5(){
+        assertEquals(800, PriceChart.getStockPrice(HotelChainCategory.CHEAP, 25));
+    }
+    /*
+     * Testing the price chart.
+     *
+     * */
+    @Test
+    public void testGetStockPrice_6(){
+        assertEquals(900, PriceChart.getStockPrice(HotelChainCategory.CHEAP, 35));
+    }
+    /*
+     * Testing the price chart.
+     *
+     * */
+    @Test
+    public void testGetStockPrice_7(){
+        assertEquals(1000, PriceChart.getStockPrice(HotelChainCategory.CHEAP, 45));
+    }
+    /*
      * Testing first bonus price.
      *
      * */
@@ -90,11 +122,28 @@ public class PriceChartTest {
     *
     * */
     @Test (expected = IllegalArgumentException.class)
-    public void testIllegalArgumentException() throws IllegalArgumentException{
+    public void testGetFirstBonusIllegalArgumentException() throws IllegalArgumentException{
         PriceChart.getFirstBonus(HotelChainCategory.CHEAP, -5);
     }
 
+    /*
+     *
+     * Testing illegalArgumentException for getSecondBonus() method.
+     *
+     * */
+    @Test (expected = IllegalArgumentException.class)
+    public void testGetSecondBonusIllegalArgumentException() throws IllegalArgumentException{
+        PriceChart.getSecondBonus(HotelChainCategory.CHEAP, -5);
+    }
 
-
+    /*
+     *
+     * Testing illegalArgumentException for getStockPrice() method.
+     *
+     * */
+    @Test (expected = IllegalArgumentException.class)
+    public void testGetStockPriceIllegalArgumentException() throws IllegalArgumentException{
+        PriceChart.getStockPrice(HotelChainCategory.CHEAP, -5);
+    }
 
 }
