@@ -14,7 +14,6 @@ public class StartPanel extends JPanel {
 
         JPanel labelPanel = new JPanel(new GridBagLayout());
         JPanel buttonPanel = new JPanel(new GridLayout(3, 1));
-//        buttonPanel.setLayout(new GridLayout(3, 1));
         JLabel label = new JLabel("Acquire");
         JButton btn1 = new JButton("Start New Game");
         JButton btn2 = new JButton("Load Game");
