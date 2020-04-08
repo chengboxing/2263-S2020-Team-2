@@ -42,6 +42,10 @@ public class HotelChain {
         return tiles;
     }
 
+    public boolean isChainSafe(){
+        return size() >= GameEngine.SAFE_CHAIN_SIZE;
+    }
+
     public void addTile(Tile tile){
         tile.setChain(this);
         tiles.add(tile);

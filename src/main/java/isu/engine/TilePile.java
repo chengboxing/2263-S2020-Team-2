@@ -24,7 +24,7 @@ public class TilePile {
         return index;
     }
 
-    public Tile getRandomTile(){
+    public Tile pullRandomTile(){
         int index = getRandomIndex();
         Tile tile = tilePile.get(index);
         tilePile.remove(index);

@@ -1,5 +1,6 @@
 package isu.engine;
 
+import isu.engine.manager.GameStartManager;
 import isu.engine.manager.TurnManager;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ public class GameEngine {
     public final static int MAX_PLAYERS = 2;
     public final static int TILES_PER_PLAYER = 6;
     public final static int MAX_STOCK_COUNT = 25;
+    public final static int SAFE_CHAIN_SIZE = 11;
 
 
 
@@ -23,8 +25,9 @@ public class GameEngine {
     private Board board;
 
     private TurnManager turnManager;
-
-
+    private String name;
+    private GameStartManager gameStartManager;
+    private Tile lastPlayedTile;
 
 
     private GameEngine(){
@@ -43,6 +46,7 @@ public class GameEngine {
         players = new ArrayList<>();
 
         turnManager = new TurnManager(players);
+        gameStartManager = new GameStartManager(this);
 
 
     }
@@ -67,6 +71,10 @@ public class GameEngine {
         return tilePile;
     }
 
+    public TurnManager getTurnManager() { return turnManager;}
+
+    public GameStartManager getStartManager(){return gameStartManager;}
+
     /***************************************************************************************/
 
     public void addPlayer(String name){
@@ -74,27 +82,21 @@ public class GameEngine {
     }
 
 
-    public void updateGameName(String gameName){
-
+    public void updateGameName(String name){
+        this.name = name;
     }
 
-//    public void updatePlayer(int index, String name){
-//        players.get(index).setName(name);
-//    }
 
-
-    /*
-     *
-     * This method will initiate the game and it will do three things:
-     * 1. pick a new tile for each player
-     * 2. place tile on the board
-     * 3. identify who goes first based on distance from 1A
-     *
-     */
-    public void initGame(){}
+    public void initGame(){
+        gameStartManager.start();
+    }
 
     public Player getCurrentPlayer(){
         return turnManager.getCurrentPlayer();
+    }
+
+    public boolean canPlayTile(Player player, int tileIndex){
+        return board.canPlayTile(player.getTile(tileIndex));
     }
 
 
@@ -103,11 +105,12 @@ public class GameEngine {
      * This method allows the current player to play one of their tiles.
      *
      */
-    public void playTile(){}
+    public void playTile(Player player, int tileIndex){
+        lastPlayedTile = player.pullTile(tileIndex);
+        board.placeTile(lastPlayedTile);
+    }
 
-
-
-    public Tile getLastPlayedTile(){return null;}
+    public Tile getLastPlayedTile(){return lastPlayedTile;}
 
     public boolean isTileNextToChain(){return false;}
 
@@ -115,7 +118,7 @@ public class GameEngine {
 
     public boolean isTileNextToTwoChains(){return false;}
 
-    public List<HotelChain> getChainsNextToTile(){return null;}
+    public List<HotelChain> getChainsNextToTile(Tile tile){return board.getNeighboringChains(tile);}
 
     private void attachTileToChain(){}
 
@@ -131,8 +134,6 @@ public class GameEngine {
 
     public void tradeStocks(Player player, HotelChain tradeChain, HotelChain receiveChain){}
 
-
-
     public void purchaseStocks(List<HotelChain> chains, List<Integer> stockCount){}
 
     public Player nextTurn(){
@@ -142,4 +143,6 @@ public class GameEngine {
     public boolean isGameOver(){return false;}
 
     public Player getWinner(){return null;}
+
+
 }
