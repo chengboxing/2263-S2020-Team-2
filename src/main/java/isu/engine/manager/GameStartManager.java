@@ -38,9 +38,9 @@ public class GameStartManager {
         CircularlyLinkedList<Player> playerOrder = new CircularlyLinkedList<>();
 
         Random rand = new Random();
-        int n = rand.nextInt(3);
+        int n = rand.nextInt(players.size());
         for (int i = 0; i < players.size(); i++) {
-            playerOrder.addLast(players.get((n + i) % 3));
+            playerOrder.addLast(players.get((n + i) % players.size()));
         }
 
         return new TurnManager(playerOrder);
