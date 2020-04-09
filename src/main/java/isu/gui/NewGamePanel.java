@@ -18,6 +18,13 @@ public class NewGamePanel extends JPanel {
         Border outerBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
 
 
+        JSlider slider = new JSlider(0, 6);
+        JLabel label1 = new JLabel("1. Player Name : ");
+        JLabel label2 = new JLabel("2. Player Name : ");
+        JLabel gameLabel = new JLabel("Game Name : ");
+        JTextField gameField = new JTextField(20);
+        JTextField field1 = new JTextField(10);
+        JTextField field2 = new JTextField(10);
         JPanel btnPanel = new JPanel(new BorderLayout());
         JPanel mainPanel = new JPanel(new BorderLayout());
         JPanel rightPanel = new JPanel(new BorderLayout());
@@ -42,11 +49,44 @@ public class NewGamePanel extends JPanel {
         leftUpperPanel.setBorder(BorderFactory.createCompoundBorder(outerBorder, innerBorder2));
         leftLowerPanel.setBorder(BorderFactory.createCompoundBorder(outerBorder, innerBorder3));
 
+        leftUpperPanel.setLayout(new FlowLayout());
+        leftUpperPanel.add(gameLabel);
+        leftUpperPanel.add(gameField);
+
+
+
+        slider.setMajorTickSpacing(1);
+        slider.setPaintTicks(true);
+        slider.setPaintLabels(true);
+        slider.setValue(2);
+
+        leftLowerPanel.add(slider);
+
 
         cancel.addActionListener(e -> frame.showStartPanel());
         start.addActionListener(e -> frame.showGamePanel());
 
         rightPanel.setBorder(BorderFactory.createCompoundBorder(outerBorder, innerBorder1));
+
+        GroupLayout lt = new GroupLayout(rightPanel);
+        rightPanel.setLayout(lt);
+
+        lt.setAutoCreateGaps(true);
+        lt.setAutoCreateContainerGaps(true);
+
+        GroupLayout.SequentialGroup hgroup = lt.createSequentialGroup();
+        hgroup.addGroup(lt.createParallelGroup().addComponent(label1).addComponent(label2));
+        hgroup.addGroup(lt.createParallelGroup().addComponent(field1).addComponent(field2));
+        lt.setHorizontalGroup(hgroup);
+
+        GroupLayout.SequentialGroup vgroup = lt.createSequentialGroup();
+        vgroup.addGroup(lt.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(label1).addComponent(field1));
+        vgroup.addGroup(lt.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(label2).addComponent(field2));
+        lt.setVerticalGroup(vgroup);
+
+
+
+
 
         setLayout(new BorderLayout());
 
