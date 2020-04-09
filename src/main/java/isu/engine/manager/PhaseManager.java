@@ -19,7 +19,7 @@ public class PhaseManager {
 
     public void doMergePhase(Tile t){
         currentPhase = PhaseName.MERGE;
-        if (!MergeManager.getInstance().checkMerge(t)){
+        if (GameEngine.GAME_ENGINE.getMergeManager().checkMerge(t)){
             doPurchasePhase();
         }
     }

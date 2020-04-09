@@ -1,6 +1,7 @@
 package isu.engine;
 
 import isu.engine.manager.GameStartManager;
+import isu.engine.manager.MergeManager;
 import isu.engine.manager.PhaseManager;
 import isu.engine.manager.TurnManager;
 
@@ -27,6 +28,7 @@ public class GameEngine {
 
     private TurnManager turnManager;
     private PhaseManager phaseManager;
+    private MergeManager mergeManager;
     private String name;
     private GameStartManager gameStartManager;
     private Tile lastPlayedTile;
@@ -51,7 +53,7 @@ public class GameEngine {
         gameStartManager = new GameStartManager(this);
         phaseManager = new PhaseManager();
         turnManager = gameStartManager.createPlayerOrder(players);
-
+        mergeManager = new MergeManager();
 
     }
 
@@ -78,6 +80,10 @@ public class GameEngine {
     public TurnManager getTurnManager() { return turnManager;}
 
     public GameStartManager getStartManager(){return gameStartManager;}
+
+    public MergeManager getMergeManager(){
+        return mergeManager;
+    }
 
     /***************************************************************************************/
 
