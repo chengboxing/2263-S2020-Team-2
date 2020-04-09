@@ -45,8 +45,9 @@ public class GameEngine {
         board = new Board();
         players = new ArrayList<>();
 
-        turnManager = new TurnManager(players);
+
         gameStartManager = new GameStartManager(this);
+        turnManager = gameStartManager.createPlayerOrder(players);
 
 
     }

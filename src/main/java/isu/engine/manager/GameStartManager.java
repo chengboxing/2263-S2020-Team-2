@@ -4,6 +4,10 @@ import isu.engine.Board;
 import isu.engine.GameEngine;
 import isu.engine.Player;
 import isu.engine.Tile;
+import isu.util.CircularlyLinkedList;
+
+import java.util.List;
+import java.util.Random;
 
 public class GameStartManager {
 
@@ -28,19 +32,18 @@ public class GameStartManager {
     }
 
     /**
-     *
-     * this method should identify who goes first based on
-     * the tile with index 0
-     *
+     * Sets the order of the players
      */
-    private void setFirstPlayer(){
-        TurnManager turnManager = gameEngine.getTurnManager();
-        for(Player player: gameEngine.getPlayers()){
-            Tile tile = player.getTile(0);
-            //TODO finish this method
+    public TurnManager createPlayerOrder(List<Player> players){
+        CircularlyLinkedList<Player> playerOrder = new CircularlyLinkedList<>();
+
+        Random rand = new Random();
+        int n = rand.nextInt(3);
+        for (int i = 0; i < players.size(); i++) {
+            playerOrder.addLast(players.get((n + i) % 3));
         }
 
-
+        return new TurnManager(playerOrder);
     }
 
 
@@ -57,9 +60,7 @@ public class GameStartManager {
 
     public void start(){
         setInitTiles();
-        setFirstPlayer();
         placeFirstTiles();
     }
-
 
 }
