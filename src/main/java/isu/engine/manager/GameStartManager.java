@@ -34,8 +34,9 @@ public class GameStartManager {
     /**
      * Sets the order of the players
      */
-    public TurnManager createPlayerOrder(List<Player> players){
+    public void createPlayerOrder(){
         CircularlyLinkedList<Player> playerOrder = new CircularlyLinkedList<>();
+        List<Player> players = gameEngine.getPlayers();
 
         Random rand = new Random();
         int n = rand.nextInt(players.size());
@@ -43,7 +44,7 @@ public class GameStartManager {
             playerOrder.addLast(players.get((n + i) % players.size()));
         }
 
-        return new TurnManager(playerOrder);
+        gameEngine.setTurnManager(new TurnManager(playerOrder));
     }
 
 
@@ -60,6 +61,7 @@ public class GameStartManager {
 
     public void start(){
         setInitTiles();
+        createPlayerOrder();
         placeFirstTiles();
     }
 

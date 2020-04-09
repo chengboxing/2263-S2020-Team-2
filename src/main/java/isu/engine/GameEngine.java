@@ -52,7 +52,6 @@ public class GameEngine {
 
         gameStartManager = new GameStartManager(this);
         phaseManager = new PhaseManager();
-        turnManager = gameStartManager.createPlayerOrder(players);
         mergeManager = new MergeManager();
 
     }
@@ -78,6 +77,10 @@ public class GameEngine {
     }
 
     public TurnManager getTurnManager() { return turnManager;}
+
+    public void setTurnManager(TurnManager t){
+        this.turnManager = t;
+    }
 
     public GameStartManager getStartManager(){return gameStartManager;}
 
