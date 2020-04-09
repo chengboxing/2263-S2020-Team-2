@@ -9,7 +9,7 @@ public class GameEndManager {
         boolean end = true;
 
         for (int i = 0; i < GameEngine.GAME_ENGINE.getHotelChains().length; i++){
-            if (GameEngine.GAME_ENGINE.getHotelChains()[i].getTiles().size() < 11){
+            if (GameEngine.GAME_ENGINE.getHotelChains()[i].isActive() && GameEngine.GAME_ENGINE.getHotelChains()[i].getTiles().size() < 11){
                 end = false;
             }
             if (GameEngine.GAME_ENGINE.getHotelChains()[i].getTiles().size() == 41){
