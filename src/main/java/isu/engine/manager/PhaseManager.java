@@ -1,16 +1,15 @@
 package isu.engine.manager;
 
+import isu.engine.GameEngine;
 import isu.engine.Player;
 import isu.engine.Tile;
 import isu.util.CircularlyLinkedList;
 
 public class PhaseManager {
     private PhaseName currentPhase;
-    private TurnManager turnManager;
 
-    public PhaseManager (CircularlyLinkedList<Player> playerOrder){
+    public PhaseManager (){
         currentPhase = PhaseName.TILE;
-        turnManager = new TurnManager(playerOrder);
     }
 
     public void doTilePhase(){
@@ -35,7 +34,7 @@ public class PhaseManager {
         if (GameEndManager.checkGameEnd()){
             GameEndManager.endGame();
         } else {
-            turnManager.nextTurn();
+            GameEngine.GAME_ENGINE.getTurnManager().nextTurn();
             doTilePhase();
         }
     }

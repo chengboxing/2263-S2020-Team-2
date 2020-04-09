@@ -1,6 +1,7 @@
 package isu.engine;
 
 import isu.engine.manager.GameStartManager;
+import isu.engine.manager.PhaseManager;
 import isu.engine.manager.TurnManager;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public class GameEngine {
     private Board board;
 
     private TurnManager turnManager;
+    private PhaseManager phaseManager;
     private String name;
     private GameStartManager gameStartManager;
     private Tile lastPlayedTile;
@@ -47,6 +49,7 @@ public class GameEngine {
 
 
         gameStartManager = new GameStartManager(this);
+        phaseManager = new PhaseManager();
         turnManager = gameStartManager.createPlayerOrder(players);
 
 
