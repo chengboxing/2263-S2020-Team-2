@@ -14,6 +14,10 @@ public class PhaseManager {
 
     public void doTilePhase(){
         currentPhase = PhaseName.TILE;
+        if (GameEndManager.checkGameEnd()){
+            //show end game prompt
+        }
+
         //updateUI
     }
 
@@ -29,13 +33,14 @@ public class PhaseManager {
         //updateUI
     }
 
+
+
     public void doEndPhase(){
         currentPhase = PhaseName.END;
         if (GameEndManager.checkGameEnd()){
             //show end game prompt
         } else {
-            GameEngine.GAME_ENGINE.getTurnManager().nextTurn();
-            doTilePhase();
+            //show next turn button
         }
     }
 }
