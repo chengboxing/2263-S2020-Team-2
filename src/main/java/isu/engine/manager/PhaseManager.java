@@ -32,7 +32,7 @@ public class PhaseManager {
     public void doEndPhase(){
         currentPhase = PhaseName.END;
         if (GameEndManager.checkGameEnd()){
-            GameEndManager.endGame();
+            //show end game prompt
         } else {
             GameEngine.GAME_ENGINE.getTurnManager().nextTurn();
             doTilePhase();
