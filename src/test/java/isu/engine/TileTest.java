@@ -8,6 +8,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class TileTest {
+    private Tile fixture;
 
     public TileTest() {
     }
@@ -22,6 +23,7 @@ public class TileTest {
 
     @Before
     public void setUp() {
+        fixture = new Tile(1,2);
     }
 
     @After
@@ -29,9 +31,23 @@ public class TileTest {
     }
 
     /**
-     * Test template.
+     * Test getChain() method
      */
     @Test
-    public void test() {
+    public void testGetChain() {
+    }
+
+    /**
+     * Test setChain() method
+     */
+    @Test
+    public void testSetChain() {
+    }
+
+    /**
+     * Test getColor() method
+     */
+    @Test
+    public void testGetColor() {
     }
 }
