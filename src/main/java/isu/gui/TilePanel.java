@@ -8,7 +8,7 @@ import isu.engine.GameEngine;
 import javax.swing.*;
 import java.awt.*;
 
-public class PlayerPanel extends JPanel {
+public class TilePanel extends JPanel {
 
     protected void paintComponent(Graphics g){
         int w;

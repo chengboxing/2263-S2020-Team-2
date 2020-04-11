@@ -11,7 +11,7 @@ public class GamePanel extends JPanel {
 
      MainFrame frame;
     private BoardPanel boardPanel;
-    private PlayerPanel playerPanel;
+    private TilePanel playerTilePanel;
     private StocksPanel stocksPanel;
     private JButton back;
     private JButton quit;
@@ -90,7 +90,7 @@ public class GamePanel extends JPanel {
         rightPanel = new JPanel(new BorderLayout());
         toolbar = new JPanel(new FlowLayout());
         boardPanel = new BoardPanel();
-        playerPanel = new PlayerPanel();
+        playerTilePanel = new TilePanel();
         stocksPanel = new StocksPanel();
         back = new JButton("Back");
         quit = new JButton("Quit");
@@ -116,7 +116,7 @@ public class GamePanel extends JPanel {
         stockPanel = new JPanel(new BorderLayout());
         mergePanel = new JPanel(new BorderLayout());
         walletPanel = new JPanel(new BorderLayout());
-        tilePanel = new JPanel(new BorderLayout());
+         tilePanel = new JPanel(new BorderLayout());
         chains = new JPanel();
         stocks = new JPanel();
         price = new JPanel();
@@ -172,7 +172,7 @@ public class GamePanel extends JPanel {
         bottomPanel.setLayout(new BorderLayout());
 
 
-        tilePanel.add(playerPanel, BorderLayout.CENTER);
+        tilePanel.add(playerTilePanel, BorderLayout.CENTER);
 
 
         //sets the layout for this class panel
