@@ -25,7 +25,6 @@ public class PhaseManager {
 
     public void doPurchasePhase(){
         currentPhase = PhaseName.PURCHASE;
-        //updateUI
     }
 
 
