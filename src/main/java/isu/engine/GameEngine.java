@@ -1,9 +1,6 @@
 package isu.engine;
 
-import isu.engine.manager.GameStartManager;
-import isu.engine.manager.MergeManager;
-import isu.engine.manager.PhaseManager;
-import isu.engine.manager.TurnManager;
+import isu.engine.manager.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,6 +14,7 @@ public class GameEngine {
     public final static int TILES_PER_PLAYER = 6;
     public final static int MAX_STOCK_COUNT = 25;
     public final static int SAFE_CHAIN_SIZE = 11;
+    public final static int MAX_CHAIN_SIZE = 41;
 
 
 
@@ -31,6 +29,7 @@ public class GameEngine {
     private MergeManager mergeManager;
     private String name;
     private GameStartManager gameStartManager;
+    private GameEndManager gameEndManager;
     private Tile lastPlayedTile;
 
 
@@ -49,8 +48,8 @@ public class GameEngine {
         board = new Board();
         players = new ArrayList<>();
 
-
         gameStartManager = new GameStartManager(this);
+        gameEndManager = new GameEndManager(this);
         phaseManager = new PhaseManager();
         mergeManager = new MergeManager();
 
@@ -82,7 +81,7 @@ public class GameEngine {
         this.turnManager = t;
     }
 
-    public GameStartManager getStartManager(){return gameStartManager;}
+//    public GameStartManager getStartManager(){return gameStartManager;}
 
     public MergeManager getMergeManager(){
         return mergeManager;
@@ -108,7 +107,8 @@ public class GameEngine {
         return turnManager.getCurrentPlayer();
     }
 
-    public boolean canPlayTile(Player player, int tileIndex){
+    public boolean canPlayTile(int tileIndex){
+        Player player = getCurrentPlayer();
         return board.canPlayTile(player.getTile(tileIndex));
     }
 
@@ -118,7 +118,8 @@ public class GameEngine {
      * This method allows the current player to play one of their tiles.
      *
      */
-    public void playTile(Player player, int tileIndex){
+    public void playTile(int tileIndex){
+        Player player = getCurrentPlayer();
         lastPlayedTile = player.pullTile(tileIndex);
         board.placeTile(lastPlayedTile);
     }
@@ -127,35 +128,91 @@ public class GameEngine {
 
     public boolean isTileNextToChain(){return false;}
 
-    public boolean isTileNextToTile(){return false;}
+    public boolean isTileNextToTile(){
+        return false;
+    }
 
-    public boolean isTileNextToTwoChains(){return false;}
+    public boolean isTileNextToTwoChains(){
+        return false;
+    }
 
-    public List<HotelChain> getChainsNextToTile(Tile tile){return board.getNeighboringChains(tile);}
+    public List<HotelChain> getChainsNextToTile(Tile tile){
+        return board.getNeighboringChains(tile);
+    }
 
-    private void attachTileToChain(){}
+    private void attachTileToChain(HotelChain chain, Tile tile){
+        chain.addTile(tile);
+    }
 
-    public List<HotelChain> getInactiveChains(){return null;}
+    public List<HotelChain> getInactiveChains(){
+        List<HotelChain> chains = new ArrayList<>();
+        for(HotelChain chain: hotelChains){
+            if(!chain.isActive()){
+                chains.add(chain);
+            }
+        }
+        return chains;
+    }
 
-    public List<HotelChain> getActiveChains(){return null;}
+    public List<HotelChain> getActiveChains(){
+        List<HotelChain> chains = new ArrayList<>();
+        for(HotelChain chain: hotelChains){
+            if(chain.isActive()){
+                chains.add(chain);
+            }
+        }
+        return chains;
+    }
 
-    public void createTileChain(HotelChain chain){}
+    public void createTileChain(HotelChain chain, Tile tile){
+
+    }
 
     public void mergeTileChains(HotelChain chain){}
 
-    public void sellStocks(Player player, HotelChain chain){}
+    public void sellStocks(HotelChain chain, int stockCount){
+        Player player = getCurrentPlayer();
+        bank.buyStocksFromPlayer(player, chain, stockCount);
+    }
 
-    public void tradeStocks(Player player, HotelChain tradeChain, HotelChain receiveChain){}
+    public void tradeStocks(HotelChain majorChain, HotelChain minorChain, int minorStockCount){
+        Player player = getCurrentPlayer();
+        bank.tradeStocksWithPlayer(player, majorChain, minorChain, minorStockCount);
+    }
 
-    public void purchaseStocks(List<HotelChain> chains, List<Integer> stockCount){}
+    public void purchaseStocks(List<HotelChain> chains, List<Integer> stockCounts){
+        Player player = getCurrentPlayer();
+        for(int i = 0; i < chains.size(); i++){
+            HotelChain chain = chains.get(i);
+            int count = stockCounts.get(i);
+            bank.sellStocksToPlayer(player, chain, count);
+        }
+    }
 
     public Player nextTurn(){
         return turnManager.nextTurn();
     }
 
-    public boolean isGameOver(){return false;}
+    public void endGame(){
+        gameEndManager.endGame();
+    }
 
-    public Player getWinner(){return null;}
+    public Player getWinner(){
+        return gameEndManager.getWinner();
+    }
+
+    public boolean hasChainReachedMaxSize(){
+        for(HotelChain chain: getHotelChains()){
+            if(chain.isReachedMaxSize()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isGameReadyToFinish(){
+        return gameEndManager.isGameReadyToFinish();
+    }
 
 
 }

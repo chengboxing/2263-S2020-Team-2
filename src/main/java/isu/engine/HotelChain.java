@@ -73,4 +73,8 @@ public class HotelChain {
     public boolean isActive(){
         return size() > 0;
     }
+
+    public boolean isReachedMaxSize(){
+        return size() >= GameEngine.MAX_CHAIN_SIZE;
+    }
 }
