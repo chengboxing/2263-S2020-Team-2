@@ -54,17 +54,21 @@ public class Player {
         return Collections.unmodifiableList(tiles);
     }
 
-    private void setTiles(TilePile tilePile, int tileCount) {
+    public Tile getTile(int index){
+       return tiles.get(index);
+    }
+
+    public void addTiles(TilePile tilePile, int tileCount) {
         for (int i = 0; i < tileCount; i++) {
-            tiles.add(tilePile.getRandomTile());
+            tiles.add(tilePile.pullRandomTile());
         }
     }
 
     public void addTile(TilePile tilePile) {
-        tiles.add(tilePile.getRandomTile());
+        addTiles(tilePile, 1);
     }
 
-    public Tile playTile(int tileIndex) {
+    public Tile pullTile(int tileIndex) {
         Tile tile = tiles.get(tileIndex);
         tiles.remove(tileIndex);
         return tile;

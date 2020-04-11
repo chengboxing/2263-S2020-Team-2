@@ -1,7 +1,6 @@
 package isu.engine;
 
 
-import isu.engine.TilePile;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -49,7 +48,7 @@ public class TilePileTest {
     @Test
     public void testSize_1(){
         for(int i  = 0; i < 7; i++){
-            fixture.getRandomTile();
+            fixture.pullRandomTile();
         }
         assertFalse("Size incorrect after calling getRandomIndex()", fixture.size() == 100 );
     }

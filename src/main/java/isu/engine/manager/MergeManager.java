@@ -11,13 +11,7 @@ public class MergeManager {
     private ArrayList<HotelChain> mergingChains;
     private HotelChain survivingChain;
 
-    private static MergeManager instance = new MergeManager();
-
-    private MergeManager(){}
-
-    public static MergeManager getInstance() {
-        return instance;
-    }
+    public MergeManager(){}
 
     /**
      * Checks if there is a merge based on the placed tile. Starts the merge process
@@ -52,7 +46,7 @@ public class MergeManager {
                 }
             }
 
-        } else if (mergingChains.size() != 0) {
+        } else {
             findSurvivingChain(mergingChains);
             if (survivingChain != null){
                 //only starts the merge if the surviving chain is found automatically
@@ -86,14 +80,14 @@ public class MergeManager {
 
         //add extra surrounding tiles to chain
         Board b = GameEngine.GAME_ENGINE.getBoard();
-        BoardCell[] cells = new BoardCell[4];
-        cells[0] = b.getCell(t.getRowIndex() - 1, t.getColumnIndex());
-        cells[1] = b.getCell(t.getRowIndex() + 1, t.getColumnIndex());
-        cells[2] = b.getCell(t.getRowIndex(), t.getColumnIndex() - 1);
-        cells[3] = b.getCell(t.getRowIndex(), t.getColumnIndex() + 1);
+        BoardCell[] surroundingCells = new BoardCell[4];
+        surroundingCells[0] = b.getCell(t.getRowIndex() - 1, t.getColumnIndex());
+        surroundingCells[1] = b.getCell(t.getRowIndex() + 1, t.getColumnIndex());
+        surroundingCells[2] = b.getCell(t.getRowIndex(), t.getColumnIndex() - 1);
+        surroundingCells[3] = b.getCell(t.getRowIndex(), t.getColumnIndex() + 1);
         for (int i  = 0; i < 4; i++){
-            if (cells[i] != null && cells[i].isOccupied() && cells[i].getTile().getChain() == null){
-                survivingChain.addTile(cells[i].getTile());
+            if (surroundingCells[i] != null && surroundingCells[i].isOccupied() && surroundingCells[i].getTile().getChain() == null){
+                survivingChain.addTile(surroundingCells[i].getTile());
             }
         }
 

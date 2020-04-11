@@ -13,7 +13,6 @@ import static org.junit.Assert.*;
 
 public class BankTest {
     private Bank fixture;
-    private GameEngine fixtureChains;
     private Player fixturePlayer;
     private Player fixturePlayer2;
     private Player fixturePlayer3;
@@ -59,7 +58,7 @@ public class BankTest {
 
         fixturePlayer.addMoney(2000);
         fixturePlayer.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[1], 6);
-        fixture.buyStocksFromPlayer(GameEngine.GAME_ENGINE.getHotelChains()[1], fixturePlayer, 2);
+        fixture.buyStocksFromPlayer(fixturePlayer, GameEngine.GAME_ENGINE.getHotelChains()[1], 2);
 
         assertEquals(4, fixturePlayer.getStocks(GameEngine.GAME_ENGINE.getHotelChains()[1]));
         assertEquals(3, GameEngine.GAME_ENGINE.getHotelChains()[1].size());
@@ -78,7 +77,7 @@ public class BankTest {
 
         fixturePlayer.addMoney(2000);
 
-        fixture.sellStocksToPlayer(GameEngine.GAME_ENGINE.getHotelChains()[0], fixturePlayer, 3);
+        fixture.sellStocksToPlayer(fixturePlayer, GameEngine.GAME_ENGINE.getHotelChains()[0], 3);
 
         assertEquals(3, fixturePlayer.getStocks(GameEngine.GAME_ENGINE.getHotelChains()[0]));
         assertEquals(3, GameEngine.GAME_ENGINE.getHotelChains()[0].size());

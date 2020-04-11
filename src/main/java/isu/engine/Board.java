@@ -1,7 +1,6 @@
 package isu.engine;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Board {
 
@@ -71,6 +70,52 @@ public class Board {
             }
         }
         return occupiedCells;
+    }
+
+    public List<Tile> getNeighboringTiles(Tile tile){
+        List<Tile> tiles = new ArrayList<>();
+
+        int ri = tile.getRowIndex();
+        int ci = tile.getColumnIndex();
+
+        tryAddTile(tiles, ri+1, ci);
+        tryAddTile(tiles, ri-1, ci);
+        tryAddTile(tiles, ri, ci+1);
+        tryAddTile(tiles, ri, ci-1);
+
+        return tiles;
+    }
+
+    private void tryAddTile(List<Tile> tiles, int ri, int ci){
+        if(ri < 0 || ri >= ROW_COUNT) return;
+        if(ci < 0 || ci >= COLUMN_COUNT) return;
+
+        Tile tile = cells[ri][ci].getTile();
+        if(tile != null){
+            tiles.add(tile);
+        }
+    }
+
+    public List<HotelChain> getNeighboringChains(Tile tile){
+        Set<HotelChain> chains = new HashSet<>();
+
+        for(Tile t: getNeighboringTiles(tile)){
+            if(t.getChain() != null){
+                chains.add(t.getChain());
+            }
+        }
+
+        return new ArrayList<HotelChain>(chains);
+    }
+
+    public boolean canPlayTile(Tile tile){
+        int safeChainCount = 0;
+        for(HotelChain c: getNeighboringChains(tile)){
+            if(c.isChainSafe()){
+                safeChainCount++;
+            }
+        }
+        return safeChainCount < 2;
     }
 
 }

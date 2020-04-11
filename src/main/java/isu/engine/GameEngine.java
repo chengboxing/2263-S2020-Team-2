@@ -1,6 +1,6 @@
 package isu.engine;
 
-import isu.engine.manager.TurnManager;
+import isu.engine.manager.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,6 +13,8 @@ public class GameEngine {
     public final static int MAX_PLAYERS = 2;
     public final static int TILES_PER_PLAYER = 6;
     public final static int MAX_STOCK_COUNT = 25;
+    public final static int SAFE_CHAIN_SIZE = 11;
+    public final static int MAX_CHAIN_SIZE = 41;
 
 
 
@@ -23,8 +25,12 @@ public class GameEngine {
     private Board board;
 
     private TurnManager turnManager;
-
-
+    private PhaseManager phaseManager;
+    private MergeManager mergeManager;
+    private String name;
+    private GameStartManager gameStartManager;
+    private GameEndManager gameEndManager;
+    private Tile lastPlayedTile;
 
 
     private GameEngine(){
@@ -42,8 +48,10 @@ public class GameEngine {
         board = new Board();
         players = new ArrayList<>();
 
-        turnManager = new TurnManager(players);
-
+        gameStartManager = new GameStartManager(this);
+        gameEndManager = new GameEndManager(this);
+        phaseManager = new PhaseManager();
+        mergeManager = new MergeManager();
 
     }
 
@@ -67,6 +75,18 @@ public class GameEngine {
         return tilePile;
     }
 
+    public TurnManager getTurnManager() { return turnManager;}
+
+    public void setTurnManager(TurnManager t){
+        this.turnManager = t;
+    }
+
+//    public GameStartManager getStartManager(){return gameStartManager;}
+
+    public MergeManager getMergeManager(){
+        return mergeManager;
+    }
+
     /***************************************************************************************/
 
     public void addPlayer(String name){
@@ -74,27 +94,22 @@ public class GameEngine {
     }
 
 
-    public void updateGameName(String gameName){
-
+    public void updateGameName(String name){
+        this.name = name;
     }
 
-//    public void updatePlayer(int index, String name){
-//        players.get(index).setName(name);
-//    }
 
-
-    /*
-     *
-     * This method will initiate the game and it will do three things:
-     * 1. pick a new tile for each player
-     * 2. place tile on the board
-     * 3. identify who goes first based on distance from 1A
-     *
-     */
-    public void initGame(){}
+    public void initGame(){
+        gameStartManager.start();
+    }
 
     public Player getCurrentPlayer(){
         return turnManager.getCurrentPlayer();
+    }
+
+    public boolean canPlayTile(int tileIndex){
+        Player player = getCurrentPlayer();
+        return board.canPlayTile(player.getTile(tileIndex));
     }
 
 
@@ -103,43 +118,101 @@ public class GameEngine {
      * This method allows the current player to play one of their tiles.
      *
      */
-    public void playTile(){}
+    public void playTile(int tileIndex){
+        Player player = getCurrentPlayer();
+        lastPlayedTile = player.pullTile(tileIndex);
+        board.placeTile(lastPlayedTile);
+    }
 
-
-
-    public Tile getLastPlayedTile(){return null;}
+    public Tile getLastPlayedTile(){return lastPlayedTile;}
 
     public boolean isTileNextToChain(){return false;}
 
-    public boolean isTileNextToTile(){return false;}
+    public boolean isTileNextToTile(){
+        return false;
+    }
 
-    public boolean isTileNextToTwoChains(){return false;}
+    public boolean isTileNextToTwoChains(){
+        return false;
+    }
 
-    public List<HotelChain> getChainsNextToTile(){return null;}
+    public List<HotelChain> getChainsNextToTile(Tile tile){
+        return board.getNeighboringChains(tile);
+    }
 
-    private void attachTileToChain(){}
+    private void attachTileToChain(HotelChain chain, Tile tile){
+        chain.addTile(tile);
+    }
 
-    public List<HotelChain> getInactiveChains(){return null;}
+    public List<HotelChain> getInactiveChains(){
+        List<HotelChain> chains = new ArrayList<>();
+        for(HotelChain chain: hotelChains){
+            if(!chain.isActive()){
+                chains.add(chain);
+            }
+        }
+        return chains;
+    }
 
-    public List<HotelChain> getActiveChains(){return null;}
+    public List<HotelChain> getActiveChains(){
+        List<HotelChain> chains = new ArrayList<>();
+        for(HotelChain chain: hotelChains){
+            if(chain.isActive()){
+                chains.add(chain);
+            }
+        }
+        return chains;
+    }
 
-    public void createTileChain(HotelChain chain){}
+    public void createTileChain(HotelChain chain, Tile tile){
+
+    }
 
     public void mergeTileChains(HotelChain chain){}
 
-    public void sellStocks(Player player, HotelChain chain){}
+    public void sellStocks(HotelChain chain, int stockCount){
+        Player player = getCurrentPlayer();
+        bank.buyStocksFromPlayer(player, chain, stockCount);
+    }
 
-    public void tradeStocks(Player player, HotelChain tradeChain, HotelChain receiveChain){}
+    public void tradeStocks(HotelChain majorChain, HotelChain minorChain, int minorStockCount){
+        Player player = getCurrentPlayer();
+        bank.tradeStocksWithPlayer(player, majorChain, minorChain, minorStockCount);
+    }
 
-
-
-    public void purchaseStocks(List<HotelChain> chains, List<Integer> stockCount){}
+    public void purchaseStocks(List<HotelChain> chains, List<Integer> stockCounts){
+        Player player = getCurrentPlayer();
+        for(int i = 0; i < chains.size(); i++){
+            HotelChain chain = chains.get(i);
+            int count = stockCounts.get(i);
+            bank.sellStocksToPlayer(player, chain, count);
+        }
+    }
 
     public Player nextTurn(){
         return turnManager.nextTurn();
     }
 
-    public boolean isGameOver(){return false;}
+    public void endGame(){
+        gameEndManager.endGame();
+    }
 
-    public Player getWinner(){return null;}
+    public Player getWinner(){
+        return gameEndManager.getWinner();
+    }
+
+    public boolean hasChainReachedMaxSize(){
+        for(HotelChain chain: getHotelChains()){
+            if(chain.isReachedMaxSize()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isGameReadyToFinish(){
+        return gameEndManager.isGameReadyToFinish();
+    }
+
+
 }
