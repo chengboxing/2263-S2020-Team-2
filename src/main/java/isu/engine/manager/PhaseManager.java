@@ -14,11 +14,6 @@ public class PhaseManager {
 
     public void doTilePhase(){
         currentPhase = PhaseName.TILE;
-        if (GameEndManager.checkGameEnd()){
-            //show end game prompt
-        }
-
-        //updateUI
     }
 
     public void doMergePhase(Tile t){
@@ -37,10 +32,5 @@ public class PhaseManager {
 
     public void doEndPhase(){
         currentPhase = PhaseName.END;
-        if (GameEndManager.checkGameEnd()){
-            //show end game prompt
-        } else {
-            //show next turn button
-        }
     }
 }
