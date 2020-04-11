@@ -77,8 +77,8 @@ public class BankTest {
         GameEngine.GAME_ENGINE.getHotelChains()[0].addTile(new Tile(0, 3));
 
         fixturePlayer.addMoney(2000);
-
-        fixture.sellStocksToPlayer(fixturePlayer,GameEngine.GAME_ENGINE.getHotelChains()[0], 3);
+        
+        fixture.sellStocksToPlayer(fixturePlayer, GameEngine.GAME_ENGINE.getHotelChains()[0], 3);
 
         assertEquals(3, fixturePlayer.getStocks(GameEngine.GAME_ENGINE.getHotelChains()[0]));
         assertEquals(3, GameEngine.GAME_ENGINE.getHotelChains()[0].size());
