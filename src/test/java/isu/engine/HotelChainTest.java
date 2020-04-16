@@ -213,4 +213,17 @@ public class HotelChainTest {
         assertEquals(45, fixture.getTiles().size());
         assertTrue(fixture.isReachedMaxSize());
     }
+    /**
+     * Test clearTiles() method.
+     */
+    @Test
+    public void testClearTiles(){
+        fixture.addTile(tile1);
+        fixture.addTile(tile2);
+
+        assertEquals(2, fixture.size());
+
+        fixture.clearTiles();
+        assertEquals(0, fixture.size());
+    }
 }
