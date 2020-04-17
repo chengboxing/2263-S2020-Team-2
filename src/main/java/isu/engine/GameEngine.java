@@ -8,7 +8,7 @@ import java.util.List;
 
 public class GameEngine {
 
-    public static final GameEngine GAME_ENGINE = new GameEngine();
+//    public static final GameEngine GAME_ENGINE = new GameEngine();
 
     public final static int MAX_PLAYERS = 2;
     public final static int TILES_PER_PLAYER = 6;
@@ -125,7 +125,9 @@ public class GameEngine {
         board.placeTile(lastPlayedTile);
     }
 
-    public Tile getLastPlayedTile(){return lastPlayedTile;}
+    public Tile getLastPlayedTile(){
+        return lastPlayedTile;
+    }
 
     public boolean isTileNextToChain(){return false;}
 
@@ -134,10 +136,11 @@ public class GameEngine {
     }
 
     public boolean isTileNextToTwoChains(){
+
         return false;
     }
 
-    public List<HotelChain> getChainsNextToTile(Tile tile){
+    public List<HotelChain> getChainsNextToTile(Tile tile) {
         return board.getNeighboringChains(tile);
     }
 
@@ -191,14 +194,17 @@ public class GameEngine {
     }
 
     public Player nextTurn(){
+
         return turnManager.nextTurn();
     }
 
     public void endGame(){
+
         gameEndManager.endGame();
     }
 
     public Player getWinner(){
+
         return gameEndManager.getWinner();
     }
 

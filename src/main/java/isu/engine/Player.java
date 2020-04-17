@@ -16,7 +16,7 @@ public class Player {
     public Player(String name) {
         this.name = name;
         tiles = new ArrayList<>();
-        stocks = new StockSet(GameEngine.GAME_ENGINE.getHotelChains(), 0);
+        stocks = new StockSet();
     }
 
     public void setName(String name){
@@ -24,7 +24,6 @@ public class Player {
     }
 
     public String getName(){return name;}
-
 
     public int getMoney() {
         return money;

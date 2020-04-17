@@ -8,6 +8,10 @@ public class StockSet {
 
     private Map<HotelChain, Integer> stocks;
 
+    public StockSet() {
+        stocks = new HashMap<>();
+    }
+
     public StockSet(HotelChain[] chains, int stockCount){
         stocks = new HashMap<>();
         for(HotelChain chain : chains){
@@ -16,20 +20,20 @@ public class StockSet {
     }
 
     public int addStocks(HotelChain chain, int numStocks){
-        int newStocks = stocks.get(chain) + numStocks;
+        int newStocks = getStocks(chain) + numStocks;
         if(newStocks < 0|| newStocks > GameEngine.MAX_STOCK_COUNT){
             throw new IllegalArgumentException("number of stocks too low/high");
         }
-        stocks.replace(chain, newStocks);
+        stocks.put(chain, newStocks);
         return newStocks;
     }
 
     public int removeStocks(HotelChain chain, int numStocks){
-        int newStocks = stocks.get(chain) - numStocks;
+        int newStocks = getStocks(chain) - numStocks;
         if(newStocks < 0|| newStocks > GameEngine.MAX_STOCK_COUNT){
             throw new IllegalArgumentException("number of stocks too low/high");
         }
-        stocks.replace(chain, newStocks);
+        stocks.put(chain, newStocks);
         return newStocks;
     }
 
@@ -37,11 +41,12 @@ public class StockSet {
         if(numStocks < 0|| numStocks > GameEngine.MAX_STOCK_COUNT){
             throw new IllegalArgumentException("number of stocks too low/high");
         }
-        stocks.replace(chain, numStocks);
+        stocks.put(chain, numStocks);
         return numStocks;
     }
 
     public int getStocks(HotelChain chain){
-        return stocks.get(chain);
+
+        return stocks.getOrDefault(chain, 0);
     }
 }
