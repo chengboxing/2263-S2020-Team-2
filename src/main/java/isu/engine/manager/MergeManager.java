@@ -10,8 +10,11 @@ public class MergeManager {
     private Tile t;
     private ArrayList<HotelChain> mergingChains;
     private HotelChain survivingChain;
+    private GameEngine gameEngine;
 
-    public MergeManager(){}
+    public MergeManager(GameEngine gameEngine) {
+        this.gameEngine = gameEngine;
+    }
 
     /**
      * Checks if there is a merge based on the placed tile. Starts the merge process
@@ -21,7 +24,7 @@ public class MergeManager {
      */
     public boolean checkMerge(Tile t){
         this.t = t;
-        Board b = GameEngine.GAME_ENGINE.getBoard();
+        Board b = gameEngine.getBoard();
         BoardCell[] surroundingCells = new BoardCell[4];
         surroundingCells[0] = b.getCell(t.getRowIndex() - 1, t.getColumnIndex());
         surroundingCells[1] = b.getCell(t.getRowIndex() + 1, t.getColumnIndex());
@@ -73,13 +76,13 @@ public class MergeManager {
                 survivingChain.addTiles(chain.getTiles());
 
                 //pay bonuses
-                GameEngine ge = GameEngine.GAME_ENGINE;
+                GameEngine ge = gameEngine;
                 ge.getBank().payBonus(chain, ge.getPlayers());
             }
         }
 
         //add extra surrounding tiles to chain
-        Board b = GameEngine.GAME_ENGINE.getBoard();
+        Board b = gameEngine.getBoard();
         BoardCell[] surroundingCells = new BoardCell[4];
         surroundingCells[0] = b.getCell(t.getRowIndex() - 1, t.getColumnIndex());
         surroundingCells[1] = b.getCell(t.getRowIndex() + 1, t.getColumnIndex());
@@ -102,7 +105,7 @@ public class MergeManager {
      * @param t
      */
     private void findMergingChains(Tile t){
-        HotelChain[] hotelChains = GameEngine.GAME_ENGINE.getHotelChains();
+        HotelChain[] hotelChains = gameEngine.getHotelChains();
         mergingChains = new ArrayList<>();
 
         for (int i = 0; i < hotelChains.length; i++){

@@ -7,8 +7,10 @@ import isu.util.CircularlyLinkedList;
 
 public class PhaseManager {
     private PhaseName currentPhase;
+    private GameEngine gameEngine;
 
-    public PhaseManager (){
+    public PhaseManager(GameEngine gameEngine) {
+        this.gameEngine = gameEngine;
         currentPhase = PhaseName.TILE;
     }
 
@@ -18,7 +20,7 @@ public class PhaseManager {
 
     public void doMergePhase(Tile t){
         currentPhase = PhaseName.MERGE;
-        if (GameEngine.GAME_ENGINE.getMergeManager().checkMerge(t)){
+        if (gameEngine.getMergeManager().checkMerge(t)){
             doPurchasePhase();
         }
     }
