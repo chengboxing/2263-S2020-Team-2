@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class BoardPanel extends JPanel{
+    private GameEngine gameEngine;
 
     protected void paintComponent(Graphics g){
         int columnCount = Board.COLUMN_COUNT;
@@ -16,7 +17,7 @@ public class BoardPanel extends JPanel{
 
         for (int j = 0; j < columnCount; j++) {
             for (int i = 0; i < rowCount; i++) {
-                String label = GameEngine.GAME_ENGINE.getBoard().getCell(i, j).getLabel();
+                String label = gameEngine.getBoard().getCell(i, j).getLabel();
                 w = 45 * i;
                 h = 45 * j;
                 g.setColor(Color.BLACK);
