@@ -10,6 +10,7 @@ import org.junit.rules.ExpectedException;
 
 public class StockSetTest {
     private StockSet fixture;
+    private GameEngine gameEngine;
 
     public StockSetTest() {
     }
@@ -24,7 +25,8 @@ public class StockSetTest {
 
     @Before
     public void setUp() {
-        fixture = new StockSet(GameEngine.GAME_ENGINE.getHotelChains(), GameEngine.MAX_STOCK_COUNT);
+        gameEngine = new GameEngine();
+        fixture = new StockSet(gameEngine.getHotelChains(), GameEngine.MAX_STOCK_COUNT);
     }
 
     @After
@@ -39,7 +41,7 @@ public class StockSetTest {
     public void testGetStocks() {
 
         for (int i = 0; i < 7; i++){
-            assertEquals(25, fixture.getStocks(GameEngine.GAME_ENGINE.getHotelChains()[i]));
+            assertEquals(25, fixture.getStocks(gameEngine.getHotelChains()[i]));
         }
     }
     /*
@@ -48,7 +50,7 @@ public class StockSetTest {
      * */
     @Test (expected = ArrayIndexOutOfBoundsException.class)
     public void testGetStocksIllegalArgumentException() throws ArrayIndexOutOfBoundsException{
-        fixture.getStocks(GameEngine.GAME_ENGINE.getHotelChains()[7]);
+        fixture.getStocks(gameEngine.getHotelChains()[7]);
     }
     /*
      * Testing removeStocks method.
@@ -57,8 +59,8 @@ public class StockSetTest {
     @Test
     public void testRemoveStocks(){
 
-        fixture.setStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 15);
-        assertEquals(10, fixture.removeStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 5));
+        fixture.setStocks(gameEngine.getHotelChains()[0], 15);
+        assertEquals(10, fixture.removeStocks(gameEngine.getHotelChains()[0], 5));
     }
     /*
      * Testing illegalArgumentException for removeStocks() method.
@@ -66,7 +68,7 @@ public class StockSetTest {
      * */
     @Test (expected = IllegalArgumentException.class)
     public void testRemoveStocksIllegalArgumentException() throws IllegalArgumentException{
-        fixture.removeStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 30);
+        fixture.removeStocks(gameEngine.getHotelChains()[0], 30);
     }
 
     /*
@@ -76,8 +78,8 @@ public class StockSetTest {
     @Test
     public void testAddStocks(){
 
-        fixture.setStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 15);
-        assertEquals(20, fixture.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 5));
+        fixture.setStocks(gameEngine.getHotelChains()[0], 15);
+        assertEquals(20, fixture.addStocks(gameEngine.getHotelChains()[0], 5));
     }
     /*
      * Testing illegalArgumentException for addStocks() method.
@@ -85,7 +87,7 @@ public class StockSetTest {
      * */
     @Test (expected = IllegalArgumentException.class)
     public void testAddStocksIllegalArgumentException() throws IllegalArgumentException{
-        fixture.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 25);
+        fixture.addStocks(gameEngine.getHotelChains()[0], 25);
     }
 
     /*
@@ -95,7 +97,7 @@ public class StockSetTest {
     @Test
     public void testSetStocks(){
 
-        assertEquals(15, fixture.setStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 15));
+        assertEquals(15, fixture.setStocks(gameEngine.getHotelChains()[0], 15));
     }
     /*
      * Testing illegalArgumentException for setStocks() method.
@@ -103,7 +105,7 @@ public class StockSetTest {
      * */
     @Test (expected = IllegalArgumentException.class)
     public void testSetStocksIllegalArgumentException() throws IllegalArgumentException{
-        fixture.setStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 26);
+        fixture.setStocks(gameEngine.getHotelChains()[0], 26);
     }
 
 }

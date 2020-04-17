@@ -18,6 +18,7 @@ public class BankTest {
     private Player fixturePlayer3;
     private Player fixturePlayer4;
     private List<Player> players;
+    private GameEngine gameEngine;
 
     public BankTest() {
     }
@@ -32,7 +33,8 @@ public class BankTest {
 
     @Before
     public void setUp() {
-        fixture = new Bank(GameEngine.GAME_ENGINE.getHotelChains(), GameEngine.MAX_STOCK_COUNT);
+        gameEngine = new GameEngine();
+        fixture = new Bank(gameEngine.getHotelChains(), GameEngine.MAX_STOCK_COUNT);
         fixturePlayer = new Player("test");
         fixturePlayer2 = new Player("test_2");
         fixturePlayer3 = new Player("test_3");
@@ -52,19 +54,19 @@ public class BankTest {
         players.add(fixturePlayer);
         players.add(fixturePlayer2);
 
-        GameEngine.GAME_ENGINE.getHotelChains()[1].addTile(new Tile(0, 1));
-        GameEngine.GAME_ENGINE.getHotelChains()[1].addTile(new Tile(0, 2));
-        GameEngine.GAME_ENGINE.getHotelChains()[1].addTile(new Tile(0, 3));
+        gameEngine.getHotelChains()[1].addTile(new Tile(0, 1));
+        gameEngine.getHotelChains()[1].addTile(new Tile(0, 2));
+        gameEngine.getHotelChains()[1].addTile(new Tile(0, 3));
 
         fixturePlayer.addMoney(2000);
-        fixturePlayer.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[1], 6);
-        fixture.buyStocksFromPlayer(fixturePlayer, GameEngine.GAME_ENGINE.getHotelChains()[1], 2);
+        fixturePlayer.addStocks(gameEngine.getHotelChains()[1], 6);
+        fixture.buyStocksFromPlayer(fixturePlayer, gameEngine.getHotelChains()[1], 2);
 
-        assertEquals(4, fixturePlayer.getStocks(GameEngine.GAME_ENGINE.getHotelChains()[1]));
-        assertEquals(3, GameEngine.GAME_ENGINE.getHotelChains()[1].size());
+        assertEquals(4, fixturePlayer.getStocks(gameEngine.getHotelChains()[1]));
+        assertEquals(3, gameEngine.getHotelChains()[1].size());
         assertEquals(2600, fixturePlayer.getMoney());
 
-        GameEngine.GAME_ENGINE.getHotelChains()[1].clearTiles();
+        gameEngine.getHotelChains()[1].clearTiles();
     }
     /**
      * Test buyStocks methods.
@@ -72,19 +74,19 @@ public class BankTest {
     @Test
     public void testSellStocks(){
 
-        GameEngine.GAME_ENGINE.getHotelChains()[0].addTile(new Tile(0, 1));
-        GameEngine.GAME_ENGINE.getHotelChains()[0].addTile(new Tile(0, 2));
-        GameEngine.GAME_ENGINE.getHotelChains()[0].addTile(new Tile(0, 3));
+        gameEngine.getHotelChains()[0].addTile(new Tile(0, 1));
+        gameEngine.getHotelChains()[0].addTile(new Tile(0, 2));
+        gameEngine.getHotelChains()[0].addTile(new Tile(0, 3));
 
         fixturePlayer.addMoney(2000);
 
-        fixture.sellStocksToPlayer(fixturePlayer, GameEngine.GAME_ENGINE.getHotelChains()[0], 3);
+        fixture.sellStocksToPlayer(fixturePlayer, gameEngine.getHotelChains()[0], 3);
 
-        assertEquals(3, fixturePlayer.getStocks(GameEngine.GAME_ENGINE.getHotelChains()[0]));
-        assertEquals(3, GameEngine.GAME_ENGINE.getHotelChains()[0].size());
+        assertEquals(3, fixturePlayer.getStocks(gameEngine.getHotelChains()[0]));
+        assertEquals(3, gameEngine.getHotelChains()[0].size());
         assertEquals(1100, fixturePlayer.getMoney());
 
-        GameEngine.GAME_ENGINE.getHotelChains()[0].clearTiles();
+        gameEngine.getHotelChains()[0].clearTiles();
     }
     /**
      * Test payBonus methods for one major stockholder.
@@ -95,21 +97,21 @@ public class BankTest {
         players.add(fixturePlayer);
         players.add(fixturePlayer2);
 
-        GameEngine.GAME_ENGINE.getHotelChains()[2].addTile(new Tile(0, 1));
-        GameEngine.GAME_ENGINE.getHotelChains()[2].addTile(new Tile(0, 2));
+        gameEngine.getHotelChains()[2].addTile(new Tile(0, 1));
+        gameEngine.getHotelChains()[2].addTile(new Tile(0, 2));
 
         fixturePlayer.addMoney(2000);
         fixturePlayer2.addMoney(2000);
 
-        fixturePlayer.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[2], 0);
-        fixturePlayer2.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[2], 1);
+        fixturePlayer.addStocks(gameEngine.getHotelChains()[2], 0);
+        fixturePlayer2.addStocks(gameEngine.getHotelChains()[2], 1);
 
-        fixture.payBonus(GameEngine.GAME_ENGINE.getHotelChains()[2], players);
+        fixture.payBonus(gameEngine.getHotelChains()[2], players);
 
         assertEquals(2000, fixturePlayer.getMoney());
         assertEquals(6500, fixturePlayer2.getMoney());
 
-        GameEngine.GAME_ENGINE.getHotelChains()[2].clearTiles();
+        gameEngine.getHotelChains()[2].clearTiles();
     }
     /**
      * Test payBonus methods for two persons, one major stockholder and one minor stockholder
@@ -120,18 +122,18 @@ public class BankTest {
         players.add(fixturePlayer);
         players.add(fixturePlayer2);
 
-        GameEngine.GAME_ENGINE.getHotelChains()[0].addTile(new Tile(0, 1));
-        GameEngine.GAME_ENGINE.getHotelChains()[0].addTile(new Tile(0, 2));
+        gameEngine.getHotelChains()[0].addTile(new Tile(0, 1));
+        gameEngine.getHotelChains()[0].addTile(new Tile(0, 2));
 
-        fixturePlayer.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 2);
-        fixturePlayer2.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 1);
+        fixturePlayer.addStocks(gameEngine.getHotelChains()[0], 2);
+        fixturePlayer2.addStocks(gameEngine.getHotelChains()[0], 1);
 
-        fixture.payBonus(GameEngine.GAME_ENGINE.getHotelChains()[0], players);
+        fixture.payBonus(gameEngine.getHotelChains()[0], players);
 
         assertEquals(2000, fixturePlayer.getMoney());
         assertEquals(1000, fixturePlayer2.getMoney());
 
-        GameEngine.GAME_ENGINE.getHotelChains()[0].clearTiles();
+        gameEngine.getHotelChains()[0].clearTiles();
     }
 
     /**
@@ -142,19 +144,19 @@ public class BankTest {
         players.add(fixturePlayer);
         players.add(fixturePlayer2);
 
-        fixturePlayer.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 3);
-        fixturePlayer2.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 3);
+        fixturePlayer.addStocks(gameEngine.getHotelChains()[0], 3);
+        fixturePlayer2.addStocks(gameEngine.getHotelChains()[0], 3);
 
-        GameEngine.GAME_ENGINE.getHotelChains()[0].addTile(new Tile(0, 1));
-        GameEngine.GAME_ENGINE.getHotelChains()[0].addTile(new Tile(0, 2));
-        fixture.payBonus(GameEngine.GAME_ENGINE.getHotelChains()[0], players);
+        gameEngine.getHotelChains()[0].addTile(new Tile(0, 1));
+        gameEngine.getHotelChains()[0].addTile(new Tile(0, 2));
+        fixture.payBonus(gameEngine.getHotelChains()[0], players);
 
         System.out.println(fixturePlayer.getMoney());
         System.out.println(fixturePlayer2.getMoney());
         assertEquals(1500,fixturePlayer.getMoney());
         assertEquals(1500, fixturePlayer2.getMoney());
 
-        GameEngine.GAME_ENGINE.getHotelChains()[0].clearTiles();
+        gameEngine.getHotelChains()[0].clearTiles();
     }
     /**
      * Test payBonus methods for Three players, one major stockholder, one minor stockholder and one third stockholder
@@ -165,19 +167,19 @@ public class BankTest {
         players.add(fixturePlayer2);
         players.add(fixturePlayer3);
 
-        fixturePlayer.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 3);
-        fixturePlayer2.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 2);
-        fixturePlayer3.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 1);
+        fixturePlayer.addStocks(gameEngine.getHotelChains()[0], 3);
+        fixturePlayer2.addStocks(gameEngine.getHotelChains()[0], 2);
+        fixturePlayer3.addStocks(gameEngine.getHotelChains()[0], 1);
 
-        GameEngine.GAME_ENGINE.getHotelChains()[0].addTile(new Tile(0, 1));
-        GameEngine.GAME_ENGINE.getHotelChains()[0].addTile(new Tile(0, 2));
-        fixture.payBonus(GameEngine.GAME_ENGINE.getHotelChains()[0], players);
+        gameEngine.getHotelChains()[0].addTile(new Tile(0, 1));
+        gameEngine.getHotelChains()[0].addTile(new Tile(0, 2));
+        fixture.payBonus(gameEngine.getHotelChains()[0], players);
 
         assertEquals(2000,fixturePlayer.getMoney());
         assertEquals(1000, fixturePlayer2.getMoney());
         assertEquals(0, fixturePlayer3.getMoney());
 
-        GameEngine.GAME_ENGINE.getHotelChains()[0].clearTiles();
+        gameEngine.getHotelChains()[0].clearTiles();
     }
     /**
      * Test payBonus methods for Three players, two major stockholders and one minor stockholder
@@ -188,19 +190,19 @@ public class BankTest {
         players.add(fixturePlayer2);
         players.add(fixturePlayer3);
 
-        fixturePlayer.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 3);
-        fixturePlayer2.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 3);
-        fixturePlayer3.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 1);
+        fixturePlayer.addStocks(gameEngine.getHotelChains()[0], 3);
+        fixturePlayer2.addStocks(gameEngine.getHotelChains()[0], 3);
+        fixturePlayer3.addStocks(gameEngine.getHotelChains()[0], 1);
 
-        GameEngine.GAME_ENGINE.getHotelChains()[0].addTile(new Tile(0, 1));
-        GameEngine.GAME_ENGINE.getHotelChains()[0].addTile(new Tile(0, 2));
-        fixture.payBonus(GameEngine.GAME_ENGINE.getHotelChains()[0], players);
+        gameEngine.getHotelChains()[0].addTile(new Tile(0, 1));
+        gameEngine.getHotelChains()[0].addTile(new Tile(0, 2));
+        fixture.payBonus(gameEngine.getHotelChains()[0], players);
 
         assertEquals(1000,fixturePlayer.getMoney());
         assertEquals(1000, fixturePlayer2.getMoney());
         assertEquals(1000, fixturePlayer3.getMoney());
 
-        GameEngine.GAME_ENGINE.getHotelChains()[0].clearTiles();
+        gameEngine.getHotelChains()[0].clearTiles();
     }
 
     /**
@@ -212,19 +214,19 @@ public class BankTest {
         players.add(fixturePlayer2);
         players.add(fixturePlayer3);
 
-        fixturePlayer.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 3);
-        fixturePlayer2.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 1);
-        fixturePlayer3.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 1);
+        fixturePlayer.addStocks(gameEngine.getHotelChains()[0], 3);
+        fixturePlayer2.addStocks(gameEngine.getHotelChains()[0], 1);
+        fixturePlayer3.addStocks(gameEngine.getHotelChains()[0], 1);
 
-        GameEngine.GAME_ENGINE.getHotelChains()[0].addTile(new Tile(0, 1));
-        GameEngine.GAME_ENGINE.getHotelChains()[0].addTile(new Tile(0, 2));
-        fixture.payBonus(GameEngine.GAME_ENGINE.getHotelChains()[0], players);
+        gameEngine.getHotelChains()[0].addTile(new Tile(0, 1));
+        gameEngine.getHotelChains()[0].addTile(new Tile(0, 2));
+        fixture.payBonus(gameEngine.getHotelChains()[0], players);
 
         assertEquals(2000,fixturePlayer.getMoney());
         assertEquals(500, fixturePlayer2.getMoney());
         assertEquals(500, fixturePlayer3.getMoney());
 
-        GameEngine.GAME_ENGINE.getHotelChains()[0].clearTiles();
+        gameEngine.getHotelChains()[0].clearTiles();
     }
     /**
      * Test payBonus methods for three players, three major stockholders
@@ -235,19 +237,19 @@ public class BankTest {
         players.add(fixturePlayer2);
         players.add(fixturePlayer3);
 
-        fixturePlayer.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 2);
-        fixturePlayer2.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 2);
-        fixturePlayer3.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 2);
+        fixturePlayer.addStocks(gameEngine.getHotelChains()[0], 2);
+        fixturePlayer2.addStocks(gameEngine.getHotelChains()[0], 2);
+        fixturePlayer3.addStocks(gameEngine.getHotelChains()[0], 2);
 
-        GameEngine.GAME_ENGINE.getHotelChains()[0].addTile(new Tile(0, 1));
-        GameEngine.GAME_ENGINE.getHotelChains()[0].addTile(new Tile(0, 2));
-        fixture.payBonus(GameEngine.GAME_ENGINE.getHotelChains()[0], players);
+        gameEngine.getHotelChains()[0].addTile(new Tile(0, 1));
+        gameEngine.getHotelChains()[0].addTile(new Tile(0, 2));
+        fixture.payBonus(gameEngine.getHotelChains()[0], players);
 
         assertEquals(1000,fixturePlayer.getMoney());
         assertEquals(1000, fixturePlayer2.getMoney());
         assertEquals(1000, fixturePlayer3.getMoney());
 
-        GameEngine.GAME_ENGINE.getHotelChains()[0].clearTiles();
+        gameEngine.getHotelChains()[0].clearTiles();
     }
     /**
      * Test payBonus methods for four players, two major stockholders and two minor stockholders
@@ -259,21 +261,21 @@ public class BankTest {
         players.add(fixturePlayer3);
         players.add(fixturePlayer4);
 
-        fixturePlayer.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 3);
-        fixturePlayer2.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 3);
-        fixturePlayer3.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 1);
-        fixturePlayer4.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 1);
+        fixturePlayer.addStocks(gameEngine.getHotelChains()[0], 3);
+        fixturePlayer2.addStocks(gameEngine.getHotelChains()[0], 3);
+        fixturePlayer3.addStocks(gameEngine.getHotelChains()[0], 1);
+        fixturePlayer4.addStocks(gameEngine.getHotelChains()[0], 1);
 
-        GameEngine.GAME_ENGINE.getHotelChains()[0].addTile(new Tile(0, 1));
-        GameEngine.GAME_ENGINE.getHotelChains()[0].addTile(new Tile(0, 2));
-        fixture.payBonus(GameEngine.GAME_ENGINE.getHotelChains()[0], players);
+        gameEngine.getHotelChains()[0].addTile(new Tile(0, 1));
+        gameEngine.getHotelChains()[0].addTile(new Tile(0, 2));
+        fixture.payBonus(gameEngine.getHotelChains()[0], players);
 
         assertEquals(1000,fixturePlayer.getMoney());
         assertEquals(1000, fixturePlayer2.getMoney());
         assertEquals(500, fixturePlayer3.getMoney());
         assertEquals(500, fixturePlayer4.getMoney());
 
-        GameEngine.GAME_ENGINE.getHotelChains()[0].clearTiles();
+        gameEngine.getHotelChains()[0].clearTiles();
     }
     /**
      * Test payBonus methods for four players, one major stockholder and three minor stockholders
@@ -285,21 +287,21 @@ public class BankTest {
         players.add(fixturePlayer3);
         players.add(fixturePlayer4);
 
-        fixturePlayer.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 3);
-        fixturePlayer2.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 1);
-        fixturePlayer3.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 1);
-        fixturePlayer4.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 1);
+        fixturePlayer.addStocks(gameEngine.getHotelChains()[0], 3);
+        fixturePlayer2.addStocks(gameEngine.getHotelChains()[0], 1);
+        fixturePlayer3.addStocks(gameEngine.getHotelChains()[0], 1);
+        fixturePlayer4.addStocks(gameEngine.getHotelChains()[0], 1);
 
-        GameEngine.GAME_ENGINE.getHotelChains()[0].addTile(new Tile(0, 1));
-        GameEngine.GAME_ENGINE.getHotelChains()[0].addTile(new Tile(0, 2));
-        fixture.payBonus(GameEngine.GAME_ENGINE.getHotelChains()[0], players);
+        gameEngine.getHotelChains()[0].addTile(new Tile(0, 1));
+        gameEngine.getHotelChains()[0].addTile(new Tile(0, 2));
+        fixture.payBonus(gameEngine.getHotelChains()[0], players);
 
         assertEquals(2000,fixturePlayer.getMoney());
         assertEquals(333, fixturePlayer2.getMoney());
         assertEquals(333, fixturePlayer3.getMoney());
         assertEquals(333, fixturePlayer4.getMoney());
 
-        GameEngine.GAME_ENGINE.getHotelChains()[0].clearTiles();
+        gameEngine.getHotelChains()[0].clearTiles();
     }
     /**
      * Test payBonus methods for four players, one major stockholder and three minor stockholders
@@ -311,21 +313,21 @@ public class BankTest {
         players.add(fixturePlayer3);
         players.add(fixturePlayer4);
 
-        fixturePlayer.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 3);
-        fixturePlayer2.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 3);
-        fixturePlayer3.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 3);
-        fixturePlayer4.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 1);
+        fixturePlayer.addStocks(gameEngine.getHotelChains()[0], 3);
+        fixturePlayer2.addStocks(gameEngine.getHotelChains()[0], 3);
+        fixturePlayer3.addStocks(gameEngine.getHotelChains()[0], 3);
+        fixturePlayer4.addStocks(gameEngine.getHotelChains()[0], 1);
 
-        GameEngine.GAME_ENGINE.getHotelChains()[0].addTile(new Tile(0, 1));
-        GameEngine.GAME_ENGINE.getHotelChains()[0].addTile(new Tile(0, 2));
-        fixture.payBonus(GameEngine.GAME_ENGINE.getHotelChains()[0], players);
+        gameEngine.getHotelChains()[0].addTile(new Tile(0, 1));
+        gameEngine.getHotelChains()[0].addTile(new Tile(0, 2));
+        fixture.payBonus(gameEngine.getHotelChains()[0], players);
 
         assertEquals(666,fixturePlayer.getMoney());
         assertEquals(666, fixturePlayer2.getMoney());
         assertEquals(666, fixturePlayer3.getMoney());
         assertEquals(1000, fixturePlayer4.getMoney());
 
-        GameEngine.GAME_ENGINE.getHotelChains()[0].clearTiles();
+        gameEngine.getHotelChains()[0].clearTiles();
     }
     /**
      * Test payBonus methods for four players, one major stockholder and one minor stockholders
@@ -337,20 +339,20 @@ public class BankTest {
         players.add(fixturePlayer3);
         players.add(fixturePlayer4);
 
-        fixturePlayer.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 4);
-        fixturePlayer2.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 3);
-        fixturePlayer3.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 2);
-        fixturePlayer4.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 1);
+        fixturePlayer.addStocks(gameEngine.getHotelChains()[0], 4);
+        fixturePlayer2.addStocks(gameEngine.getHotelChains()[0], 3);
+        fixturePlayer3.addStocks(gameEngine.getHotelChains()[0], 2);
+        fixturePlayer4.addStocks(gameEngine.getHotelChains()[0], 1);
 
-        GameEngine.GAME_ENGINE.getHotelChains()[0].addTile(new Tile(0, 1));
-        GameEngine.GAME_ENGINE.getHotelChains()[0].addTile(new Tile(0, 2));
-        fixture.payBonus(GameEngine.GAME_ENGINE.getHotelChains()[0], players);
+        gameEngine.getHotelChains()[0].addTile(new Tile(0, 1));
+        gameEngine.getHotelChains()[0].addTile(new Tile(0, 2));
+        fixture.payBonus(gameEngine.getHotelChains()[0], players);
 
         assertEquals(2000,fixturePlayer.getMoney());
         assertEquals(1000, fixturePlayer2.getMoney());
         assertEquals(0, fixturePlayer3.getMoney());
         assertEquals(0, fixturePlayer4.getMoney());
 
-        GameEngine.GAME_ENGINE.getHotelChains()[0].clearTiles();
+        gameEngine.getHotelChains()[0].clearTiles();
     }
 }

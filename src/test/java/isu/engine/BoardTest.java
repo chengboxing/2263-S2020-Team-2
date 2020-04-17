@@ -16,6 +16,7 @@ public class BoardTest {
     private Tile tile2;
     private Tile tile3;
     private Tile tile4;
+    private GameEngine gameEngine;
 
     public BoardTest() {
     }
@@ -30,6 +31,7 @@ public class BoardTest {
 
     @Before
     public void setUp() {
+        gameEngine = new GameEngine();
         fixture = new Board();
         tile1 = new Tile(1, 1);
         tile2 = new Tile(2, 1);
@@ -122,7 +124,7 @@ public class BoardTest {
         tiles.add(tile2);
         tiles.add(tile3);
 
-        GameEngine.GAME_ENGINE.getHotelChains()[0].addTiles(tiles);
+        gameEngine.getHotelChains()[0].addTiles(tiles);
         fixture.placeTile(tile1);
         fixture.placeTile(tile2);
 
@@ -138,7 +140,7 @@ public class BoardTest {
         tiles.add(tile2);
         tiles.add(tile3);
 
-        GameEngine.GAME_ENGINE.getHotelChains()[0].addTiles(tiles);
+        gameEngine.getHotelChains()[0].addTiles(tiles);
         fixture.placeTile(tile1);
         fixture.placeTile(tile2);
 

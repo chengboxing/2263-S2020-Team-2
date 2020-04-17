@@ -18,6 +18,7 @@ public class PlayerTest {
 
     private Player fixture;
     private TilePile tilePile;
+    private GameEngine gameEngine;
 
     public PlayerTest(){
     }
@@ -32,6 +33,7 @@ public class PlayerTest {
 
     @Before
     public void setUp() {
+        gameEngine = new GameEngine();
         fixture = new Player("test");
         tilePile = new TilePile();
     }
@@ -163,8 +165,8 @@ public class PlayerTest {
      * */
     @Test
     public void testAddStocks(){
-        fixture.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 5);
-        assertEquals(5, fixture.getStocks(GameEngine.GAME_ENGINE.getHotelChains()[0]));
+        fixture.addStocks(gameEngine.getHotelChains()[0], 5);
+        assertEquals(5, fixture.getStocks(gameEngine.getHotelChains()[0]));
     }
     /*
      *
@@ -173,9 +175,9 @@ public class PlayerTest {
      * */
     @Test
     public void testRemoveStocks(){
-        fixture.addStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 5);
-        fixture.removeStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 3);
-        assertEquals(2, fixture.getStocks(GameEngine.GAME_ENGINE.getHotelChains()[0]));
+        fixture.addStocks(gameEngine.getHotelChains()[0], 5);
+        fixture.removeStocks(gameEngine.getHotelChains()[0], 3);
+        assertEquals(2, fixture.getStocks(gameEngine.getHotelChains()[0]));
     }
     /*
      *
@@ -184,8 +186,8 @@ public class PlayerTest {
      * */
     @Test
     public void testSetStocks(){
-        fixture.setStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 10);
-        assertEquals(10, fixture.getStocks(GameEngine.GAME_ENGINE.getHotelChains()[0]));
+        fixture.setStocks(gameEngine.getHotelChains()[0], 10);
+        assertEquals(10, fixture.getStocks(gameEngine.getHotelChains()[0]));
     }
 
 }

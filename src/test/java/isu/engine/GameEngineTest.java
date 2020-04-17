@@ -37,7 +37,8 @@ public class GameEngineTest {
 
     @Before
     public void setUp() {
-        fixture = GameEngine.GAME_ENGINE;
+
+        fixture = new GameEngine();
         fixturePlayer_0 = new Player("test_0");
         fixturePlayer_1 = new Player("test_1");
         playerOrder = new ArrayList<>();
