@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [Iteration 05] - 2020-04-17
+
+### Added
+
+- Completed GameEngin Class
+- Completed the main panel for gui
+- Completed TurnManager test
+- Created PhaseManagerTest class
+- Updated GameEngineTest class
+- Updated GameEngin class
+- Updated HotelChain class
+
 ## [Iteration 04] - 2020-04-03
 
 ### Added
@@ -41,8 +53,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-[unreleased]: https://github.com/cs3321isu/2263-S2020-Team-2/compare/Iteration04...HEAD
+[unreleased]: https://github.com/cs3321isu/2263-S2020-Team-2/compare/Iteration05...HEAD
 
+[Iteration 05]: https://github.com/cs3321isu/2263-S2020-Team-2/compare/v0.0.1...Iteration05
 [Iteration 04]: https://github.com/cs3321isu/2263-S2020-Team-2/compare/v0.0.1...Iteration04
 [0.1.0]: https://github.com/cs3321isu/2263-S2020-Team-2/compare/v0.0.1...v0.1.0
 [0.0.1]: https://github.com/cs3321isu/2263-S2020-Team-2/releases/tag/v0.0.1
