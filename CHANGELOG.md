@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated GameEngineTest class
 - Updated GameEngin class
 - Updated HotelChain class
+- Fixed some codes for test classes
 
 ## [Iteration 04] - 2020-04-03
 
