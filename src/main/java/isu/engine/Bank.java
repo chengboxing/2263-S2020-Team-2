@@ -150,4 +150,10 @@ public class Bank {
 
 
     }
+
+    public void giveFreeStockToPlayer(Player player, HotelChain chain){
+        if(stocks.getStocks(chain) == 0)return;
+        stocks.removeStocks(chain, 1);
+        player.addStocks(chain, 1);
+    }
 }

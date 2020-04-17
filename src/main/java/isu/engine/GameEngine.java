@@ -129,15 +129,17 @@ public class GameEngine {
         return lastPlayedTile;
     }
 
-    public boolean isTileNextToChain(){return false;}
-
-    public boolean isTileNextToTile(){
-        return false;
+    public boolean isTileNextToChain(Tile tile){
+        return board.getNeighboringChains(tile).size() > 0;
     }
 
-    public boolean isTileNextToTwoChains(){
+    public boolean isTileNextToTile(Tile tile){
+        return board.getNeighboringTiles(tile).size() > 0;
 
-        return false;
+    }
+
+    public boolean isTileNextToTwoChains(Tile tile){
+        return board.getNeighboringChains(tile).size() >= 2;
     }
 
     public List<HotelChain> getChainsNextToTile(Tile tile) {
@@ -168,11 +170,21 @@ public class GameEngine {
         return chains;
     }
 
-    public void createTileChain(HotelChain chain, Tile tile){
-
+    public boolean canCreateTileChain(HotelChain chain, Tile tile){
+        if(chain.isActive()) return false;
+        if(isTileNextToChain(tile)) return false;
+        if(!isTileNextToTile(tile)) return false;
+        return true;
     }
 
-    public void mergeTileChains(HotelChain chain){}
+    public void createTileChain(HotelChain chain, Tile tile){
+        bank.giveFreeStockToPlayer(getCurrentPlayer(), chain);
+        board.createTileChain(chain, tile);
+    }
+
+    public void mergeTileChains(HotelChain chain, Tile tile){
+        mergeManager.checkMerge(tile);
+    }
 
     public void sellStocks(HotelChain chain, int stockCount){
         Player player = getCurrentPlayer();
