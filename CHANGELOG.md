@@ -54,7 +54,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-[unreleased]: https://github.com/cs3321isu/2263-S2020-Team-2/compare/Iteration05...HEAD
+[unreleased]: https://github.com/cs3321isu/2263-S2020-Team-2/compare/Iteration05...v0.0.1
 
 [Iteration 05]: https://github.com/cs3321isu/2263-S2020-Team-2/compare/v0.0.1...Iteration05
 [Iteration 04]: https://github.com/cs3321isu/2263-S2020-Team-2/compare/v0.0.1...Iteration04
