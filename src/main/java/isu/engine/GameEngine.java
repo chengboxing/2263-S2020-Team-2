@@ -33,7 +33,7 @@ public class GameEngine {
     private Tile lastPlayedTile;
 
 
-    private GameEngine(){
+    public GameEngine(){
         hotelChains = new HotelChain[]{
                 new HotelChain("Tower", HotelChainCategory.CHEAP, "brown" ),
                 new HotelChain("Luxor", HotelChainCategory.CHEAP, "purple"),

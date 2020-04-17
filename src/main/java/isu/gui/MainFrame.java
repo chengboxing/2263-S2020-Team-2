@@ -1,5 +1,7 @@
 package isu.gui;
 
+import isu.engine.GameEngine;
+
 import javax.swing.*;
 import javax.swing.BoxLayout;
 import java.awt.*;
@@ -17,8 +19,12 @@ public class MainFrame extends JFrame {
     NewGamePanel newGamePanel;
     LoadGamePanel loadGamePanel;
 
+    GameEngine gameEngine;
+
 
     public MainFrame(){
+
+        gameEngine = new GameEngine();
 
         startPanel = new StartPanel(this);
         newGamePanel = new NewGamePanel(this);
