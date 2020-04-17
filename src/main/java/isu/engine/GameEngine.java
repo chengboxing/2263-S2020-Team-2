@@ -5,6 +5,7 @@ import isu.engine.manager.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class GameEngine {
 
@@ -23,8 +24,9 @@ public class GameEngine {
     private Bank bank;
     private List<Player> players;
     private Board board;
+    private int currentPlayerIndex;
 
-    private TurnManager turnManager;
+//    private TurnManager turnManager;
     private PhaseManager phaseManager;
     private MergeManager mergeManager;
     private String name;
@@ -50,8 +52,8 @@ public class GameEngine {
 
         gameStartManager = new GameStartManager(this);
         gameEndManager = new GameEndManager(this);
-        phaseManager = new PhaseManager();
-        mergeManager = new MergeManager();
+        phaseManager = new PhaseManager(this);
+        mergeManager = new MergeManager(this);
 
     }
 
@@ -75,14 +77,6 @@ public class GameEngine {
         return tilePile;
     }
 
-    public TurnManager getTurnManager() { return turnManager;}
-
-    public void setTurnManager(TurnManager t){
-        this.turnManager = t;
-    }
-
-//    public GameStartManager getStartManager(){return gameStartManager;}
-
     public MergeManager getMergeManager(){
         return mergeManager;
     }
@@ -100,12 +94,18 @@ public class GameEngine {
 
     public String getGameName(){ return this.name; }
 
-    public void initGame(){
+    private void initCurrentPlayerIndex(){
+        Random random = new Random();
+        currentPlayerIndex = random.nextInt(players.size() - 1);
+    }
+
+    public void initGame() {
         gameStartManager.start();
+        initCurrentPlayerIndex();
     }
 
     public Player getCurrentPlayer(){
-        return turnManager.getCurrentPlayer();
+        return players.get(currentPlayerIndex);
     }
 
     public boolean canPlayTile(int tileIndex){
@@ -194,8 +194,8 @@ public class GameEngine {
     }
 
     public Player nextTurn(){
-
-        return turnManager.nextTurn();
+        currentPlayerIndex = (currentPlayerIndex+1) % players.size();
+        return getCurrentPlayer();
     }
 
     public void endGame(){

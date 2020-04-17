@@ -86,21 +86,6 @@ public class GameEngineTest {
         assertNotNull(fixture.getTilePile());
     }
     /*
-     * Test getTurnManager() method.
-     * */
-    @Test
-    public void testGetTurnManager(){
-        assertNotNull(fixture.getTurnManager());
-    }
-    /*
-     * Test setTurnManager() method.
-     * */
-    @Test
-    public void testSetTurnManager(){
-        fixture.setTurnManager(t);
-        assertEquals(t, fixture.getTurnManager());
-    }
-    /*
      * Test getMergeManager() method.
      * */
     @Test
