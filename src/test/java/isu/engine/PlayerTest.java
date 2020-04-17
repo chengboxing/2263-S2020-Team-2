@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import java.lang.reflect.Method;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +17,6 @@ import static org.junit.Assert.*;
 public class PlayerTest {
 
     private Player fixture;
-    private Tile tile1;
-    private Tile tile2;
-    private List<Tile> tiles;
     private TilePile tilePile;
 
     public PlayerTest(){
@@ -35,9 +33,6 @@ public class PlayerTest {
     @Before
     public void setUp() {
         fixture = new Player("test");
-        tile1 = new Tile(1,1);
-        tile2 = new Tile(1,2);
-        tiles = new ArrayList<>();
         tilePile = new TilePile();
     }
 
@@ -110,16 +105,45 @@ public class PlayerTest {
      *
      * */
     @Test
-    public void testTileCount(){
+    public void testTileCount() throws Exception {
+        fixture.addTile(tilePile);
+        fixture.addTile(tilePile);
+
+        Class<Player> class1 = Player.class;
+        Method tileCount = class1.getDeclaredMethod("tileCount", null);
+        tileCount.setAccessible(true);
+        int invoke = (int) tileCount.invoke(fixture, null);
+
+        assertEquals(2, invoke);
     }
     /*
      *
-     * Testing setTiles() method.
+     * Testing pullTile() method.
      *
      * */
     @Test
-    public void testSetTiles(){
+    public void testPullTile(){
+        fixture.addTile(tilePile);
+        fixture.addTile(tilePile);
 
+        Tile tile_0 = fixture.getTile(0);
+        Tile tile_1 = fixture.pullTile(0);
+        assertEquals(tile_0, tile_1);
+        assertEquals(1, fixture.getTiles().size());
+    }
+
+    /*
+     *
+     * Testing getTile() method.
+     *
+     * */
+    @Test
+    public void testGetTile(){
+        fixture.addTile(tilePile);
+        fixture.addTile(tilePile);
+
+        assertNotNull(fixture.getTile(0));
+        assertNotNull(fixture.getTile(1));
     }
     /*
      *
@@ -131,15 +155,6 @@ public class PlayerTest {
         fixture.addTile(tilePile);
         fixture.addTile(tilePile);
         assertEquals(2, fixture.getTiles().size());
-    }
-    /*
-     *
-     * Testing playTiles() method.
-     *
-     * */
-    @Test
-    public void testPlayTiles(){
-
     }
     /*
      *
@@ -172,4 +187,5 @@ public class PlayerTest {
         fixture.setStocks(GameEngine.GAME_ENGINE.getHotelChains()[0], 10);
         assertEquals(10, fixture.getStocks(GameEngine.GAME_ENGINE.getHotelChains()[0]));
     }
+
 }

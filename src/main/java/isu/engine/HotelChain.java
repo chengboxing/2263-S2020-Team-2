@@ -58,6 +58,10 @@ public class HotelChain {
         }
     }
 
+    public void clearTiles(){
+        tiles.clear();
+    }
+
     public int getStockPrice(){
         return PriceChart.getStockPrice(category, size());
     }

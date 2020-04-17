@@ -98,6 +98,7 @@ public class GameEngine {
         this.name = name;
     }
 
+    public String getGameName(){ return this.name; }
 
     public void initGame(){
         gameStartManager.start();

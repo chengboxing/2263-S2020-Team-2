@@ -35,6 +35,8 @@ public class TileTest {
      */
     @Test
     public void testGetChain() {
+        fixture.setChain(GameEngine.GAME_ENGINE.getHotelChains()[0]);
+        assertSame(fixture.getChain(), GameEngine.GAME_ENGINE.getHotelChains()[0]);
     }
 
     /**
@@ -42,6 +44,8 @@ public class TileTest {
      */
     @Test
     public void testSetChain() {
+        fixture.setChain(GameEngine.GAME_ENGINE.getHotelChains()[0]);
+        assertSame(fixture.getChain(), GameEngine.GAME_ENGINE.getHotelChains()[0]);
     }
 
     /**
@@ -49,5 +53,7 @@ public class TileTest {
      */
     @Test
     public void testGetColor() {
+        fixture.setChain(GameEngine.GAME_ENGINE.getHotelChains()[0]);
+        assertEquals("brown", fixture.getColor());
     }
 }

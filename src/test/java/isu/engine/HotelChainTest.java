@@ -18,6 +18,7 @@ public class HotelChainTest {
     private Tile tile1;
     private Tile tile2;
     private List<Tile> tiles;
+    private TilePile tilePile;
 
     public HotelChainTest() {
     }
@@ -36,6 +37,7 @@ public class HotelChainTest {
         tile1 = new Tile(1, 1);
         tile2 = new Tile(1, 2);
         tiles = new ArrayList<>();
+        tilePile = new TilePile();
     }
 
     @After
@@ -150,6 +152,78 @@ public class HotelChainTest {
      */
     @Test
     public void testGetTile() {
+        tiles.add(tile1);
+        tiles.add(tile2);
+        fixture.addTiles(tiles);
 
+        assertEquals(tile1, fixture.getTile(0));
+        assertEquals(tile2, fixture.getTile(1));
+    }
+    /**
+     * Test isChainSafe() method.
+     */
+    @Test
+    public void testIsChainSafe_0(){
+        fixture.addTile(tile1);
+        assertFalse(fixture.isChainSafe());
+    }
+    /**
+     * Test isChainSafe() method.
+     */
+    @Test
+    public void testIsChainSafe_1(){
+        for (int i = 0; i < 12; i++){
+            fixture.addTile(new Tile(i,i));
+        }
+        assertEquals(12, fixture.getTiles().size());
+        assertTrue(fixture.isChainSafe());
+    }
+    /**
+     * Test isReachedMaxSize() method.
+     */
+    @Test
+    public void TestIsReachedMaxSize_0()
+    {
+        for (int i = 0; i < 9; i++){
+            fixture.addTile(new Tile(0, i));
+        }
+        assertEquals(9, fixture.getTiles().size());
+        assertFalse(fixture.isReachedMaxSize());
+    }
+     /**
+     * Test isReachedMaxSize() method.
+     */
+    @Test
+    public void TestIsReachedMaxSize_1(){
+        for (int i = 0; i < 9; i++){
+            fixture.addTile(new Tile(0, i));
+        }
+        for (int i = 0; i < 9; i++){
+            fixture.addTile(new Tile(1, i));
+        }
+        for (int i = 0; i < 9; i++){
+            fixture.addTile(new Tile(2, i));
+        }
+        for (int i = 0; i < 9; i++){
+            fixture.addTile(new Tile(3, i));
+        }
+        for (int i = 0; i < 9; i++){
+            fixture.addTile(new Tile(4, i));
+        }
+        assertEquals(45, fixture.getTiles().size());
+        assertTrue(fixture.isReachedMaxSize());
+    }
+    /**
+     * Test clearTiles() method.
+     */
+    @Test
+    public void testClearTiles(){
+        fixture.addTile(tile1);
+        fixture.addTile(tile2);
+
+        assertEquals(2, fixture.size());
+
+        fixture.clearTiles();
+        assertEquals(0, fixture.size());
     }
 }
