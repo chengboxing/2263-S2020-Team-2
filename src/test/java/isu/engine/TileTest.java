@@ -56,6 +56,6 @@ public class TileTest {
     @Test
     public void testGetColor() {
         fixture.setChain(gameEngine.getHotelChains()[0]);
-        assertEquals("brown", fixture.getColor());
+        assertEquals(gameEngine.BROWN, fixture.getColor());
     }
 }

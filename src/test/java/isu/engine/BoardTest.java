@@ -53,9 +53,9 @@ public class BoardTest {
     /**
      * Test getCell() method which take in two integers.
      */
-    @Test
-    public void testGetCell_1(){
-        assertNull(fixture.getCell(-1, 2));
+    @Test (expected = IllegalArgumentException.class)
+    public void testGetCell_1() throws IllegalArgumentException{
+        fixture.getCell(-1, 2);
     }
     /**
      * Test getCell() method which take in char for letter and integer .
