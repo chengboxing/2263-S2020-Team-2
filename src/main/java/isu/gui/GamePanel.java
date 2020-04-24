@@ -1,6 +1,7 @@
 package isu.gui;
 
 import isu.engine.Player;
+import isu.engine.Tile;
 import isu.gui.models.GameOverviewTableModel;
 
 import javax.swing.*;
@@ -61,18 +62,11 @@ public class GamePanel extends JPanel {
     private JLabel currentPlayerNameLabel;
     private GameOverviewTableModel gameOverviewTableModel;
     private JLabel currentPlayerCashTotalLabel;
+    private JButton switchPlayerBtn;
 
 
     public GamePanel(MainFrame frame){
         this.frame = frame;
-
-        //jTable data info
-        String data[][]={ {"Player1", "0", "0", "0", "0", "0", "0", "0"},
-                {"Player2", "0", "0", "0", "0", "0", "0", "0"},
-                {"Stock", "25", "25", "25", "25", "25", "25", "25"},
-                {"ChainSize", "0", "0", "0", "0", "0", "0", "0"},
-                {"Stock$", "0", "0", "0", "0", "0", "0", "0"}};
-        String column[]={"  ","Chain1","Chain2", "Chain3", "Chain4", "Chain5", "Chain6", "Chain7"};
 
         SpinnerModel value = new SpinnerNumberModel(0, 0, 25, 1);
         SpinnerModel value2 = new SpinnerNumberModel(0, 0, 25, 1);
@@ -99,6 +93,18 @@ public class GamePanel extends JPanel {
         back = new JButton("Back");
         quit = new JButton("Quit");
         actionBtn = new JButton("Apply");
+        actionBtn.addActionListener(e -> {
+            int tileIndex = playerTilePanel.getSelectedTileIndex();
+            if(tileIndex == -1) return;
+            frame.gameEngine.playTile(tileIndex);
+            playerTilePanel.unselectAll();
+            refreshData();
+        });
+        switchPlayerBtn = new JButton("Switch Player");
+        switchPlayerBtn.addActionListener(e -> {
+            frame.gameEngine.nextTurn();
+            refreshData();
+        });
         endGame = new JButton("End Game");
         gameOverviewTableModel = new GameOverviewTableModel(frame.gameEngine);
         overviewTable = new JTable(gameOverviewTableModel);
@@ -137,6 +143,7 @@ public class GamePanel extends JPanel {
 
 
 
+
         //creating borders for all panels
         Border gameHistoryBorder = BorderFactory.createTitledBorder("Game History");
         Border boardBorder = BorderFactory.createTitledBorder("Board");
@@ -168,6 +175,8 @@ public class GamePanel extends JPanel {
 
         //adding board to panel
         rightUpperPanel.add(boardPanel);
+
+        rightLowerPanel.add(switchPlayerBtn, BorderLayout.CENTER);
 
         //adding table to panel
         leftUpperPanel.add(new JScrollPane(overviewTable));
@@ -325,5 +334,7 @@ public class GamePanel extends JPanel {
         currentPlayerNameLabel.setText(player.getName());
         currentPlayerCashTotalLabel.setText(String.format("$%d.00", player.getMoney()));
         overviewTable.revalidate();
+        boardPanel.repaint();
+        playerTilePanel.repaint();
     }
 }

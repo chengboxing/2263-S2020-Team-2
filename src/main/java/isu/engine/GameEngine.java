@@ -127,6 +127,7 @@ public class GameEngine {
         Player player = getCurrentPlayer();
         lastPlayedTile = player.pullTile(tileIndex);
         board.placeTile(lastPlayedTile);
+        player.addTile(tilePile);
     }
 
     public Tile getLastPlayedTile(){
