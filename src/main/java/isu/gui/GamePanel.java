@@ -1,7 +1,6 @@
 package isu.gui;
 
 import isu.engine.Player;
-import isu.engine.Tile;
 import isu.gui.models.GameOverviewTableModel;
 
 import javax.swing.*;
@@ -16,11 +15,11 @@ public class GamePanel extends JPanel {
      MainFrame frame;
     private BoardPanel boardPanel;
     private TilePanel playerTilePanel;
-    private StocksPanel stocksPanel;
-    private JButton back;
-    private JButton quit;
+    private StocksPanel stocksCartPanel;
+    private JButton backBtn;
+    private JButton quitBtn;
     private JTable overviewTable;
-    private JPanel toolbar;
+    private JPanel btnPanel;
     private JPanel mainPanel;
     private JPanel leftPanel;
     private JPanel rightPanel;
@@ -28,36 +27,35 @@ public class GamePanel extends JPanel {
     private JPanel rightLowerPanel;
     private JPanel leftUpperPanel;
     private JPanel leftLowerPanel;
-    private JPanel topPanel;
-    private JPanel bottomPanel;
-    private JPanel topTopPanel;
-    private JPanel tilePanel;
-    private JPanel stockPanel;
-    private JPanel mergePanel;
-    private JPanel walletPanel;
+    private JPanel bottomPlayerPanel;
+    private JPanel topPlayerPanel;
+    private JPanel tileAndBtnPanel;
+    private JPanel tileBorderPanel;
+    private JPanel stockBorderPanel;
+    private JPanel mergeBorderPanel;
+    private JPanel walletBorderPanel;
     private JButton actionBtn;
-    private JPanel chains;
-    private JPanel stocks;
-    private JPanel price;
-    private JButton c1;
-    private JButton c2;
-    private JButton c3;
-    private JButton c4;
-    private JButton c5;
-    private JButton c6;
-    private JButton c7;
-    private JLabel cost;
-    private JLabel remainder;
+    private JPanel chainBtnPanel;
+    private JPanel stockCartPanel;
+    private JPanel stockPricePanel;
+    private JButton chain1Btn;
+    private JButton chain2Btn;
+    private JButton chain3Btn;
+    private JButton chain4Btn;
+    private JButton chain5Btn;
+    private JButton chain6Btn;
+    private JButton chain7Btn;
+    private JLabel stockCostLabel;
+    private JLabel stockWalletRemainderLabel;
     private JPanel merger;
-    private JPanel sell;
-    private JPanel keep;
-    private JPanel trade;
+    private JPanel sellMergePanel;
+    private JPanel keepMergePanel;
+    private JPanel tradeMergePanel;
     private JSpinner sellSpinner;
     private JSpinner keepSpinner;
     private JSpinner tradeSpinner;
     private JPanel namePanel;
     private JPanel cashTotalPanel;
-    private JPanel netWorth;
     private JButton endGame;
     private JLabel currentPlayerNameLabel;
     private GameOverviewTableModel gameOverviewTableModel;
@@ -68,31 +66,45 @@ public class GamePanel extends JPanel {
     public GamePanel(MainFrame frame){
         this.frame = frame;
 
+        //spinners for the merge panel
         SpinnerModel value = new SpinnerNumberModel(0, 0, 25, 1);
+        sellSpinner = new JSpinner(value);
         SpinnerModel value2 = new SpinnerNumberModel(0, 0, 25, 1);
+        keepSpinner = new JSpinner(value2);
         SpinnerModel specialValue = new SpinnerNumberModel(0, 0, 24, 2);
+        tradeSpinner = new JSpinner(specialValue);
 
+
+        //merge panel components
         merger = new JPanel(new BorderLayout());
-        sell = new JPanel();
-        keep = new JPanel();
-        trade = new JPanel();
+        sellMergePanel = new JPanel();
+        keepMergePanel = new JPanel();
+        tradeMergePanel = new JPanel();
+
+        //wallet panel components
         namePanel = new JPanel();
         cashTotalPanel = new JPanel();
-        netWorth = new JPanel();
-        sellSpinner = new JSpinner(value);
-        keepSpinner = new JSpinner(value2);
-        tradeSpinner = new JSpinner(specialValue);
+
         mainPanel = new JPanel(new BorderLayout());
         rightUpperPanel = new JPanel(new BorderLayout());
         leftLowerPanel = new JPanel(new BorderLayout());
         rightPanel = new JPanel(new BorderLayout());
-        toolbar = new JPanel(new FlowLayout());
+        btnPanel = new JPanel(new FlowLayout());
         boardPanel = new BoardPanel(frame.gameEngine);
         playerTilePanel = new TilePanel(frame.gameEngine);
-        stocksPanel = new StocksPanel();
-        back = new JButton("Back");
-        quit = new JButton("Quit");
+        stocksCartPanel = new StocksPanel();
+
+
+        //BUTTONS IN THE BUTTON PANEL
+
+        backBtn = new JButton("Back");
+        backBtn.addActionListener(e -> frame.showNewGamePanel());
+
+        quitBtn = new JButton("Quit");
+        quitBtn.addActionListener(e -> frame.showStartPanel());
+
         actionBtn = new JButton("Apply");
+        actionBtn.setPreferredSize(new Dimension(140, actionBtn.getHeight()));
         actionBtn.addActionListener(e -> {
             int tileIndex = playerTilePanel.getSelectedTileIndex();
             if(tileIndex == -1) return;
@@ -100,14 +112,22 @@ public class GamePanel extends JPanel {
             playerTilePanel.unselectAll();
             refreshData();
         });
+
         switchPlayerBtn = new JButton("Switch Player");
         switchPlayerBtn.addActionListener(e -> {
             frame.gameEngine.nextTurn();
             refreshData();
         });
+
         endGame = new JButton("End Game");
+        endGame.addActionListener(e -> frame.showStartPanel());
+
+        //GAME OVERVIEW TABLE AND MODEL
+
         gameOverviewTableModel = new GameOverviewTableModel(frame.gameEngine);
         overviewTable = new JTable(gameOverviewTableModel);
+
+
         leftPanel = new JPanel(new BorderLayout()){
             public Dimension getPreferredSize(){
                 return new Dimension(frame.getWidth()/2, frame.getHeight());
@@ -119,27 +139,27 @@ public class GamePanel extends JPanel {
         rightLowerPanel = new JPanel(new BorderLayout()){
             public Dimension getPreferredSize(){ return new Dimension(rightPanel.getWidth(), rightPanel.getHeight()/3); }
         };
-        topPanel = new JPanel(new BorderLayout());
-        bottomPanel = new JPanel(new BorderLayout(){
+        bottomPlayerPanel = new JPanel(new BorderLayout());
+        topPlayerPanel = new JPanel(new BorderLayout(){
             public Dimension setPreferredSize(){return new Dimension(frame.getWidth(), frame.getHeight()/4);}
         });
-        topTopPanel = new JPanel(new BorderLayout());
-        stockPanel = new JPanel(new BorderLayout());
-        mergePanel = new JPanel(new BorderLayout());
-        walletPanel = new JPanel(new BorderLayout());
-        tilePanel = new JPanel(new BorderLayout());
-        chains = new JPanel();
-        stocks = new JPanel();
-        price = new JPanel();
-        c1 = new JButton("Tower");
-        c2 = new JButton("Luxor");
-        c3 = new JButton("American");
-        c4 = new JButton("WorldWide");
-        c5 = new JButton("Festival");
-        c6 = new JButton("Imperial");
-        c7 = new JButton("Continental");
-        cost = new JLabel("$$$");
-        remainder = new JLabel("-$$$");
+        tileAndBtnPanel = new JPanel(new BorderLayout());
+        stockBorderPanel = new JPanel(new BorderLayout());
+        mergeBorderPanel = new JPanel(new BorderLayout());
+        walletBorderPanel = new JPanel(new BorderLayout());
+        tileBorderPanel = new JPanel(new BorderLayout());
+        chainBtnPanel = new JPanel();
+        stockCartPanel = new JPanel();
+        stockPricePanel = new JPanel();
+        chain1Btn = new JButton(frame.gameEngine.getHotelChains()[0].getName());
+        chain2Btn = new JButton(frame.gameEngine.getHotelChains()[1].getName());
+        chain3Btn = new JButton(frame.gameEngine.getHotelChains()[2].getName());
+        chain4Btn = new JButton(frame.gameEngine.getHotelChains()[3].getName());
+        chain5Btn = new JButton(frame.gameEngine.getHotelChains()[4].getName());
+        chain6Btn = new JButton(frame.gameEngine.getHotelChains()[5].getName());
+        chain7Btn = new JButton(frame.gameEngine.getHotelChains()[6].getName());
+        stockCostLabel = new JLabel("$$$");
+        stockWalletRemainderLabel = new JLabel("-$$$");
 
 
 
@@ -152,7 +172,7 @@ public class GamePanel extends JPanel {
         Border tileBorder = BorderFactory.createTitledBorder("Tiles");
         Border stockBorder = BorderFactory.createTitledBorder("Stocks");
         Border mergeBorder = BorderFactory.createTitledBorder("Merge");
-        Border walletBorder = BorderFactory.createTitledBorder("Wallet");
+        Border walletBorder = BorderFactory.createTitledBorder("Info");
         Border outerBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
 
         //applying borders to all panels
@@ -160,18 +180,22 @@ public class GamePanel extends JPanel {
         rightUpperPanel.setBorder(BorderFactory.createCompoundBorder(outerBorder, boardBorder));
         leftUpperPanel.setBorder(BorderFactory.createCompoundBorder(outerBorder, dataBorder));
         leftLowerPanel.setBorder(BorderFactory.createCompoundBorder(outerBorder, playerBorder));
-        stockPanel.setBorder(BorderFactory.createCompoundBorder(outerBorder, stockBorder));
-        mergePanel.setBorder(BorderFactory.createCompoundBorder(outerBorder, mergeBorder));
-        walletPanel.setBorder(BorderFactory.createCompoundBorder(outerBorder, walletBorder));
-        tilePanel.setBorder(BorderFactory.createCompoundBorder(outerBorder, tileBorder));
-        walletPanel.setPreferredSize(new Dimension(200, 80));
-        actionBtn.setPreferredSize(new Dimension(140, actionBtn.getHeight()));
+        stockBorderPanel.setBorder(BorderFactory.createCompoundBorder(outerBorder, stockBorder));
+        mergeBorderPanel.setBorder(BorderFactory.createCompoundBorder(outerBorder, mergeBorder));
+        walletBorderPanel.setBorder(BorderFactory.createCompoundBorder(outerBorder, walletBorder));
+        tileBorderPanel.setBorder(BorderFactory.createCompoundBorder(outerBorder, tileBorder));
+        walletBorderPanel.setPreferredSize(new Dimension(200, 80));
 
 
-        //actionListeners added to the buttons
-        back.addActionListener(e -> frame.showNewGamePanel());
-        quit.addActionListener(e -> frame.showStartPanel());
-        endGame.addActionListener(e -> frame.showStartPanel());
+        //set layout for player panels
+        bottomPlayerPanel.setLayout(new GridLayout(3, 1));
+        topPlayerPanel.setLayout(new BorderLayout());
+
+        ////// ADDING ALL PANELS TO ALL INNER PANELS ///////
+
+
+        //adding player tiles panel to the outer tile panel
+        tileBorderPanel.add(playerTilePanel, BorderLayout.CENTER);
 
         //adding board to panel
         rightUpperPanel.add(boardPanel);
@@ -181,21 +205,13 @@ public class GamePanel extends JPanel {
         //adding table to panel
         leftUpperPanel.add(new JScrollPane(overviewTable));
 
-        topPanel.setLayout(new GridLayout(3, 1));
-
-        bottomPanel.setLayout(new BorderLayout());
-
-
-        tilePanel.add(playerTilePanel, BorderLayout.CENTER);
-
-
         //sets the layout for this class panel
         setLayout(new BorderLayout());
 
-        //add buttons to the toolbar
-        toolbar.add(back);
-        toolbar.add(quit);
-        toolbar.add(endGame);
+        //add buttons to the btn panel
+        btnPanel.add(backBtn);
+        btnPanel.add(quitBtn);
+        btnPanel.add(endGame);
 
         //add the left panel and right panel to the main panel
         mainPanel.add(leftPanel, BorderLayout.WEST);
@@ -209,23 +225,26 @@ public class GamePanel extends JPanel {
         leftPanel.add(leftUpperPanel, BorderLayout.NORTH);
         leftPanel.add(leftLowerPanel, BorderLayout.CENTER);
 
-        leftLowerPanel.add(topPanel, BorderLayout.CENTER);
-        leftLowerPanel.add(bottomPanel, BorderLayout.SOUTH);
 
-        topPanel.add(topTopPanel);
-        topPanel.add(stockPanel);
-        topPanel.add(mergePanel);
+        //adding all panels to inner player panels
+        leftLowerPanel.add(bottomPlayerPanel, BorderLayout.CENTER);
+        leftLowerPanel.add(topPlayerPanel, BorderLayout.NORTH);
 
-        bottomPanel.add(walletPanel, BorderLayout.SOUTH);
+        bottomPlayerPanel.add(tileAndBtnPanel);
+        bottomPlayerPanel.add(stockBorderPanel);
+        bottomPlayerPanel.add(mergeBorderPanel);
 
-        topTopPanel.add(tilePanel, BorderLayout.CENTER);
-        topTopPanel.add(actionBtn, BorderLayout.EAST);
+        topPlayerPanel.add(walletBorderPanel, BorderLayout.NORTH);
+
+        tileAndBtnPanel.add(tileBorderPanel, BorderLayout.CENTER);
+        tileAndBtnPanel.add(actionBtn, BorderLayout.EAST);
 
         //add mainPanel and toolBar to gamePanel(mainFrame)
         add(mainPanel, BorderLayout.CENTER);
-        add(toolbar, BorderLayout.NORTH);
+        add(btnPanel, BorderLayout.NORTH);
 
 
+        //layout of player panel components
         layoutStockPanel();
         layoutMergePanel();
         layoutWalletPanel();
@@ -234,25 +253,25 @@ public class GamePanel extends JPanel {
 
     public void layoutStockPanel(){
 
-        stockPanel.add(chains);
-        stockPanel.add(stocks);
-        stockPanel.add(price);
+        stockBorderPanel.add(chainBtnPanel);
+        stockBorderPanel.add(stockCartPanel);
+        stockBorderPanel.add(stockPricePanel);
 
-        stockPanel.setLayout(new GridLayout(1, 3));
+        stockBorderPanel.setLayout(new GridLayout(1, 3));
 
-        chains.setLayout(new GridLayout(4, 2));
-        stocks.setLayout(new BorderLayout());
-        price.setLayout(new GridLayout(2, 1));
+        chainBtnPanel.setLayout(new GridLayout(4, 2));
+        stockCartPanel.setLayout(new BorderLayout());
+        stockPricePanel.setLayout(new GridLayout(2, 1));
 
-        chains.add(c1);
-        chains.add(c2);
-        chains.add(c3);
-        chains.add(c4);
-        chains.add(c5);
-        chains.add(c6);
-        chains.add(c7);
+        chainBtnPanel.add(chain1Btn);
+        chainBtnPanel.add(chain2Btn);
+        chainBtnPanel.add(chain3Btn);
+        chainBtnPanel.add(chain4Btn);
+        chainBtnPanel.add(chain5Btn);
+        chainBtnPanel.add(chain6Btn);
+        chainBtnPanel.add(chain7Btn);
 
-        stocks.add(stocksPanel, BorderLayout.CENTER);
+        stockCartPanel.add(stocksCartPanel, BorderLayout.CENTER);
 
         Border chainBorder = BorderFactory.createTitledBorder("HotelChains");
         Border stocksBorder = BorderFactory.createTitledBorder("Stock Cart");
@@ -260,26 +279,26 @@ public class GamePanel extends JPanel {
         Border remainderBorder = BorderFactory.createTitledBorder("Wallet Deduction");
         Border outerBorder = BorderFactory.createEmptyBorder(1, 1, 1, 1);
 
-        chains.setBorder(BorderFactory.createCompoundBorder(outerBorder, chainBorder));
-        stocks.setBorder(BorderFactory.createCompoundBorder(outerBorder, stocksBorder));
-        cost.setBorder(BorderFactory.createCompoundBorder(outerBorder, costBorder));
-        remainder.setBorder(BorderFactory.createCompoundBorder(outerBorder, remainderBorder));
-        price.add(cost);
-        price.add(remainder);
+        chainBtnPanel.setBorder(BorderFactory.createCompoundBorder(outerBorder, chainBorder));
+        stockCartPanel.setBorder(BorderFactory.createCompoundBorder(outerBorder, stocksBorder));
+        stockCostLabel.setBorder(BorderFactory.createCompoundBorder(outerBorder, costBorder));
+        stockWalletRemainderLabel.setBorder(BorderFactory.createCompoundBorder(outerBorder, remainderBorder));
+        stockPricePanel.add(stockCostLabel);
+        stockPricePanel.add(stockWalletRemainderLabel);
     }
 
     public void layoutMergePanel(){
-        mergePanel.add(merger);
-        mergePanel.add(sell);
-        mergePanel.add(trade);
-        mergePanel.add(keep);
+        mergeBorderPanel.add(merger);
+        mergeBorderPanel.add(sellMergePanel);
+        mergeBorderPanel.add(tradeMergePanel);
+        mergeBorderPanel.add(keepMergePanel);
 
-        mergePanel.setLayout(new GridLayout(1, 4));
+        mergeBorderPanel.setLayout(new GridLayout(1, 4));
 
         merger.setLayout(new BorderLayout());
-        sell.setLayout(new GridLayout(2, 1));
-        trade.setLayout(new GridLayout(2, 1));
-        keep.setLayout(new GridLayout(2, 1));
+        sellMergePanel.setLayout(new GridLayout(2, 1));
+        tradeMergePanel.setLayout(new GridLayout(2, 1));
+        keepMergePanel.setLayout(new GridLayout(2, 1));
 
 
         merger.setBackground(Color.YELLOW);
@@ -289,38 +308,32 @@ public class GamePanel extends JPanel {
         Border keepBorder = BorderFactory.createTitledBorder("Keep Stock");
         Border outerBorder = BorderFactory.createEmptyBorder(1, 1,1, 1);
 
+        sellMergePanel.setBorder(BorderFactory.createCompoundBorder(outerBorder, sellBorder));
+        sellMergePanel.add(sellSpinner);
 
+        tradeMergePanel.setBorder(BorderFactory.createCompoundBorder(outerBorder, tradeBorder));
+        tradeMergePanel.add(tradeSpinner);
 
-        sell.setBorder(BorderFactory.createCompoundBorder(outerBorder, sellBorder));
-        sell.add(sellSpinner);
-
-        trade.setBorder(BorderFactory.createCompoundBorder(outerBorder, tradeBorder));
-        trade.add(tradeSpinner);
-
-        keep.setBorder(BorderFactory.createCompoundBorder(outerBorder, keepBorder));
-        keep.add(keepSpinner);
+        keepMergePanel.setBorder(BorderFactory.createCompoundBorder(outerBorder, keepBorder));
+        keepMergePanel.add(keepSpinner);
 
     }
 
     public void layoutWalletPanel(){
-        walletPanel.add(namePanel);
-        walletPanel.add(cashTotalPanel);
-        walletPanel.add(netWorth);
+        walletBorderPanel.add(namePanel);
+        walletBorderPanel.add(cashTotalPanel);
 
-        walletPanel.setLayout(new GridLayout(1, 3));
+        walletBorderPanel.setLayout(new GridLayout(1, 2));
 
         namePanel.setLayout(new BorderLayout());
         cashTotalPanel.setLayout(new BorderLayout());
-        netWorth.setLayout(new BorderLayout());
 
-        Border nameBorder = BorderFactory.createTitledBorder("Player Info");
+        Border nameBorder = BorderFactory.createTitledBorder("Player Name");
         Border walletBorder = BorderFactory.createTitledBorder("Cash Total");
-        Border netBorder = BorderFactory.createTitledBorder("Net-Worth Total ");
         Border outerBorder = BorderFactory.createEmptyBorder(1, 1,1, 1);
 
         namePanel.setBorder(BorderFactory.createCompoundBorder(outerBorder, nameBorder));
         cashTotalPanel.setBorder(BorderFactory.createCompoundBorder(outerBorder, walletBorder));
-        netWorth.setBorder(BorderFactory.createCompoundBorder(outerBorder, netBorder));
 
         currentPlayerCashTotalLabel = new JLabel();
         cashTotalPanel.add(currentPlayerCashTotalLabel);
@@ -336,5 +349,31 @@ public class GamePanel extends JPanel {
         overviewTable.revalidate();
         boardPanel.repaint();
         playerTilePanel.repaint();
+    }
+
+    public void disableStocksPanel(){
+        Component[] components = chainBtnPanel.getComponents();
+        Component[] components2 = stockPricePanel.getComponents();
+        for(int i = 0; i < components.length; i++){
+            components[i].setEnabled(false);
+            chainBtnPanel.setEnabled(false);
+
+        }
+    }
+
+    public void disableTilesPanel(){
+        Component[] components = tileBorderPanel.getComponents();
+        for(int i = 0; i< components.length; i++) {
+            components[i].setEnabled(false);
+            tileBorderPanel.setEnabled(false);
+        }
+    }
+
+    public void disableMergePanel(){
+        Component[] components = mergeBorderPanel.getComponents();
+        for(int i = 0; i < components.length; i++) {
+            components[i].setEnabled(false);
+            mergeBorderPanel.setEnabled(false);
+        }
     }
 }

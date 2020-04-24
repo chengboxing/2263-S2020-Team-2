@@ -57,6 +57,8 @@ public class MainFrame extends JFrame {
 
     public void showGamePanel(){
         gamePanel.refreshData();
+        gamePanel.disableStocksPanel();
+        gamePanel.disableMergePanel();
         cardLayout.show(container, "game");
     }
 
