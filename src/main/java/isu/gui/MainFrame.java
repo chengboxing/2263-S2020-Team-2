@@ -56,6 +56,7 @@ public class MainFrame extends JFrame {
     }
 
     public void showGamePanel(){
+        gamePanel.refreshData();
         cardLayout.show(container, "game");
     }
 

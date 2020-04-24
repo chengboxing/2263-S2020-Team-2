@@ -24,7 +24,7 @@ public class Board {
             return cells[ri][ci];
         }
 
-        return null;
+        throw new IllegalArgumentException("ri = " + ri + "; ci = " + ci);
     }
 
     //parameters take in char for letter and integer getCell(A, 1)

@@ -1,5 +1,6 @@
 package isu.engine;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,10 +8,10 @@ public class HotelChain {
 
     private String name;
     private HotelChainCategory category;
-    private String color;
+    private Color color;
     private List<Tile> tiles;
 
-    public HotelChain(String name, HotelChainCategory category, String color) {
+    public HotelChain(String name, HotelChainCategory category, Color color) {
         this.name = name;
         this.category = category;
         this.color = color;
@@ -26,7 +27,7 @@ public class HotelChain {
         return category;
     }
 
-    public String getColor() {
+    public Color getColor() {
         return color;
     }
 

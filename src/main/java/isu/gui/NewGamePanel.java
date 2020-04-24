@@ -1,14 +1,11 @@
 package isu.gui;
 
 import isu.engine.GameEngine;
+import isu.gui.models.PlayerTableModel;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.EtchedBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class NewGamePanel extends JPanel {
 
@@ -63,8 +60,10 @@ public class NewGamePanel extends JPanel {
                 return new Dimension(leftPanel.getWidth(), leftPanel.getHeight()/2);
             }
         };
-        JButton cancel = new JButton("Cancel");
-        JButton start = new JButton("Start");
+        JButton cancelBtn = new JButton("Cancel");
+        JButton startBtn = new JButton("Start");
+
+        startBtn.setEnabled(false);
 
 
         leftUpperPanel.setBorder(BorderFactory.createCompoundBorder(outerBorder, innerBorder2));
@@ -98,6 +97,8 @@ public class NewGamePanel extends JPanel {
         gc.fill = GridBagConstraints.HORIZONTAL;
         rightUpperPanel.add(addPlayerBtn);
 
+        gameField.setText("Acquire");
+
         //creating table for players
         rightLowerPanel.setLayout(new GridLayout(7, 1));
 
@@ -106,24 +107,27 @@ public class NewGamePanel extends JPanel {
         slider.setPaintTicks(true);
         slider.setPaintLabels(true);
         slider.setValue(0);
+        slider.setMaximum(gameEngine.MAX_PLAYERS);
 
         //add slider to panel
         leftLowerPanel.add(slider);
 
         //add action listeners to buttons
-        cancel.addActionListener(e -> frame.showStartPanel());
-        start.addActionListener(e -> frame.showGamePanel());
+        cancelBtn.addActionListener(e -> frame.showStartPanel());
+
+
+        startBtn.addActionListener(e -> {
+            gameEngine.initGame();
+            frame.showGamePanel();
+        });
 
         addPlayerBtn.addActionListener(e -> {
             String name = playerField.getText();
             gameEngine.addPlayer(name);
-
+            playerField.setText("");
             playerTable.revalidate();
-
-//            playerTableModel.fireTableDataChanged();
-
-            gameField.setText(name);
             slider.setValue(slider.getValue()+1);
+            startBtn.setEnabled(true);
         });
 
 //        addPlayerBtn.addActionListener(new ActionListener() {
@@ -141,8 +145,8 @@ public class NewGamePanel extends JPanel {
 
         setLayout(new BorderLayout());
 
-        btnPanel.add(cancel, BorderLayout.WEST);
-        btnPanel.add(start, BorderLayout.EAST);
+        btnPanel.add(cancelBtn, BorderLayout.WEST);
+        btnPanel.add(startBtn, BorderLayout.EAST);
 
         mainPanel.add(leftPanel, BorderLayout.WEST);
         mainPanel.add(rightPanel, BorderLayout.CENTER);

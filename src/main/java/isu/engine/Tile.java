@@ -1,8 +1,10 @@
 package isu.engine;
 
+import java.awt.*;
+
 public class Tile extends CellLocation{
 
-    private static final String DEFAULT_COLOR = "black";
+    private static final Color DEFAULT_COLOR = Color.GRAY;
 
     private HotelChain chain;
 
@@ -21,7 +23,7 @@ public class Tile extends CellLocation{
         this.chain = chain;
     }
 
-    public String getColor(){
+    public Color getColor(){
         return chain != null ? chain.getColor() : DEFAULT_COLOR;
     }
 

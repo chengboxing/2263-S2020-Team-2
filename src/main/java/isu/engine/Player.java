@@ -17,6 +17,7 @@ public class Player {
         this.name = name;
         tiles = new ArrayList<>();
         stocks = new StockSet();
+        money = GameEngine.INITIAL_PLAYER_CASH;
     }
 
     public void setName(String name){

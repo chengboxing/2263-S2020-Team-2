@@ -1,5 +1,9 @@
 package isu.gui;
 
+import isu.engine.Player;
+import isu.engine.Tile;
+import isu.gui.models.GameOverviewTableModel;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -15,7 +19,7 @@ public class GamePanel extends JPanel {
     private StocksPanel stocksPanel;
     private JButton back;
     private JButton quit;
-    private JTable table;
+    private JTable overviewTable;
     private JPanel toolbar;
     private JPanel mainPanel;
     private JPanel leftPanel;
@@ -51,24 +55,18 @@ public class GamePanel extends JPanel {
     private JSpinner sellSpinner;
     private JSpinner keepSpinner;
     private JSpinner tradeSpinner;
-    private JPanel name;
-    private JPanel wallet;
+    private JPanel namePanel;
+    private JPanel cashTotalPanel;
     private JPanel netWorth;
     private JButton endGame;
-
-
+    private JLabel currentPlayerNameLabel;
+    private GameOverviewTableModel gameOverviewTableModel;
+    private JLabel currentPlayerCashTotalLabel;
+    private JButton switchPlayerBtn;
 
 
     public GamePanel(MainFrame frame){
         this.frame = frame;
-
-        //jTable data info
-        String data[][]={ {"Player1", "0", "0", "0", "0", "0", "0", "0"},
-                {"Player2", "0", "0", "0", "0", "0", "0", "0"},
-                {"Stock", "25", "25", "25", "25", "25", "25", "25"},
-                {"ChainSize", "0", "0", "0", "0", "0", "0", "0"},
-                {"Stock$", "0", "0", "0", "0", "0", "0", "0"}};
-        String column[]={"  ","Chain1","Chain2", "Chain3", "Chain4", "Chain5", "Chain6", "Chain7"};
 
         SpinnerModel value = new SpinnerNumberModel(0, 0, 25, 1);
         SpinnerModel value2 = new SpinnerNumberModel(0, 0, 25, 1);
@@ -78,8 +76,8 @@ public class GamePanel extends JPanel {
         sell = new JPanel();
         keep = new JPanel();
         trade = new JPanel();
-        name = new JPanel();
-        wallet = new JPanel();
+        namePanel = new JPanel();
+        cashTotalPanel = new JPanel();
         netWorth = new JPanel();
         sellSpinner = new JSpinner(value);
         keepSpinner = new JSpinner(value2);
@@ -89,14 +87,27 @@ public class GamePanel extends JPanel {
         leftLowerPanel = new JPanel(new BorderLayout());
         rightPanel = new JPanel(new BorderLayout());
         toolbar = new JPanel(new FlowLayout());
-        boardPanel = new BoardPanel();
-        playerTilePanel = new TilePanel();
+        boardPanel = new BoardPanel(frame.gameEngine);
+        playerTilePanel = new TilePanel(frame.gameEngine);
         stocksPanel = new StocksPanel();
         back = new JButton("Back");
         quit = new JButton("Quit");
         actionBtn = new JButton("Apply");
+        actionBtn.addActionListener(e -> {
+            int tileIndex = playerTilePanel.getSelectedTileIndex();
+            if(tileIndex == -1) return;
+            frame.gameEngine.playTile(tileIndex);
+            playerTilePanel.unselectAll();
+            refreshData();
+        });
+        switchPlayerBtn = new JButton("Switch Player");
+        switchPlayerBtn.addActionListener(e -> {
+            frame.gameEngine.nextTurn();
+            refreshData();
+        });
         endGame = new JButton("End Game");
-        table = new JTable(data, column);
+        gameOverviewTableModel = new GameOverviewTableModel(frame.gameEngine);
+        overviewTable = new JTable(gameOverviewTableModel);
         leftPanel = new JPanel(new BorderLayout()){
             public Dimension getPreferredSize(){
                 return new Dimension(frame.getWidth()/2, frame.getHeight());
@@ -116,7 +127,7 @@ public class GamePanel extends JPanel {
         stockPanel = new JPanel(new BorderLayout());
         mergePanel = new JPanel(new BorderLayout());
         walletPanel = new JPanel(new BorderLayout());
-         tilePanel = new JPanel(new BorderLayout());
+        tilePanel = new JPanel(new BorderLayout());
         chains = new JPanel();
         stocks = new JPanel();
         price = new JPanel();
@@ -129,6 +140,7 @@ public class GamePanel extends JPanel {
         c7 = new JButton("Continental");
         cost = new JLabel("$$$");
         remainder = new JLabel("-$$$");
+
 
 
 
@@ -164,8 +176,10 @@ public class GamePanel extends JPanel {
         //adding board to panel
         rightUpperPanel.add(boardPanel);
 
+        rightLowerPanel.add(switchPlayerBtn, BorderLayout.CENTER);
+
         //adding table to panel
-        leftUpperPanel.add(new JScrollPane(table));
+        leftUpperPanel.add(new JScrollPane(overviewTable));
 
         topPanel.setLayout(new GridLayout(3, 1));
 
@@ -289,14 +303,14 @@ public class GamePanel extends JPanel {
     }
 
     public void layoutWalletPanel(){
-        walletPanel.add(name);
-        walletPanel.add(wallet);
+        walletPanel.add(namePanel);
+        walletPanel.add(cashTotalPanel);
         walletPanel.add(netWorth);
 
         walletPanel.setLayout(new GridLayout(1, 3));
 
-        name.setLayout(new BorderLayout());
-        wallet.setLayout(new BorderLayout());
+        namePanel.setLayout(new BorderLayout());
+        cashTotalPanel.setLayout(new BorderLayout());
         netWorth.setLayout(new BorderLayout());
 
         Border nameBorder = BorderFactory.createTitledBorder("Player Info");
@@ -304,10 +318,23 @@ public class GamePanel extends JPanel {
         Border netBorder = BorderFactory.createTitledBorder("Net-Worth Total ");
         Border outerBorder = BorderFactory.createEmptyBorder(1, 1,1, 1);
 
-        name.setBorder(BorderFactory.createCompoundBorder(outerBorder, nameBorder));
-        wallet.setBorder(BorderFactory.createCompoundBorder(outerBorder, walletBorder));
+        namePanel.setBorder(BorderFactory.createCompoundBorder(outerBorder, nameBorder));
+        cashTotalPanel.setBorder(BorderFactory.createCompoundBorder(outerBorder, walletBorder));
         netWorth.setBorder(BorderFactory.createCompoundBorder(outerBorder, netBorder));
 
+        currentPlayerCashTotalLabel = new JLabel();
+        cashTotalPanel.add(currentPlayerCashTotalLabel);
 
+        currentPlayerNameLabel = new JLabel();
+        namePanel.add(currentPlayerNameLabel);
+    }
+
+    public void refreshData(){
+        Player player = frame.gameEngine.getCurrentPlayer();
+        currentPlayerNameLabel.setText(player.getName());
+        currentPlayerCashTotalLabel.setText(String.format("$%d.00", player.getMoney()));
+        overviewTable.revalidate();
+        boardPanel.repaint();
+        playerTilePanel.repaint();
     }
 }
