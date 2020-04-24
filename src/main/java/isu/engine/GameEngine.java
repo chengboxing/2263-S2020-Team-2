@@ -2,6 +2,7 @@ package isu.engine;
 
 import isu.engine.manager.*;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -11,11 +12,14 @@ public class GameEngine {
 
 //    public static final GameEngine GAME_ENGINE = new GameEngine();
 
+    public static final Color BROWN = new Color(153, 102, 0);
+    public static final Color PURPLE = new Color(102, 0, 153);
     public final static int MAX_PLAYERS = 2;
     public final static int TILES_PER_PLAYER = 6;
     public final static int MAX_STOCK_COUNT = 25;
     public final static int SAFE_CHAIN_SIZE = 11;
     public final static int MAX_CHAIN_SIZE = 41;
+    public final static int INITIAL_PLAYER_CASH = 6000;
 
 
 
@@ -37,13 +41,13 @@ public class GameEngine {
 
     public GameEngine(){
         hotelChains = new HotelChain[]{
-                new HotelChain("Tower", HotelChainCategory.CHEAP, "brown" ),
-                new HotelChain("Luxor", HotelChainCategory.CHEAP, "purple"),
-                new HotelChain("American", HotelChainCategory.AVERAGE, "red"),
-                new HotelChain("WorldWide", HotelChainCategory.AVERAGE, "orange"),
-                new HotelChain("Festival", HotelChainCategory.AVERAGE, "green"),
-                new HotelChain("Imperial", HotelChainCategory.EXPENSIVE, "yellow"),
-                new HotelChain("Continental", HotelChainCategory.EXPENSIVE, "blue")
+                new HotelChain("Tower", HotelChainCategory.CHEAP, BROWN ),
+                new HotelChain("Luxor", HotelChainCategory.CHEAP, PURPLE),
+                new HotelChain("American", HotelChainCategory.AVERAGE, Color.RED),
+                new HotelChain("WorldWide", HotelChainCategory.AVERAGE, Color.ORANGE),
+                new HotelChain("Festival", HotelChainCategory.AVERAGE, Color.GREEN),
+                new HotelChain("Imperial", HotelChainCategory.EXPENSIVE, Color.YELLOW),
+                new HotelChain("Continental", HotelChainCategory.EXPENSIVE, Color.BLUE)
         };
         tilePile = new TilePile();
         bank = new Bank(hotelChains, MAX_STOCK_COUNT);
@@ -96,7 +100,7 @@ public class GameEngine {
 
     private void initCurrentPlayerIndex(){
         Random random = new Random();
-        currentPlayerIndex = random.nextInt(players.size() - 1);
+        currentPlayerIndex = random.nextInt(players.size());
     }
 
     public void initGame() {

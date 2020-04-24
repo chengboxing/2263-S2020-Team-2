@@ -10,8 +10,8 @@ public class TilePile {
     public TilePile(){
         tilePile = new ArrayList<>();
 
-        for(int ci = 0; ci < Board.ROW_COUNT; ci++){
-            for(int ri = 0; ri < Board.COLUMN_COUNT; ri++){
+        for(int ci = 0; ci < Board.COLUMN_COUNT; ci++){
+            for(int ri = 0; ri < Board.ROW_COUNT; ri++){
                 tilePile.add(new Tile(ri,ci));
             }
         }

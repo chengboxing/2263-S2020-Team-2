@@ -1,6 +1,7 @@
 package isu.gui;
 
 import isu.engine.Board;
+import isu.engine.BoardCell;
 import isu.engine.GameEngine;
 
 import javax.swing.*;
@@ -8,6 +9,10 @@ import java.awt.*;
 
 public class BoardPanel extends JPanel{
     private GameEngine gameEngine;
+
+    public BoardPanel(GameEngine gameEngine) {
+        this.gameEngine = gameEngine;
+    }
 
     protected void paintComponent(Graphics g){
         int columnCount = Board.COLUMN_COUNT;
@@ -17,15 +22,19 @@ public class BoardPanel extends JPanel{
 
         for (int j = 0; j < columnCount; j++) {
             for (int i = 0; i < rowCount; i++) {
-                String label = gameEngine.getBoard().getCell(i, j).getLabel();
+                BoardCell cell = gameEngine.getBoard().getCell(i, j);
                 w = 45 * i;
                 h = 45 * j;
                 g.setColor(Color.BLACK);
                 g.drawRect(h + 10, w + 10, 40, 40);
-                g.setColor(Color.WHITE);
+                if(cell.isOccupied()){
+                    g.setColor(cell.getTile().getColor());
+                }else {
+                    g.setColor(Color.WHITE);
+                }
                 g.fillRect(h + 10, w + 10, 40, 40);
                 g.setColor(Color.BLACK);
-                g.drawString(label, h+20, w+30);
+                g.drawString(cell.getLabel(), h+20, w+30);
             }
         }
     }

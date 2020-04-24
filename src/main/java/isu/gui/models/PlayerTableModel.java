@@ -1,13 +1,10 @@
-package isu.gui;
+package isu.gui.models;
 
 import isu.engine.GameEngine;
 import isu.engine.Player;
 
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import java.util.List;
 
 public class PlayerTableModel extends AbstractTableModel {
 

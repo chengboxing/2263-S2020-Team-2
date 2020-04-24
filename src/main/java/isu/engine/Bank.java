@@ -18,6 +18,10 @@ public class Bank {
         stocks = new StockSet(chains, stockCount);
     }
 
+    public int getStockCount(HotelChain chain){
+        return stocks.getStocks(chain);
+    }
+
     public void payBonus(HotelChain chain, List<Player> players){
 
         List<Player> stockHolders = new ArrayList<Player>();
