@@ -9,6 +9,7 @@ public abstract class ComponentUI {
     protected int width;
     protected int height;
     boolean isSelected;
+    boolean isEnabled;
 
     public ComponentUI(int x, int y, int width, int height) {
         this.x = x;
@@ -51,6 +52,14 @@ public abstract class ComponentUI {
 
     public boolean isSelected() {
         return isSelected;
+    }
+
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
     }
 
     public void setSelected(boolean selected) {

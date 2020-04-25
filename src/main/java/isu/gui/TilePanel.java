@@ -87,4 +87,10 @@ public class TilePanel extends JPanel {
         }
     }
 
+    public void disableAll(){
+        for(TileUI tileUI: tileUIs){
+            tileUI.setEnabled(false);
+        }
+    }
+
 }

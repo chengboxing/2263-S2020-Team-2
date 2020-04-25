@@ -70,12 +70,6 @@ public class GamePanel extends JPanel {
         SpinnerModel specialValue = new SpinnerNumberModel(0, 0, 24, 2);
         tradeSpinner = new JSpinner(specialValue);
 
-        //merge panel components
-        merger = new JPanel(new BorderLayout());
-        sellMergePanel = new JPanel();
-        keepMergePanel = new JPanel();
-        tradeMergePanel = new JPanel();
-
         //wallet panel components
         namePanel = new JPanel();
         cashTotalPanel = new JPanel();
@@ -87,7 +81,6 @@ public class GamePanel extends JPanel {
         btnPanel = new JPanel(new FlowLayout());
         boardPanel = new BoardPanel(frame.gameEngine);
         playerTilePanel = new TilePanel(frame.gameEngine);
-        stocksCartPanel = new StocksPanel();
 
         //BUTTONS IN THE BUTTON PANEL
 
@@ -167,16 +160,13 @@ public class GamePanel extends JPanel {
         Border playerBorder = BorderFactory.createTitledBorder("Player");
         leftLowerPanel.setBorder(BorderFactory.createCompoundBorder(outerBorder, playerBorder));
 
-
         Border boardBorder = BorderFactory.createTitledBorder("Board");
         rightUpperPanel.setBorder(BorderFactory.createCompoundBorder(outerBorder, boardBorder));
-
 
         bottomPlayerPanel.setLayout(new GridLayout(3, 1));
         topPlayerPanel.setLayout(new BorderLayout());
 
         ////// ADDING ALL PANELS TO ALL INNER PANELS ///////
-
 
         //adding player tiles panel to the outer tile panel
         tileBorderPanel.add(playerTilePanel, BorderLayout.CENTER);
@@ -236,6 +226,7 @@ public class GamePanel extends JPanel {
 
     public void layoutStockPanel(){
 
+        stocksCartPanel = new StocksPanel();
         chainBtnPanel = new JPanel();
         chainBtnPanel.setLayout(new GridLayout(4, 2));
         chain1Btn = new JButton(frame.gameEngine.getHotelChains()[0].getName());
@@ -249,9 +240,6 @@ public class GamePanel extends JPanel {
         stockPricePanel = new JPanel();
         stockPricePanel.setLayout(new GridLayout(2, 1));
 
-        stockBorderPanel.add(chainBtnPanel);
-        stockBorderPanel.add(stockCartPanel);
-        stockBorderPanel.add(stockPricePanel);
 
 
         stockBorderPanel.setLayout(new GridLayout(1, 3));
@@ -286,9 +274,18 @@ public class GamePanel extends JPanel {
         stockCartPanel.add(stocksCartPanel, BorderLayout.CENTER);
         stockPricePanel.add(stockCostLabel);
         stockPricePanel.add(stockWalletRemainderLabel);
+
+        stockBorderPanel.add(chainBtnPanel);
+        stockBorderPanel.add(stockCartPanel);
+        stockBorderPanel.add(stockPricePanel);
     }
 
     public void layoutMergePanel(){
+        merger = new JPanel(new BorderLayout());
+        sellMergePanel = new JPanel();
+        keepMergePanel = new JPanel();
+        tradeMergePanel = new JPanel();
+
         mergeBorderPanel.add(merger);
         mergeBorderPanel.add(sellMergePanel);
         mergeBorderPanel.add(tradeMergePanel);
@@ -321,7 +318,7 @@ public class GamePanel extends JPanel {
     }
 
     public void layoutWalletPanel(){
-        
+
         Border outerBorder = BorderFactory.createEmptyBorder(1, 1,1, 1);
 
         walletBorderPanel.add(namePanel);
@@ -358,8 +355,13 @@ public class GamePanel extends JPanel {
         for(int i = 0; i < components.length; i++){
             components[i].setEnabled(false);
             chainBtnPanel.setEnabled(false);
-
         }
+        for(int i = 0; i < components2.length; i++){
+            components2[i].setEnabled(false);
+        }
+        stockBorderPanel.setEnabled(false);
+        stockPricePanel.setEnabled(false);
+        stockCartPanel.setEnabled(false);
     }
 
     public void disableTilesPanel(){
@@ -372,9 +374,21 @@ public class GamePanel extends JPanel {
 
     public void disableMergePanel(){
         Component[] components = mergeBorderPanel.getComponents();
+        Component[] components1 = sellMergePanel.getComponents();
+        Component[] components2 = tradeMergePanel.getComponents();
+        Component[] components3 = keepMergePanel.getComponents();
         for(int i = 0; i < components.length; i++) {
             components[i].setEnabled(false);
             mergeBorderPanel.setEnabled(false);
+        }
+        for(int i = 0; i < components1.length; i++){
+            components1[i].setEnabled(false);
+        }
+        for(int i = 0; i < components2.length; i++){
+            components2[i].setEnabled(false);
+        }
+        for(int i = 0; i < components3.length; i++){
+            components3[i].setEnabled(false);
         }
     }
 }
