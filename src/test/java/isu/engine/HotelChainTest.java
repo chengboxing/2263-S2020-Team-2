@@ -124,7 +124,7 @@ public class HotelChainTest {
     }
 
     /**
-     * Test addTiles method.
+     * Test addTiles(List<Tile> tiles) method.
      */
     @Test
     public void testAddTiles() {
@@ -136,7 +136,7 @@ public class HotelChainTest {
     }
 
     /**
-     * Test getTiles method.
+     * Test getTile(int index) method.
      */
     @Test
     public void testGetTiles() {
@@ -226,5 +226,16 @@ public class HotelChainTest {
 
         fixture.clearTiles();
         assertEquals(0, fixture.size());
+    }
+    /**
+     * Test addTile(Tile tile) method.
+     */
+    @Test
+    public void testAddTile(){
+        fixture.addTile(tile1);
+        fixture.addTile(tile2);
+
+        assertEquals(tile1, fixture.getTile(0));
+        assertEquals(tile2, fixture.getTile(1));
     }
 }
