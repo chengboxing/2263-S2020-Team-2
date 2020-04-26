@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-
+import java.lang.reflect.Method;
 
 
 public class TilePileTest {
@@ -38,7 +38,7 @@ public class TilePileTest {
      */
     @Test
     public void testSize_0() {
-        assertTrue(fixture.size() == 108);
+        assertEquals(108, fixture.size());
     }
     /*
     *
@@ -50,9 +50,29 @@ public class TilePileTest {
         for(int i  = 0; i < 7; i++){
             fixture.pullRandomTile();
         }
-        assertFalse("Size incorrect after calling getRandomIndex()", fixture.size() == 100 );
+        assertNotEquals("Size incorrect after calling getRandomIndex()", 100, fixture.size());
     }
+    /**
+     * Test getRandomIndex() method
+     */
+    @Test
+    public void testGetRandomIndex() throws Exception {
+        Class<TilePile> class1 = TilePile.class;
+        Method getRandomIndex = class1.getDeclaredMethod("getRandomIndex", null);
+        getRandomIndex.setAccessible(true);
+        int invoke = (int) getRandomIndex.invoke(fixture, null);
 
+        assertTrue(invoke >= 0 && invoke < fixture.size());
+    }
+    /**
+     * Test pullRandomTile() method
+     */
+    @Test
+    public void testPullRandomTile(){
+        fixture.pullRandomTile();
+        fixture.pullRandomTile();
 
+        assertEquals(106, fixture.size());
+    }
 }
 

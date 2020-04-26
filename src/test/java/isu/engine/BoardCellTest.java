@@ -44,7 +44,7 @@ public class BoardCellTest {
         assertEquals(tile1, fixture.getTile());
     }
     /**
-     * Test setTile() method.
+     * Test setTile(Tile tile) method.
      */
     @Test
     public void testSetTile() {
