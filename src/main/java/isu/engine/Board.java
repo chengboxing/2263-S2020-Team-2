@@ -118,12 +118,12 @@ public class Board {
         return safeChainCount < 2;
     }
 
-    public void createTileChain(HotelChain chain, Tile tile){
+    public void assignTileToChain(HotelChain chain, Tile tile){
 
         if(tile.getChain() != null) return;
-        tile.setChain(chain);
+        chain.addTile(tile);
         for(Tile t : getNeighboringTiles(tile)){
-            createTileChain(chain, t);
+            assignTileToChain(chain, t);
         }
     }
 

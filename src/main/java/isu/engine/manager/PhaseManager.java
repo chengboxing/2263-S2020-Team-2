@@ -14,6 +14,7 @@ public class PhaseManager {
         currentPhase = PhaseName.TILE;
     }
 
+
     public void doTilePhase(){
         currentPhase = PhaseName.TILE;
     }
@@ -33,5 +34,12 @@ public class PhaseManager {
 
     public void doEndPhase(){
         currentPhase = PhaseName.END;
+    }
+
+    public PhaseName getCurrentPhase(){
+        if(currentPhase.equals(PhaseName.MERGE))return PhaseName.MERGE;
+        if(currentPhase.equals(PhaseName.PURCHASE)) return PhaseName.PURCHASE;
+        if(currentPhase.equals(PhaseName.END)) return PhaseName.END;
+        else return PhaseName.TILE;
     }
 }

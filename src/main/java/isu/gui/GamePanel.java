@@ -1,6 +1,8 @@
 package isu.gui;
 
+import isu.engine.HotelChain;
 import isu.engine.Player;
+import isu.engine.Tile;
 import isu.gui.models.GameOverviewTableModel;
 
 import javax.swing.*;
@@ -52,7 +54,6 @@ public class GamePanel extends JPanel {
     private GameOverviewTableModel gameOverviewTableModel;
     private JLabel currentPlayerCashTotalLabel;
     private JButton switchPlayerBtn;
-    private SelectChainDialog selectChainDialog;
 
     public GamePanel(MainFrame frame){
         this.frame = frame;
@@ -215,18 +216,18 @@ public class GamePanel extends JPanel {
         layoutMergePanel();
         layoutWalletPanel();
 
-        selectChainDialog = new SelectChainDialog(frame, frame.gameEngine);
-
     }
 
     public void layoutStockPanel(){
 
-        stocksCartPanel = new StocksPanel();
+        stocksCartPanel = new StocksPanel(frame.gameEngine);
         chainBtnPanel = new JPanel();
         chainBtnPanel.setLayout(new GridLayout(4, 2));
 
-        for(int i = 0; i< frame.gameEngine.getHotelChains().length; i++){
-            chainBtn = new JButton(frame.gameEngine.getHotelChains()[i].getName());
+        for(HotelChain chain: frame.gameEngine.getHotelChains()){
+            chainBtn = new JButton(chain.getName());
+            chainBtn.setOpaque(true);
+            chainBtn.setBackground(chain.getColor());
             chainBtnPanel.add(chainBtn);
         }
 
@@ -326,6 +327,7 @@ public class GamePanel extends JPanel {
         Player player = frame.gameEngine.getCurrentPlayer();
         currentPlayerNameLabel.setText(player.getName());
         currentPlayerCashTotalLabel.setText(String.format("$%d.00", player.getMoney()));
+        gameOverviewTableModel.fireTableDataChanged();
         overviewTable.revalidate();
         boardPanel.repaint();
         playerTilePanel.repaint();
@@ -333,23 +335,36 @@ public class GamePanel extends JPanel {
 
     public void placeTile(){
         int tileIndex = playerTilePanel.getSelectedTileIndex();
+        Tile tile = playerTilePanel.getSelectedTile();
         if(tileIndex == -1) return;
         frame.gameEngine.playTile(tileIndex);
-        if(frame.gameEngine.isTileNextToTile(playerTilePanel.getSelectedTile())){
-            showSelectChainDialog();
+
+        if (frame.gameEngine.isTileNextToTwoChains(tile)){
+            mergeChains(tile);
+        } else if (frame.gameEngine.isTileNextToChain(tile)){
+            extendChain(tile);
+        } else if (frame.gameEngine.isTileNextToTile(tile)){
+            createChain(tile);
         }
         playerTilePanel.unselectAll();
         refreshData();
-
-
-
     }
 
-    public void showSelectChainDialog(){
-        selectChainDialog.setVisible(true);
-        refreshData();
+    private void createChain(Tile tile) {
+        if (frame.gameEngine.getInactiveChains().isEmpty())return;
+        SelectChainDialog dialog = new SelectChainDialog(frame, frame.gameEngine);
+        dialog.setVisible(true);
+        HotelChain chain = dialog.getSelectedChain();
+        frame.gameEngine.createTileChain(chain, tile);
     }
 
+    private void extendChain(Tile tile) {
+        final HotelChain chain = frame.gameEngine.getChainsNextToTile(tile).get(0);
+        frame.gameEngine.attachTileToChain(chain, tile);
+    }
+
+    private void mergeChains(Tile tile) {
+    }
 
     public void setComponentEnable(JComponent component, boolean enabled){
         component.setEnabled(enabled);
@@ -367,50 +382,5 @@ public class GamePanel extends JPanel {
 
     public void setMergePanelEnable(boolean enabled){
         setComponentEnable(mergeBorderPanel, enabled);
-    }
-
-
-
-    public void disableStocksPanel(){
-        Component[] components = chainBtnPanel.getComponents();
-        Component[] components2 = stockPricePanel.getComponents();
-        for(int i = 0; i < components.length; i++){
-            components[i].setEnabled(false);
-            chainBtnPanel.setEnabled(false);
-        }
-        for(int i = 0; i < components2.length; i++){
-            components2[i].setEnabled(false);
-        }
-        stockBorderPanel.setEnabled(false);
-        stockPricePanel.setEnabled(false);
-        stockCartPanel.setEnabled(false);
-    }
-
-    public void disableTilesPanel(){
-        Component[] components = tileBorderPanel.getComponents();
-        for(int i = 0; i< components.length; i++) {
-            components[i].setEnabled(false);
-            tileBorderPanel.setEnabled(false);
-        }
-    }
-
-    public void disableMergePanel(){
-        Component[] components = mergeBorderPanel.getComponents();
-        Component[] components1 = sellMergePanel.getComponents();
-        Component[] components2 = tradeMergePanel.getComponents();
-        Component[] components3 = keepMergePanel.getComponents();
-        for(int i = 0; i < components.length; i++) {
-            components[i].setEnabled(false);
-            mergeBorderPanel.setEnabled(false);
-        }
-        for(int i = 0; i < components1.length; i++){
-            components1[i].setEnabled(false);
-        }
-        for(int i = 0; i < components2.length; i++){
-            components2[i].setEnabled(false);
-        }
-        for(int i = 0; i < components3.length; i++){
-            components3[i].setEnabled(false);
-        }
     }
 }

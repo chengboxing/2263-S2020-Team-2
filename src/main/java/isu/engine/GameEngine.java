@@ -20,6 +20,8 @@ public class GameEngine {
     public final static int SAFE_CHAIN_SIZE = 11;
     public final static int MAX_CHAIN_SIZE = 41;
     public final static int INITIAL_PLAYER_CASH = 6000;
+    public final static int MAX_STOCK_PURCHASE_COUNT = 3;
+
 
 
 
@@ -151,8 +153,9 @@ public class GameEngine {
         return board.getNeighboringChains(tile);
     }
 
-    private void attachTileToChain(HotelChain chain, Tile tile){
-        chain.addTile(tile);
+    public void attachTileToChain(HotelChain chain, Tile tile){
+//        chain.addTile(tile);
+        board.assignTileToChain(chain, tile);
     }
 
     public List<HotelChain> getInactiveChains(){
@@ -184,7 +187,7 @@ public class GameEngine {
 
     public void createTileChain(HotelChain chain, Tile tile){
         bank.giveFreeStockToPlayer(getCurrentPlayer(), chain);
-        board.createTileChain(chain, tile);
+        board.assignTileToChain(chain, tile);
     }
 
     public void mergeTileChains(HotelChain chain, Tile tile){
