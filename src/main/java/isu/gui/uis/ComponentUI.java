@@ -1,4 +1,4 @@
-package isu.gui;
+package isu.gui.uis;
 
 import java.awt.*;
 

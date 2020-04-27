@@ -1,16 +1,16 @@
-package isu.gui;
+package isu.gui.graphics;
 
 
 
 
 import isu.engine.GameEngine;
 import isu.engine.Tile;
+import isu.gui.uis.TileUI;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 public class TilePanel extends JPanel {
 

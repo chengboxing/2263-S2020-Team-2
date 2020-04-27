@@ -1,4 +1,4 @@
-package isu.gui;
+package isu.gui.graphics;
 
 import isu.engine.Board;
 import isu.engine.BoardCell;

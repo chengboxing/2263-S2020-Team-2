@@ -3,6 +3,9 @@ package isu.gui;
 import isu.engine.HotelChain;
 import isu.engine.Player;
 import isu.engine.Tile;
+import isu.gui.graphics.BoardPanel;
+import isu.gui.graphics.StocksPanel;
+import isu.gui.graphics.TilePanel;
 import isu.gui.models.GameOverviewTableModel;
 
 import javax.swing.*;
@@ -91,6 +94,7 @@ public class GamePanel extends JPanel {
         actionBtn.setPreferredSize(new Dimension(140, actionBtn.getHeight()));
         actionBtn.addActionListener(e -> {
             placeTile();
+            setStockPanelEnable(true);
 
         });
 
@@ -228,6 +232,9 @@ public class GamePanel extends JPanel {
             chainBtn = new JButton(chain.getName());
             chainBtn.setOpaque(true);
             chainBtn.setBackground(chain.getColor());
+            chainBtn.addActionListener(e -> {
+                stocksCartPanel.addChainToCard(chain);
+            });
             chainBtnPanel.add(chainBtn);
         }
 
@@ -331,6 +338,11 @@ public class GamePanel extends JPanel {
         overviewTable.revalidate();
         boardPanel.repaint();
         playerTilePanel.repaint();
+        stockCartPanel.repaint();
+    }
+
+    public void addStockToCart(){
+
     }
 
     public void placeTile(){

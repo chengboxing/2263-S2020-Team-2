@@ -1,6 +1,7 @@
-package isu.gui;
+package isu.gui.uis;
 
 import isu.engine.Tile;
+import isu.gui.uis.ComponentUI;
 
 import java.awt.*;
 

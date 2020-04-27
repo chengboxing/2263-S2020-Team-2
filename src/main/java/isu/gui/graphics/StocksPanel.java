@@ -1,12 +1,13 @@
-package isu.gui;
+package isu.gui.graphics;
 
 import isu.engine.GameEngine;
+import isu.engine.HotelChain;
+import isu.gui.uis.StockCardUI;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 public class StocksPanel extends JPanel {
 
@@ -33,10 +34,34 @@ public class StocksPanel extends JPanel {
         this.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
+                tryRemoveStock(e.getX(), e.getY());
             }
         });
 
     }
+
+    public void addChainToCard(HotelChain chain){
+        for (StockCardUI stockCardUI: stockCardUIS){
+            if (stockCardUI.getStockCardChain() == null){
+                stockCardUI.setStockCardChain(chain);
+                System.out.println(chain.getColor());
+                break;
+            }
+        }
+        this.repaint();
+    }
+
+    public void tryRemoveStock(int x, int y){
+        for (StockCardUI stockCardUI: stockCardUIS){
+            if (stockCardUI.isOverlapping(x, y)){
+                stockCardUI.setStockCardChain(null);
+                break;
+            }
+        }
+        this.repaint();
+    }
+
+    public void disableAll(){}
 
     protected void paintComponent(Graphics g){
         for (int i = 0; i < stockCardUIS.length; i++){
