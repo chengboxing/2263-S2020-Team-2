@@ -48,9 +48,9 @@ public class GameStartManagerTest {
         gameEngine.addPlayer("test_2");
 
         Class<GameStartManager> class1 = GameStartManager.class;
-        Method setInitTiles = class1.getDeclaredMethod("setInitTiles", null);
+        Method setInitTiles = class1.getDeclaredMethod("setInitTiles");
         setInitTiles.setAccessible(true);
-        setInitTiles.invoke(fixture, null);
+        setInitTiles.invoke(fixture);
 
         assertEquals(2, gameEngine.getPlayers().size());
         assertEquals(7, gameEngine.getPlayers().get(0).getTiles().size());
@@ -66,14 +66,14 @@ public class GameStartManagerTest {
         gameEngine.addPlayer("test_2");
 
         Class<GameStartManager> class1 = GameStartManager.class;
-        Method setInitTiles = class1.getDeclaredMethod("setInitTiles", null);
+        Method setInitTiles = class1.getDeclaredMethod("setInitTiles");
         setInitTiles.setAccessible(true);
-        setInitTiles.invoke(fixture, null);
+        setInitTiles.invoke(fixture);
 
         Class<GameStartManager> class2 = GameStartManager.class;
-        Method placeFirstTiles = class2.getDeclaredMethod("placeFirstTiles", null);
+        Method placeFirstTiles = class2.getDeclaredMethod("placeFirstTiles");
         placeFirstTiles.setAccessible(true);
-        placeFirstTiles.invoke(fixture, null);
+        placeFirstTiles.invoke(fixture);
 
         assertEquals(6, gameEngine.getPlayers().get(0).getTiles().size());
         assertEquals(6, gameEngine.getPlayers().get(1).getTiles().size());

@@ -58,9 +58,9 @@ public class TilePileTest {
     @Test
     public void testGetRandomIndex() throws Exception {
         Class<TilePile> class1 = TilePile.class;
-        Method getRandomIndex = class1.getDeclaredMethod("getRandomIndex", null);
+        Method getRandomIndex = class1.getDeclaredMethod("getRandomIndex");
         getRandomIndex.setAccessible(true);
-        int invoke = (int) getRandomIndex.invoke(fixture, null);
+        int invoke = (int) getRandomIndex.invoke(fixture);
 
         assertTrue(invoke >= 0 && invoke < fixture.size());
     }

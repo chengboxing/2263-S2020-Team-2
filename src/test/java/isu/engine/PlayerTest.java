@@ -132,9 +132,9 @@ public class PlayerTest {
         fixture.addTile(tilePile);
 
         Class<Player> class1 = Player.class;
-        Method tileCount = class1.getDeclaredMethod("tileCount", null);
+        Method tileCount = class1.getDeclaredMethod("tileCount");
         tileCount.setAccessible(true);
-        int invoke = (int) tileCount.invoke(fixture, null);
+        int invoke = (int) tileCount.invoke(fixture);
 
         assertEquals(2, invoke);
     }
