@@ -74,6 +74,7 @@ public class MergeManager {
             if (chain != survivingChain){
                 //add other chains' tiles to surviving chain
                 survivingChain.addTiles(chain.getTiles());
+                // chain.clearTiles();
 
                 //pay bonuses
                 GameEngine ge = gameEngine;
@@ -134,7 +135,8 @@ public class MergeManager {
         int largestSize = 0;
         for (HotelChain chain : chains){
             if (chain.size() > 0){
-                largestSize = chain.size();
+//              largestSize = chain.size();
+                largestSize = Math.max(chain.size(), largestSize);
             }
         }
 
