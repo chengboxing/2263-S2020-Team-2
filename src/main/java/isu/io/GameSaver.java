@@ -1,5 +1,8 @@
 package isu.io;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -8,18 +11,20 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 public class GameSaver {
-    /* public static void main(String[] args) throws IOException, ClassNotFoundException {
 
-    String a1 = "test";
-    String a2;
+    public void save(){
+        //setup gameSave
 
-    // Write data to file using ObjextOutputStream
-    ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(""));
-    //out.writeObject(a1);
+        //write(save);
+    }
 
-    // Get data from the file
-    ObjectInputStream in = new ObjectInputStream(new FileInputStream(""));
-    //a2 = a1.readObject();
-
-    }*/
+    public void write(GameSave save){
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            String json = mapper.writeValueAsString(save);
+            //print json to file
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+    }
 }
