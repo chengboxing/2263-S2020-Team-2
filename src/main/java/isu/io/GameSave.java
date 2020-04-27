@@ -7,6 +7,8 @@ public class GameSave {
     private int saveID;
     private GameEngine gameEngine;
 
+    public GameSave(){}
+
     public GameSave(int saveID, GameEngine gameEngine){
         this.saveID = saveID;
         this.gameEngine = gameEngine;

@@ -3,27 +3,33 @@ package isu.io;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 
 public class GameSaver {
 
     public void save(){
-        //setup gameSave
+        GameSave save = new GameSave();
+        save.setSaveID(SaveManager.getInstance().getNumSaves());
+        //save.setGameEngine(???);
 
-        //write(save);
+        SaveManager.getInstance().addSave(save);
+
+        write(save);
     }
 
     public void write(GameSave save){
         ObjectMapper mapper = new ObjectMapper();
         try {
+            //convert save to string
             String json = mapper.writeValueAsString(save);
-            //print json to file
-        } catch (JsonProcessingException e) {
+
+            //print save to file
+            PrintWriter out = new PrintWriter("save" + save.getSaveID() +".json", "UTF-8");
+            out.println(json);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
