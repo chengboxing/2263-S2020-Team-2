@@ -6,8 +6,11 @@ import isu.gui.uis.StockCardUI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StocksPanel extends JPanel {
 
@@ -21,6 +24,7 @@ public class StocksPanel extends JPanel {
     public final static int SPACE = 8;
     GameEngine gameEngine;
     private StockCardUI[] stockCardUIS;
+    private ActionListener cardChangedListener;
 
     public StocksPanel(GameEngine gameEngine) {
         this.gameEngine = gameEngine;
@@ -40,10 +44,17 @@ public class StocksPanel extends JPanel {
 
     }
 
+    public void setCardChangedListener(ActionListener cardChangedListener) {
+        this.cardChangedListener = cardChangedListener;
+    }
+
     public void addChainToCard(HotelChain chain){
         for (StockCardUI stockCardUI: stockCardUIS){
             if (stockCardUI.getStockCardChain() == null){
                 stockCardUI.setStockCardChain(chain);
+                if (cardChangedListener != null){
+                    cardChangedListener.actionPerformed(null);
+                }
                 System.out.println(chain.getColor());
                 break;
             }
@@ -55,10 +66,38 @@ public class StocksPanel extends JPanel {
         for (StockCardUI stockCardUI: stockCardUIS){
             if (stockCardUI.isOverlapping(x, y)){
                 stockCardUI.setStockCardChain(null);
+                if (cardChangedListener != null){
+                    cardChangedListener.actionPerformed(null);
+                }
                 break;
             }
         }
         this.repaint();
+    }
+
+    public List<HotelChain> getCartStocks(){
+        List<HotelChain> chains = new ArrayList<>();
+        for (StockCardUI stockCardUI: stockCardUIS){
+            if (stockCardUI.getStockCardChain() != null){
+                chains.add(stockCardUI.getStockCardChain());
+            }
+        }
+        return chains;
+    }
+
+    public int getTotalStocksPrice(){
+        int totalPrice = 0;
+        for (StockCardUI stockCardUI: stockCardUIS){
+            HotelChain chain = stockCardUI.getStockCardChain();
+            if (chain != null){
+                totalPrice += chain.getStockPrice();
+            }
+        }
+        return totalPrice;
+    }
+
+    public int getRemainderPlayerMoney(){
+        return gameEngine.getCurrentPlayer().getMoney() - getTotalStocksPrice();
     }
 
     public void disableAll(){}

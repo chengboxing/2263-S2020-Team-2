@@ -1,5 +1,6 @@
 package isu.gui;
 
+import isu.engine.GameEngine;
 import isu.engine.HotelChain;
 import isu.engine.Player;
 import isu.engine.Tile;
@@ -11,6 +12,8 @@ import isu.gui.models.GameOverviewTableModel;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GamePanel extends JPanel {
 
@@ -90,11 +93,14 @@ public class GamePanel extends JPanel {
         quitBtn = new JButton("Quit");
         quitBtn.addActionListener(e -> frame.showStartPanel());
 
-        actionBtn = new JButton("Apply");
+        actionBtn = new JButton("Play Tile");
         actionBtn.setPreferredSize(new Dimension(140, actionBtn.getHeight()));
         actionBtn.addActionListener(e -> {
             placeTile();
+//            playerTilePanel.disableAll();
+//            setTilePanelEnable(false);
             setStockPanelEnable(true);
+            buyStocks();
 
         });
 
@@ -225,8 +231,21 @@ public class GamePanel extends JPanel {
     public void layoutStockPanel(){
 
         stocksCartPanel = new StocksPanel(frame.gameEngine);
+        stocksCartPanel.setCardChangedListener(e -> {
+            refreshData();
+        });
         chainBtnPanel = new JPanel();
         chainBtnPanel.setLayout(new GridLayout(4, 2));
+
+        Border outerBorder = BorderFactory.createEmptyBorder(1, 1, 1, 1);
+
+        stockCostLabel = new JLabel("$$$");
+        Border costBorder = BorderFactory.createTitledBorder("Price");
+        stockCostLabel.setBorder(BorderFactory.createCompoundBorder(outerBorder, costBorder));
+
+        stockWalletRemainderLabel = new JLabel("-$$$");
+        Border remainderBorder = BorderFactory.createTitledBorder("Wallet Deduction");
+        stockWalletRemainderLabel.setBorder(BorderFactory.createCompoundBorder(outerBorder, remainderBorder));
 
         for(HotelChain chain: frame.gameEngine.getHotelChains()){
             chainBtn = new JButton(chain.getName());
@@ -243,7 +262,6 @@ public class GamePanel extends JPanel {
 
         stockBorderPanel.setLayout(new GridLayout(1, 3));
 
-        Border outerBorder = BorderFactory.createEmptyBorder(1, 1, 1, 1);
 
         Border chainBorder = BorderFactory.createTitledBorder("HotelChains");
         chainBtnPanel.setBorder(BorderFactory.createCompoundBorder(outerBorder, chainBorder));
@@ -253,13 +271,7 @@ public class GamePanel extends JPanel {
         Border stocksBorder = BorderFactory.createTitledBorder("Stock Cart");
         stockCartPanel.setBorder(BorderFactory.createCompoundBorder(outerBorder, stocksBorder));
 
-        stockCostLabel = new JLabel("$$$");
-        Border costBorder = BorderFactory.createTitledBorder("Price");
-        stockCostLabel.setBorder(BorderFactory.createCompoundBorder(outerBorder, costBorder));
 
-        stockWalletRemainderLabel = new JLabel("-$$$");
-        Border remainderBorder = BorderFactory.createTitledBorder("Wallet Deduction");
-        stockWalletRemainderLabel.setBorder(BorderFactory.createCompoundBorder(outerBorder, remainderBorder));
 
         stockCartPanel.add(stocksCartPanel, BorderLayout.CENTER);
         stockPricePanel.add(stockCostLabel);
@@ -339,10 +351,17 @@ public class GamePanel extends JPanel {
         boardPanel.repaint();
         playerTilePanel.repaint();
         stockCartPanel.repaint();
+        stockCostLabel.setText(String.format("$%d.00", stocksCartPanel.getTotalStocksPrice()));
+        stockWalletRemainderLabel.setText(String.format("$%d.00", stocksCartPanel.getRemainderPlayerMoney()));
     }
 
-    public void addStockToCart(){
-
+    public void buyStocks(){
+        List<HotelChain> chains = stocksCartPanel.getCartStocks();
+        List<Integer> stockCounts = new ArrayList<>();
+        for (int i = 0; i < chains.size(); i++){
+            stockCounts.add(1);
+            frame.gameEngine.purchaseStocks(chains, stockCounts);
+        }
     }
 
     public void placeTile(){
@@ -394,5 +413,9 @@ public class GamePanel extends JPanel {
 
     public void setMergePanelEnable(boolean enabled){
         setComponentEnable(mergeBorderPanel, enabled);
+    }
+
+    public void setTilePanelEnable(boolean enabled){
+        setComponentEnable(tileBorderPanel, enabled);
     }
 }
