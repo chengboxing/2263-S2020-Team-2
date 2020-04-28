@@ -37,7 +37,7 @@ public class CellLocationTest {
     @Test
     public void testGetRowIndex() {
 
-        assertTrue(fixture.getRowIndex() == 2);
+        assertEquals(2, fixture.getRowIndex());
     }
 
     /**
@@ -47,7 +47,7 @@ public class CellLocationTest {
     @Test
     public void testGetColumnIndex(){
 
-        assertTrue(fixture.getColumnIndex() == 3);
+        assertEquals(3, fixture.getColumnIndex());
     }
     /**
      * Test getColumnIndex method

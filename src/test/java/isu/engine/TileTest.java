@@ -5,10 +5,13 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.awt.*;
+
 import static org.junit.Assert.*;
 
 public class TileTest {
-    private Tile fixture;
+    private Tile tile1;
     private GameEngine gameEngine;
 
     public TileTest() {
@@ -24,8 +27,8 @@ public class TileTest {
 
     @Before
     public void setUp() {
+        tile1 = new Tile(1,2);
         gameEngine = new GameEngine();
-        fixture = new Tile(1,2);
     }
 
     @After
@@ -37,17 +40,22 @@ public class TileTest {
      */
     @Test
     public void testGetChain() {
-        fixture.setChain(gameEngine.getHotelChains()[0]);
-        assertSame(fixture.getChain(), gameEngine.getHotelChains()[0]);
+
+        gameEngine.getHotelChains()[0].addTile(tile1);
+        assertEquals(gameEngine.getHotelChains()[0], tile1.getChain());
     }
 
     /**
-     * Test setChain() method
+     * Test setChain(HotelChain chain) method
      */
     @Test
     public void testSetChain() {
-        fixture.setChain(gameEngine.getHotelChains()[0]);
-        assertSame(fixture.getChain(), gameEngine.getHotelChains()[0]);
+
+        gameEngine.getHotelChains()[0].addTile(tile1);
+        assertEquals(gameEngine.getHotelChains()[0], tile1.getChain());
+
+        tile1.setChain(gameEngine.getHotelChains()[1]);
+        assertEquals(gameEngine.getHotelChains()[1], tile1.getChain());
     }
 
     /**
@@ -55,7 +63,15 @@ public class TileTest {
      */
     @Test
     public void testGetColor() {
-        fixture.setChain(gameEngine.getHotelChains()[0]);
-        assertEquals("brown", fixture.getColor());
+        assertSame(tile1.getColor(), Color.GRAY);
+
+        gameEngine.getHotelChains()[0].addTile(tile1);
+        assertSame(tile1.getColor(), GameEngine.BROWN);
+
+        tile1.setChain(gameEngine.getHotelChains()[1]);
+        assertSame(tile1.getColor(), GameEngine.PURPLE);
+
+        tile1.setChain(gameEngine.getHotelChains()[4]);
+        assertSame(tile1.getColor(), Color.GREEN);
     }
 }

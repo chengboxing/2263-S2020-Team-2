@@ -7,6 +7,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class HotelChainTest {
 
     @Before
     public void setUp() {
-        fixture = new HotelChain("Test", HotelChainCategory.CHEAP, "Pink");
+        fixture = new HotelChain("Test", HotelChainCategory.CHEAP, Color.CYAN);
         tile1 = new Tile(1, 1);
         tile2 = new Tile(1, 2);
         tiles = new ArrayList<>();
@@ -65,7 +66,7 @@ public class HotelChainTest {
      */
     @Test
     public void testGetColor() {
-        assertEquals("Pink", fixture.getColor());
+        assertEquals(Color.CYAN, fixture.getColor());
     }
 
     /**
@@ -123,7 +124,7 @@ public class HotelChainTest {
     }
 
     /**
-     * Test addTiles method.
+     * Test addTiles(List<Tile> tiles) method.
      */
     @Test
     public void testAddTiles() {
@@ -135,7 +136,7 @@ public class HotelChainTest {
     }
 
     /**
-     * Test getTiles method.
+     * Test getTile(int index) method.
      */
     @Test
     public void testGetTiles() {
@@ -225,5 +226,16 @@ public class HotelChainTest {
 
         fixture.clearTiles();
         assertEquals(0, fixture.size());
+    }
+    /**
+     * Test addTile(Tile tile) method.
+     */
+    @Test
+    public void testAddTile(){
+        fixture.addTile(tile1);
+        fixture.addTile(tile2);
+
+        assertEquals(tile1, fixture.getTile(0));
+        assertEquals(tile2, fixture.getTile(1));
     }
 }

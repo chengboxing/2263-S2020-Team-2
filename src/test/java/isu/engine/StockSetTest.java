@@ -34,7 +34,7 @@ public class StockSetTest {
     }
 
     /*
-     * Testing getStock method.
+     * Testing getStock(HotelChain chain) method.
      *
      * */
     @Test
@@ -53,7 +53,7 @@ public class StockSetTest {
         fixture.getStocks(gameEngine.getHotelChains()[7]);
     }
     /*
-     * Testing removeStocks method.
+     * Testing removeStocks(HotelChain chain, int numStocks) method.
      *
      * */
     @Test
@@ -72,7 +72,7 @@ public class StockSetTest {
     }
 
     /*
-     * Testing addStocks method.
+     * Testing addStocks(HotelChain chain, int numStocks) method.
      *
      * */
     @Test
@@ -91,7 +91,7 @@ public class StockSetTest {
     }
 
     /*
-     * Testing setStocks method.
+     * Testing setStocks(HotelChain chain, int numStocks) method.
      *
      * */
     @Test

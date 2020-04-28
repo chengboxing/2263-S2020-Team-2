@@ -43,8 +43,38 @@ public class PlayerTest {
     }
 
     /*
+     *
+     * Testing setName(String name) method.
+     *
+     * */
+    @Test
+    public void testSetName(){
+        fixture.setName("Tim");
+        assertNotSame("test", "Tim");
+    }
+    /*
+     *
+     * Testing getName() method.
+     *
+     * */
+    @Test
+    public void testGetName(){
+        fixture.setName("aaa");
+        assertSame("aaa", fixture.getName());
+    }
+    /*
+     *
+     * Testing getMoney() method.
+     *
+     * */
+    @Test
+    public void testGetMoney(){
+        fixture.setMoney(1000);
+        assertEquals(1000, fixture.getMoney());
+    }
+    /*
     *
-    * Testing setMoney() method.
+    * Testing setMoney(int money) method.
     *
     * */
     @Test
@@ -54,7 +84,7 @@ public class PlayerTest {
     }
     /*
      *
-     * Testing addMoney() method.
+     * Testing addMoney(int cash) method.
      *
      * */
     @Test
@@ -63,16 +93,6 @@ public class PlayerTest {
         fixture.setMoney(1000);
         fixture.addMoney(500);
         assertEquals(1500, fixture.getMoney());
-    }
-    /*
-     *
-     * Testing setName() method.
-     *
-     * */
-    @Test
-    public void testSetName(){
-        fixture.setName("Tim");
-        assertNotSame("test", "Tim");
     }
     /*
      * Testing illegalArgumentException for addMoney() method.
@@ -84,7 +104,7 @@ public class PlayerTest {
     }
     /*
      *
-     * Testing pullMoney() method.
+     * Testing pullMoney(int cash) method.
      *
      * */
     @Test
@@ -112,11 +132,22 @@ public class PlayerTest {
         fixture.addTile(tilePile);
 
         Class<Player> class1 = Player.class;
-        Method tileCount = class1.getDeclaredMethod("tileCount", null);
+        Method tileCount = class1.getDeclaredMethod("tileCount");
         tileCount.setAccessible(true);
-        int invoke = (int) tileCount.invoke(fixture, null);
+        int invoke = (int) tileCount.invoke(fixture);
 
         assertEquals(2, invoke);
+    }
+    /*
+     *
+     * Testing addTiles(TilePile tilePile, int tileCount) method.
+     *
+     * */
+    @Test
+    public void testAddTiles(){
+        fixture.addTiles(tilePile, 5);
+
+        assertEquals(5, fixture.getTiles().size());
     }
     /*
      *
@@ -133,10 +164,9 @@ public class PlayerTest {
         assertEquals(tile_0, tile_1);
         assertEquals(1, fixture.getTiles().size());
     }
-
     /*
      *
-     * Testing getTile() method.
+     * Testing getTile(int index) method.
      *
      * */
     @Test
@@ -149,7 +179,7 @@ public class PlayerTest {
     }
     /*
      *
-     * Testing addTile() method.
+     * Testing addTile(TilePile tilePile) method.
      *
      * */
     @Test
@@ -160,7 +190,20 @@ public class PlayerTest {
     }
     /*
      *
-     * Testing addStocks() method.
+     * Testing getTiles() method.
+     *
+     * */
+    @Test
+    public void testGetTiles(){
+        fixture.addTile(tilePile);
+        fixture.addTile(tilePile);
+        fixture.addTile(tilePile);
+
+        assertEquals(3, fixture.getTiles().size());
+    }
+    /*
+     *
+     * Testing addStocks(HotelChain chain, int numStocks) method.
      *
      * */
     @Test
@@ -170,7 +213,7 @@ public class PlayerTest {
     }
     /*
      *
-     * Testing removeStocks() method.
+     * Testing removeStocks(HotelChain chain, int numStocks) method.
      *
      * */
     @Test
@@ -181,7 +224,7 @@ public class PlayerTest {
     }
     /*
      *
-     * Testing setStocks() method.
+     * Testing setStocks(HotelChain chain, int numStocks) method.
      *
      * */
     @Test
@@ -189,5 +232,15 @@ public class PlayerTest {
         fixture.setStocks(gameEngine.getHotelChains()[0], 10);
         assertEquals(10, fixture.getStocks(gameEngine.getHotelChains()[0]));
     }
+    /*
+     *
+     * Testing getStocks(HotelChain chain) method.
+     *
+     * */
+    @Test
+    public void testGetStocks(){
+        fixture.addStocks(gameEngine.getHotelChains()[0], 3);
 
+        assertEquals(3, fixture.getStocks(gameEngine.getHotelChains()[0]));
+    }
 }
