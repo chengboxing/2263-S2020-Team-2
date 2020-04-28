@@ -36,8 +36,8 @@ public class Board {
     //parameters take in a String getCell(A1)
     public BoardCell getCell(String location){
         int length = location.length();
-        char rChar = location.charAt(length - 1);
-        int ci = Integer.parseInt(location.substring(0,length - 1));
+        char rChar = location.charAt(0);
+        int ci = Integer.parseInt(location.substring(1,length));
         return getCell(rChar, ci);
     }
 
