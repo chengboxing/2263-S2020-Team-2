@@ -4,11 +4,13 @@ import isu.engine.*;
 import isu.util.CircularlyLinkedList;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MergeManager {
 
     private Tile t;
     private ArrayList<HotelChain> mergingChains;
+    private ArrayList<HotelChain> largestChains;
     private HotelChain survivingChain;
     private GameEngine gameEngine;
 
@@ -26,29 +28,28 @@ public class MergeManager {
         this.t = t;
         Board b = gameEngine.getBoard();
         BoardCell[] surroundingCells = new BoardCell[4];
-        surroundingCells[0] = b.getCell(t.getRowIndex() - 1, t.getColumnIndex());
-        surroundingCells[1] = b.getCell(t.getRowIndex() + 1, t.getColumnIndex());
-        surroundingCells[2] = b.getCell(t.getRowIndex(), t.getColumnIndex() - 1);
-        surroundingCells[3] = b.getCell(t.getRowIndex(), t.getColumnIndex() + 1);
+        List<Tile> neighboringTiles = b.getNeighboringTiles(t);
+        for (Tile tile : neighboringTiles){
+            if (tile.getChain() != null){
+                neighboringTiles.remove(tile);
+            }
+        }
         findMergingChains(t);
 
         if (mergingChains.size() == 0){
             //check to see if a chain needs to be created
-            for (int i  = 0; i < 4; i++){
-                if (surroundingCells[i] != null && surroundingCells[i].isOccupied() && surroundingCells[i].getTile().getChain() == null){
-                    //create new chain
-                }
+            if (neighboringTiles.size() > 0){
+                //create new chain with tiles t and neighboring tiles
+
             }
         } else if (mergingChains.size() == 1){
             //add tile to chain if it is the only chain touching the tile
             mergingChains.get(0).addTile(t);
-            //add extra surrounding tiles
-            for (int i  = 0; i < 4; i++){
-                if (surroundingCells[i] != null && surroundingCells[i].isOccupied() && surroundingCells[i].getTile().getChain() == null){
-                    mergingChains.get(0).addTile(surroundingCells[i].getTile());
-                }
-            }
 
+            //add extra surrounding tiles
+            if (neighboringTiles.size() > 0) {
+                mergingChains.get(0).addTiles(neighboringTiles);
+            }
         } else {
             findSurvivingChain(mergingChains);
             if (survivingChain != null){
@@ -74,7 +75,7 @@ public class MergeManager {
             if (chain != survivingChain){
                 //add other chains' tiles to surviving chain
                 survivingChain.addTiles(chain.getTiles());
-                // chain.clearTiles();
+                chain.clearTiles();
 
                 //pay bonuses
                 GameEngine ge = gameEngine;
@@ -84,17 +85,16 @@ public class MergeManager {
 
         //add extra surrounding tiles to chain
         Board b = gameEngine.getBoard();
-        BoardCell[] surroundingCells = new BoardCell[4];
-        surroundingCells[0] = b.getCell(t.getRowIndex() - 1, t.getColumnIndex());
-        surroundingCells[1] = b.getCell(t.getRowIndex() + 1, t.getColumnIndex());
-        surroundingCells[2] = b.getCell(t.getRowIndex(), t.getColumnIndex() - 1);
-        surroundingCells[3] = b.getCell(t.getRowIndex(), t.getColumnIndex() + 1);
-        for (int i  = 0; i < 4; i++){
-            if (surroundingCells[i] != null && surroundingCells[i].isOccupied() && surroundingCells[i].getTile().getChain() == null){
-                survivingChain.addTile(surroundingCells[i].getTile());
+        List<Tile> neighboringTiles = b.getNeighboringTiles(t);
+        for (Tile tile : neighboringTiles){
+            if (tile.getChain() != null){
+                neighboringTiles.remove(tile);
             }
         }
-
+        if (neighboringTiles.size() > 0) {
+            survivingChain.addTiles(neighboringTiles);
+        }
+        
         //update board UI??
 
         //doMergeTurns
@@ -134,13 +134,10 @@ public class MergeManager {
         //find largest chains
         int largestSize = 0;
         for (HotelChain chain : chains){
-            if (chain.size() > 0){
-//              largestSize = chain.size();
-                largestSize = Math.max(chain.size(), largestSize);
-            }
+            largestSize = Math.max(chain.size(), largestSize);
         }
 
-        ArrayList<HotelChain> largestChains = new ArrayList<>();
+        largestChains = new ArrayList<>();
         for (HotelChain chain : chains){
             if (chain.size() == largestSize){
                 largestChains.add(chain);
@@ -155,4 +152,11 @@ public class MergeManager {
         }
     }
 
+    public ArrayList<HotelChain> getLargestChains(){
+        return largestChains;
+    }
+
+    public void setSurvivingChain(HotelChain chain){
+        survivingChain = chain;
+    }
 }
